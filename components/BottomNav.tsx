@@ -7,10 +7,10 @@ const BottomNav: React.FC = () => {
   
   const navItems = [
     { path: '/', icon: 'fa-house', label: 'Home' },
-    { path: '/courses', icon: 'fa-book-medical', label: 'Library' },
+    { path: '/calendar', icon: 'fa-calendar-days', label: 'Schedule' },
     { path: '/practice', icon: 'fa-stethoscope', label: 'Practice' },
     { path: '/tutor', icon: 'fa-robot', label: 'AI Tutor' },
-    { path: '/analytics', icon: 'fa-chart-simple', label: 'Status' },
+    { path: '/tracker', icon: 'fa-chart-simple', label: 'Status' },
   ];
 
   return (

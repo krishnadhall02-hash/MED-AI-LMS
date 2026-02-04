@@ -9,6 +9,8 @@ const Sidebar: React.FC = () => {
     { path: '/', icon: 'fa-house', label: 'Dashboard' },
     { path: '/courses', icon: 'fa-book-medical', label: 'My Courses' },
     { path: '/practice', icon: 'fa-stethoscope', label: 'AI Practice' },
+    { path: '/notes', icon: 'fa-file-lines', label: 'Study Notes' },
+    { path: '/community', icon: 'fa-users', label: 'Community' },
     { path: '/analytics', icon: 'fa-chart-line', label: 'Analytics' },
     { path: '/planner', icon: 'fa-calendar-check', label: 'Study Planner' },
     { path: '/tutor', icon: 'fa-robot', label: 'AI Tutor' },
