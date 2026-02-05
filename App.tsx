@@ -20,6 +20,7 @@ import Community from './pages/Community';
 import ThreadDetail from './pages/ThreadDetail';
 import Notifications from './pages/Notifications';
 import NotificationSettings from './pages/NotificationSettings';
+import RecordedClasses from './pages/RecordedClasses';
 import Login from './pages/Auth/Login';
 import OTP from './pages/Auth/OTP';
 import Register from './pages/Auth/Register';
@@ -76,6 +77,7 @@ const App: React.FC = () => {
               <Route path="/tutor" element={<AITutorPanel />} />
               <Route path="/live/:id" element={<LiveClass />} />
               <Route path="/video/:id" element={<VideoPlayer />} />
+              <Route path="/recorded-classes" element={<RecordedClasses />} />
               <Route path="/exam" element={<ExamSimulator />} />
               <Route path="/exam-results" element={<TestResults />} />
               <Route path="/analytics" element={<Analytics />} />

@@ -7,236 +7,258 @@ const VideoPlayer: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   
-  // Mock Video State
+  // UI States
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(124); // mock starting position
-  const [duration] = useState(1800); // 30 mins
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration] = useState(2722); // ~45 mins
   const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
   const [showControls, setShowControls] = useState(true);
   const [securityAlert, setSecurityAlert] = useState(false);
-  const [notes, setNotes] = useState<VideoNote[]>([
-    { id: 'n1', timestamp: 45, text: 'Important: Origin of facial nerve' },
-    { id: 'n2', timestamp: 120, text: 'Clinical correlation: Bell\'s Palsy symptoms' }
-  ]);
-  const [newNote, setNewNote] = useState('');
+  const [isNotesOpen, setIsNotesOpen] = useState(false);
   const [isAddingNote, setIsAddingNote] = useState(false);
-
-  // Watermark Animation State
+  const [newNote, setNewNote] = useState('');
+  
+  // Anti-Piracy Watermark State
   const [watermarkPos, setWatermarkPos] = useState({ x: 10, y: 10 });
+  const [notes, setNotes] = useState<VideoNote[]>([
+    { id: '1', timestamp: 45, text: 'Nerve origin overview' },
+    { id: '2', timestamp: 820, text: 'Clinical: Facial Palsy' }
+  ]);
 
-  // Refs
-  // Use ReturnType<typeof setTimeout> to avoid NodeJS namespace issues in frontend code
   const controlsTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Handle Watermark Movement (Anti-Piracy)
+  // 1. DRM Security Simulation (1.4A/B)
   useEffect(() => {
+    // Watermark dance to prevent cam-recording
     const interval = setInterval(() => {
-      setWatermarkPos({
-        x: Math.random() * 80 + 5,
-        y: Math.random() * 80 + 5
-      });
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+      setWatermarkPos({ x: Math.random() * 70 + 5, y: Math.random() * 80 + 5 });
+    }, 4000);
 
-  // Handle Screenshot Blocking Simulation (Blur on focus loss)
-  useEffect(() => {
-    const handleFocus = () => setSecurityAlert(false);
-    const handleBlur = () => setSecurityAlert(true);
-    window.addEventListener('blur', handleBlur);
-    window.addEventListener('focus', handleFocus);
+    // Visibility-based protection
+    const handleVisibility = () => {
+      if (document.hidden) {
+        setIsPlaying(false);
+        setSecurityAlert(true);
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibility);
     return () => {
-      window.removeEventListener('blur', handleBlur);
-      window.removeEventListener('focus', handleFocus);
+      clearInterval(interval);
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
   }, []);
 
   const formatTime = (seconds: number) => {
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
+    const m = Math.floor(seconds / 60);
     const s = Math.floor(seconds % 60);
-    return `${h > 0 ? h + ':' : ''}${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-  };
-
-  const togglePlay = () => setIsPlaying(!isPlaying);
-
-  const resetControlsTimer = () => {
-    setShowControls(true);
-    if (controlsTimer.current) clearTimeout(controlsTimer.current);
-    controlsTimer.current = setTimeout(() => {
-      if (isPlaying) setShowControls(false);
-    }, 3000);
+    return `${m}:${s.toString().padStart(2, '0')}`;
   };
 
   const handleAddNote = () => {
     if (!newNote.trim()) return;
-    const note: VideoNote = {
-      id: Date.now().toString(),
-      timestamp: currentTime,
-      text: newNote
-    };
+    const note: VideoNote = { id: Date.now().toString(), timestamp: currentTime, text: newNote };
     setNotes([...notes, note].sort((a, b) => a.timestamp - b.timestamp));
     setNewNote('');
     setIsAddingNote(false);
   };
 
+  const resetControls = () => {
+    setShowControls(true);
+    if (controlsTimer.current) clearTimeout(controlsTimer.current);
+    controlsTimer.current = setTimeout(() => isPlaying && setShowControls(false), 3000);
+  };
+
   return (
     <div className="flex flex-col h-screen bg-black overflow-hidden relative select-none">
-      {/* Dynamic Watermark */}
+      
+      {/* 2. DYNAMIC WATERMARK (Anti-Piracy 1.4B) */}
       <div 
-        className="fixed z-50 pointer-events-none opacity-20 text-[10px] font-black text-white whitespace-nowrap transition-all duration-1000 ease-in-out"
+        className="fixed z-50 pointer-events-none opacity-10 text-[10px] font-black text-white whitespace-nowrap transition-all duration-1000 ease-in-out"
         style={{ left: `${watermarkPos.x}%`, top: `${watermarkPos.y}%` }}
       >
-        Dr. Sarah | ID: MED-90210 | {new Date().toLocaleDateString()}
+        STUDENT_ID: MED-SARAH-9421 • IP: 192.168.1.1
       </div>
 
-      {/* Security Overlay (Screenshot Blocking Feedback) */}
+      {/* 3. SECURITY OVERLAY (1.4B) */}
       {securityAlert && (
-        <div className="fixed inset-0 z-[100] bg-slate-900/90 backdrop-blur-xl flex items-center justify-center p-8 text-center">
-          <div className="space-y-6 animate-in zoom-in duration-300">
-            <div className="w-20 h-20 bg-red-500/20 text-red-500 rounded-full mx-auto flex items-center justify-center text-4xl">
-              <i className="fa-solid fa-eye-slash"></i>
+        <div className="fixed inset-0 z-[100] bg-slate-900/95 backdrop-blur-3xl flex items-center justify-center p-8 text-center animate-in fade-in duration-300">
+          <div className="bg-white rounded-samsung p-10 max-w-[340px] space-y-6 shadow-2xl">
+            <div className="w-24 h-24 bg-red-50 text-red-500 rounded-full mx-auto flex items-center justify-center text-4xl shadow-inner">
+               <i className="fa-solid fa-shield-halved"></i>
             </div>
             <div className="space-y-2">
-              <h2 className="text-2xl font-black text-white">Content Protected</h2>
-              <p className="text-slate-400 font-medium">Screen recording or screenshots are strictly prohibited. Your session ID has been logged.</p>
+               <h2 className="text-2xl font-black text-slate-900">Privacy Active</h2>
+               <p className="text-sm text-slate-500 font-medium leading-relaxed">Content playback is paused while the app is in background or external screen is active.</p>
             </div>
             <button 
               onClick={() => setSecurityAlert(false)}
-              className="px-8 py-4 bg-white text-slate-900 rounded-full font-black text-sm uppercase tracking-widest active:scale-95 transition-all"
+              className="w-full h-16 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl active:scale-95 transition-all"
             >
-              Resume Learning
+              Resume Session
             </button>
           </div>
         </div>
       )}
 
-      {/* Video Display Area */}
+      {/* 4. IMMERSIVE VIDEO AREA */}
       <div 
-        className="relative aspect-video w-full bg-slate-900 flex items-center justify-center group touch-none"
-        onClick={resetControlsTimer}
-        onMouseMove={resetControlsTimer}
+        className="relative aspect-video w-full bg-slate-950 flex items-center justify-center overflow-hidden touch-none"
+        onClick={resetControls}
       >
         <img 
           src="https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&q=80&w=1200" 
-          className={`w-full h-full object-cover transition-all duration-700 ${securityAlert ? 'blur-3xl scale-110' : 'opacity-80'}`}
-          alt="Medical Lecture"
+          className={`w-full h-full object-cover transition-all duration-1000 ${securityAlert ? 'blur-3xl' : 'opacity-60'}`}
+          alt="Lecture Video"
         />
-
-        {/* Video Controls Overlay */}
-        <div className={`absolute inset-0 bg-black/40 transition-opacity duration-500 flex flex-col justify-between p-6 ${showControls ? 'opacity-100' : 'opacity-0'}`}>
-          <div className="flex justify-between items-center">
-            <button onClick={() => navigate(-1)} className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white backdrop-blur-md">
-              <i className="fa-solid fa-chevron-left"></i>
+        
+        {/* Controls Overlay */}
+        <div className={`absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 flex flex-col justify-between p-6 transition-opacity duration-500 ${showControls ? 'opacity-100' : 'opacity-0'}`}>
+          <div className="flex justify-between items-start">
+            <button onClick={() => navigate(-1)} className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white backdrop-blur-md border border-white/10 active:scale-90 transition-all">
+               <i className="fa-solid fa-chevron-left"></i>
             </button>
-            <div className="flex gap-2">
-              <span className="bg-oneui-blue text-white text-[9px] font-black px-2 py-1 rounded-md uppercase tracking-widest shadow-lg">DRM Protected</span>
-              <span className="bg-emerald-500 text-white text-[9px] font-black px-2 py-1 rounded-md uppercase tracking-widest shadow-lg">QHD+</span>
+            <div className="flex flex-col items-end gap-2">
+               <span className="bg-oneui-blue text-white text-[8px] font-black px-2 py-1 rounded uppercase tracking-widest shadow-lg">QHD+ Clarity</span>
+               <span className="text-[10px] font-bold text-white/60">Playback: {playbackSpeed}x</span>
             </div>
           </div>
 
-          <div className="flex flex-col items-center gap-4">
-             <div className="flex items-center gap-12">
-               <button className="text-white text-2xl opacity-60 active:scale-90 transition-transform"><i className="fa-solid fa-backward-step"></i></button>
-               <button onClick={togglePlay} className="w-20 h-20 bg-white text-slate-900 rounded-full flex items-center justify-center text-3xl shadow-2xl active:scale-90 transition-transform">
-                 <i className={`fa-solid ${isPlaying ? 'fa-pause' : 'fa-play ml-1'}`}></i>
-               </button>
-               <button className="text-white text-2xl opacity-60 active:scale-90 transition-transform"><i className="fa-solid fa-forward-step"></i></button>
+          <div className="flex flex-col items-center gap-6">
+             <div className="flex items-center gap-14">
+                <button className="text-white text-2xl opacity-40 hover:opacity-100 active:scale-90 transition-all"><i className="fa-solid fa-backward-10"></i></button>
+                <button 
+                  onClick={(e) => { e.stopPropagation(); setIsPlaying(!isPlaying); resetControls(); }}
+                  className="w-20 h-20 bg-white text-slate-900 rounded-full flex items-center justify-center text-3xl shadow-2xl active:scale-90 transition-all"
+                >
+                   <i className={`fa-solid ${isPlaying ? 'fa-pause' : 'fa-play ml-1'}`}></i>
+                </button>
+                <button className="text-white text-2xl opacity-40 hover:opacity-100 active:scale-90 transition-all"><i className="fa-solid fa-forward-10"></i></button>
              </div>
           </div>
 
           <div className="space-y-4">
-             <div className="flex justify-between text-[10px] font-black text-white/80 uppercase tracking-widest">
-               <span>{formatTime(currentTime)}</span>
-               <span>{formatTime(duration)}</span>
+             <div className="flex justify-between text-[10px] font-black text-white/60 uppercase tracking-widest">
+                <span>{formatTime(currentTime)}</span>
+                <span>{formatTime(duration)}</span>
              </div>
-             <div className="relative h-1.5 w-full bg-white/20 rounded-full overflow-hidden">
-                <div className="absolute top-0 left-0 h-full bg-oneui-blue rounded-full transition-all duration-300" style={{ width: `${(currentTime/duration)*100}%` }}></div>
+             <div className="relative h-1.5 bg-white/20 rounded-full overflow-hidden">
+                <div className="absolute top-0 left-0 h-full bg-oneui-blue transition-all" style={{ width: `${(currentTime/duration)*100}%` }} />
              </div>
              <div className="flex justify-between items-center">
                 <div className="flex gap-4">
                    <button 
-                     onClick={() => setPlaybackSpeed(playbackSpeed >= 2 ? 0.5 : playbackSpeed + 0.25)}
-                     className="text-white text-[10px] font-black uppercase tracking-widest bg-white/10 px-3 py-1.5 rounded-lg border border-white/10"
+                     onClick={(e) => { e.stopPropagation(); setPlaybackSpeed(playbackSpeed >= 2 ? 0.5 : playbackSpeed + 0.25); resetControls(); }}
+                     className="bg-white/10 px-4 py-2 rounded-xl text-[10px] font-black text-white uppercase tracking-widest border border-white/10 active:bg-white/20"
                    >
                      {playbackSpeed}x Speed
                    </button>
-                   <button className="text-white text-lg opacity-80"><i className="fa-solid fa-closed-captioning"></i></button>
                 </div>
-                <button className="text-white text-lg opacity-80"><i className="fa-solid fa-expand"></i></button>
+                <button className="text-white text-xl opacity-60 hover:opacity-100"><i className="fa-solid fa-expand"></i></button>
              </div>
           </div>
         </div>
       </div>
 
-      {/* Content Tabs & Notes Area */}
-      <div className="flex-1 bg-white rounded-t-[32px] -mt-6 relative z-10 flex flex-col shadow-[0_-10px_40px_rgba(0,0,0,0.15)]">
-        <div className="w-12 h-1 bg-slate-200 rounded-full mx-auto mt-3 mb-6" />
-        
-        <div className="px-8 space-y-2">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] font-black text-oneui-blue uppercase tracking-widest bg-blue-50 px-2 py-0.5 rounded">Neuroanatomy</span>
-            <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest bg-amber-50 px-2 py-0.5 rounded">Expires in 48h</span>
+      {/* 5. METADATA & INTERACTIVE LAYER */}
+      <div className="flex-1 bg-white rounded-t-[40px] -mt-10 relative z-10 p-8 pt-10 space-y-8 overflow-y-auto shadow-[0_-15px_40px_rgba(0,0,0,0.1)]">
+        <div className="space-y-3">
+          <div className="flex gap-2">
+             <span className="bg-indigo-50 text-indigo-600 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest border border-indigo-100">Renal Physiology</span>
+             <span className="bg-slate-900 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Archive</span>
           </div>
-          <h1 className="text-2xl font-black text-slate-900 leading-tight">Functional Anatomy of Cranial Nerves I-VI</h1>
-          <p className="text-sm font-bold text-slate-400">Section 2 • Topic 1.4 • Video Lecture</p>
+          <h1 className="text-3xl font-black text-slate-900 leading-tight">Glomerular Filtration Dynamics: Part II</h1>
+          <p className="text-sm font-medium text-slate-500">Dr. Sarah Johnson • 45m Lecture • QHD+</p>
         </div>
 
-        {/* Notes Section */}
-        <div className="flex-1 overflow-y-auto mt-8 px-6 pb-24">
-          <div className="flex justify-between items-center px-2 mb-6">
-            <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">Timestamped Notes</h3>
-            <button 
-              onClick={() => setIsAddingNote(true)}
-              className="bg-slate-900 text-white text-[10px] font-black px-4 py-2 rounded-full uppercase tracking-widest shadow-lg shadow-slate-200 active:scale-95 transition-all"
-            >
-              <i className="fa-solid fa-plus mr-1"></i> Add Note
-            </button>
-          </div>
+        {/* Action Bar */}
+        <div className="grid grid-cols-2 gap-4">
+           <button 
+             onClick={() => { setIsAddingNote(true); setIsNotesOpen(true); }}
+             className="bg-oneui-blue p-5 rounded-samsung text-white shadow-xl shadow-blue-100 flex flex-col gap-3 active:scale-95 transition-all"
+           >
+              <i className="fa-solid fa-plus-circle text-xl"></i>
+              <p className="text-[10px] font-black uppercase tracking-widest">Add Timestamp Note</p>
+           </button>
+           <button 
+             onClick={() => setIsNotesOpen(true)}
+             className="bg-white border border-slate-100 p-5 rounded-samsung text-slate-400 shadow-sm flex flex-col gap-3 active:bg-slate-50 transition-all"
+           >
+              <i className="fa-solid fa-list-ul text-xl"></i>
+              <p className="text-[10px] font-black uppercase tracking-widest">View 2 Notes</p>
+           </button>
+        </div>
 
-          <div className="space-y-3">
-            {notes.map((note) => (
-              <div key={note.id} className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex gap-4 group hover:border-oneui-blue transition-colors">
-                <button 
+        {/* Note List Preview */}
+        <div className="space-y-4">
+           <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest px-2">Key Timestamps</h3>
+           <div className="space-y-3">
+              {notes.map(note => (
+                <div 
+                  key={note.id} 
                   onClick={() => setCurrentTime(note.timestamp)}
-                  className="w-14 h-10 bg-white rounded-xl flex items-center justify-center text-[11px] font-black text-oneui-blue shadow-sm border border-slate-100 active:scale-90"
+                  className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-4 active:bg-slate-100 transition-all cursor-pointer group"
                 >
-                  {formatTime(note.timestamp)}
-                </button>
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-slate-700 leading-relaxed">{note.text}</p>
+                   <div className="w-14 h-10 bg-white rounded-xl flex items-center justify-center text-[10px] font-black text-oneui-blue shadow-sm border border-slate-100 group-active:scale-90 transition-all">
+                      {formatTime(note.timestamp)}
+                   </div>
+                   <p className="text-sm font-bold text-slate-700">{note.text}</p>
                 </div>
-                <button className="text-slate-200 group-hover:text-red-400 transition-colors self-center">
-                  <i className="fa-solid fa-trash-can text-xs"></i>
-                </button>
-              </div>
-            ))}
-
-            {isAddingNote && (
-              <div className="bg-blue-50 p-6 rounded-samsung border border-blue-100 space-y-4 animate-in slide-in-from-bottom duration-300">
-                <div className="flex justify-between items-center">
-                  <p className="text-[10px] font-black text-oneui-blue uppercase tracking-widest">New Note at {formatTime(currentTime)}</p>
-                  <button onClick={() => setIsAddingNote(false)} className="text-slate-400"><i className="fa-solid fa-xmark"></i></button>
-                </div>
-                <textarea 
-                  autoFocus
-                  className="w-full bg-white border border-blue-100 rounded-xl p-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-oneui-blue"
-                  rows={3}
-                  placeholder="Capture key concepts here..."
-                  value={newNote}
-                  onChange={(e) => setNewNote(e.target.value)}
-                />
-                <button 
-                  onClick={handleAddNote}
-                  className="w-full py-4 bg-oneui-blue text-white rounded-xl font-black text-sm uppercase tracking-widest shadow-lg shadow-blue-100"
-                >
-                  Save Timestamp Note
-                </button>
-              </div>
-            )}
-          </div>
+              ))}
+           </div>
         </div>
       </div>
+
+      {/* 6. NOTES DRAWER BOTTOM SHEET (1.4B) */}
+      {isNotesOpen && (
+        <div className="fixed inset-0 z-[110] flex flex-col justify-end bg-black/40 backdrop-blur-sm animate-in fade-in duration-300">
+           <div className="absolute inset-0" onClick={() => setIsNotesOpen(false)} />
+           <div className="bg-white rounded-t-[40px] h-[75vh] w-full max-w-[430px] mx-auto flex flex-col shadow-2xl animate-in slide-in-from-bottom duration-500 relative z-10">
+              <div className="w-16 h-1.5 bg-slate-100 rounded-full mx-auto mt-6 mb-8" />
+              
+              <div className="px-10 flex justify-between items-center mb-8">
+                 <h2 className="text-3xl font-black text-slate-900 tracking-tight">Study Notes</h2>
+                 <button onClick={() => setIsNotesOpen(false)} className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center text-slate-400 active:scale-90 transition-all">
+                    <i className="fa-solid fa-xmark"></i>
+                 </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto px-10 space-y-6 pb-24 no-scrollbar">
+                 {isAddingNote && (
+                    <div className="bg-blue-50 p-6 rounded-[28px] border border-blue-100 space-y-4 animate-in zoom-in">
+                       <p className="text-[10px] font-black text-oneui-blue uppercase tracking-widest">New note at {formatTime(currentTime)}</p>
+                       <textarea 
+                         autoFocus
+                         className="w-full h-24 bg-white border-2 border-transparent focus:border-oneui-blue rounded-2xl p-4 text-sm font-bold focus:outline-none transition-all shadow-sm"
+                         placeholder="Enter clinical pearl..."
+                         value={newNote}
+                         onChange={(e) => setNewNote(e.target.value)}
+                       />
+                       <button 
+                         onClick={handleAddNote}
+                         className="w-full h-14 bg-oneui-blue text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-blue-100"
+                       >
+                         Save Note
+                       </button>
+                    </div>
+                 )}
+
+                 {notes.map(note => (
+                   <div 
+                     key={note.id} 
+                     onClick={() => { setCurrentTime(note.timestamp); setIsNotesOpen(false); }}
+                     className="bg-white p-5 rounded-[28px] border border-slate-100 flex gap-5 active:bg-slate-50 transition-all cursor-pointer shadow-sm"
+                   >
+                      <div className="w-14 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-[11px] font-black text-slate-400">
+                        {formatTime(note.timestamp)}
+                      </div>
+                      <p className="flex-1 text-sm font-medium text-slate-700 leading-relaxed">{note.text}</p>
+                   </div>
+                 ))}
+              </div>
+           </div>
+        </div>
+      )}
     </div>
   );
 };
