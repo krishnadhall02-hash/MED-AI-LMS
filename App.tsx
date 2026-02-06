@@ -26,6 +26,24 @@ import OTP from './pages/Auth/OTP';
 import Register from './pages/Auth/Register';
 import Onboarding from './pages/Onboarding';
 
+// Simple Profile Placeholder for Menu Navigation
+const ProfilePlaceholder = () => (
+  <div className="bg-oneui-bg min-h-screen">
+    <div className="oneui-header-space flex flex-col justify-end px-8 pb-8">
+       <h1 className="text-4xl font-light text-slate-900 leading-tight">Student<br/><span className="font-bold">Profile</span></h1>
+    </div>
+    <div className="px-8 space-y-6">
+       <div className="bg-white p-8 rounded-samsung border border-slate-100 shadow-sm space-y-6 text-center">
+          <img src="https://i.pravatar.cc/150?u=sarah" className="w-32 h-32 rounded-full border-4 border-oneui-blue mx-auto shadow-xl" />
+          <div>
+            <h2 className="text-2xl font-black text-slate-900">Dr. Sarah Johnson</h2>
+            <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest">Enrollment: MED-9421-S24U</p>
+          </div>
+       </div>
+    </div>
+  </div>
+);
+
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
@@ -90,6 +108,7 @@ const App: React.FC = () => {
               <Route path="/community/:id" element={<ThreadDetail />} />
               <Route path="/notifications" element={<Notifications />} />
               <Route path="/notification-settings" element={<NotificationSettings />} />
+              <Route path="/profile" element={<ProfilePlaceholder />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           )}

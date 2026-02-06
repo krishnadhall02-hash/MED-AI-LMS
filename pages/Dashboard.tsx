@@ -1,11 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import HamburgerMenu from '../components/HamburgerMenu';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [unreadNotifs] = useState(2);
-  const [liveStatus, setLiveStatus] = useState<'LIVE' | 'UPCOMING'>('LIVE');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const recentRecordings = [
     { id: 'v1', title: 'Action Potential & Synapse', subject: 'Physiology', progress: 65, thumbnail: 'https://images.unsplash.com/photo-1530026405186-ed1f139313f8?auto=format&fit=crop&q=80&w=400' },
@@ -13,10 +14,14 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div className="pb-32 bg-oneui-bg min-h-screen">
+    <div className="pb-32 bg-oneui-bg min-h-screen relative">
+      {/* ☰ HAMBURGER MENU OVERLAY */}
+      <HamburgerMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+
       {/* One UI Large Header */}
       <div className="oneui-header-space flex flex-col justify-end px-8 pb-8 bg-oneui-bg relative">
-        <div className="absolute top-4 right-8">
+        <div className="absolute top-4 right-8 flex gap-3">
+           {/* Notifications Button */}
            <button 
              onClick={() => navigate('/notifications')}
              className="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center text-slate-400 border border-slate-100 relative active:scale-90 transition-all"
@@ -28,13 +33,68 @@ const Dashboard: React.FC = () => {
                 </div>
               )}
            </button>
+
+           {/* Hamburger Menu Trigger (PART A) */}
+           <button 
+             onClick={() => setIsMenuOpen(true)}
+             className="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center text-slate-900 border border-slate-100 active:scale-90 transition-all"
+           >
+              <i className="fa-solid fa-bars"></i>
+           </button>
         </div>
         <h1 className="text-4xl font-light text-slate-900 leading-tight">Good morning,<br/><span className="font-bold">Dr. Sarah</span></h1>
       </div>
 
       <div className="px-5 space-y-8 -mt-4">
         
-        {/* PART A: LIVE CLASSES SECTION */}
+        {/* PERFORMANCE ANALYTICS SECTION */}
+        <div className="space-y-4">
+          <div className="flex justify-between items-center px-2">
+            <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">Performance Analytics</h3>
+            <button onClick={() => navigate('/analytics')} className="text-[10px] font-black text-oneui-blue uppercase">View Details</button>
+          </div>
+          
+          <div 
+            onClick={() => navigate('/analytics')}
+            className="bg-white rounded-samsung p-6 shadow-sm border border-slate-100 relative overflow-hidden active:scale-[0.98] transition-all cursor-pointer group"
+          >
+            <div className="flex justify-between items-start mb-6">
+              <div className="space-y-1">
+                <p className="text-3xl font-black text-slate-900">78%</p>
+                <div className="flex items-center gap-1.5 text-emerald-500 font-bold text-[10px] uppercase tracking-widest">
+                  <i className="fa-solid fa-arrow-trend-up"></i>
+                  <span>+4.2% Trend</span>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="text-right">
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Rank</p>
+                  <p className="font-black text-slate-900">#1,242</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Percentile</p>
+                  <p className="font-black text-slate-900">98.4%</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-end gap-1.5 h-12 mb-6">
+               {[40, 65, 45, 80, 55, 90, 78].map((h, i) => (
+                 <div 
+                   key={i} 
+                   className={`flex-1 rounded-t-sm transition-all duration-700 ${i === 6 ? 'bg-oneui-blue' : 'bg-slate-100 group-hover:bg-slate-200'}`} 
+                   style={{ height: `${h}%` }}
+                 />
+               ))}
+            </div>
+
+            <button className="w-full h-12 bg-slate-50 text-slate-900 rounded-2xl font-black text-[10px] uppercase tracking-widest border border-slate-100 flex items-center justify-center gap-2 group-hover:bg-oneui-blue group-hover:text-white transition-all group-hover:border-transparent">
+              View Performance <i className="fa-solid fa-chevron-right text-[8px]"></i>
+            </button>
+          </div>
+        </div>
+        
+        {/* LIVE CLASSES SECTION */}
         <div className="space-y-3">
           <div className="flex justify-between items-center px-2">
             <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">Ongoing Sessions</h3>
@@ -61,7 +121,7 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* PART A: RECORDED CLASSES SECTION */}
+        {/* RECORDED CLASSES SECTION */}
         <div className="space-y-4">
           <div className="flex justify-between items-center px-2">
             <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">Recorded Classes</h3>
@@ -86,11 +146,6 @@ const Dashboard: React.FC = () => {
                       <div className="h-full bg-oneui-blue" style={{ width: `${rec.progress}%` }} />
                     </div>
                   )}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                     <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20">
-                        <i className="fa-solid fa-play"></i>
-                     </div>
-                  </div>
                 </div>
                 <div className="p-5 space-y-1">
                   <p className="text-[9px] font-black text-oneui-blue uppercase tracking-widest">{rec.subject}</p>
@@ -102,20 +157,11 @@ const Dashboard: React.FC = () => {
                 </div>
               </div>
             ))}
-            
-            {/* View All Card */}
-            <div 
-              onClick={() => navigate('/recorded-classes')}
-              className="min-w-[140px] bg-slate-100 rounded-samsung border border-dashed border-slate-200 flex flex-col items-center justify-center text-slate-400 gap-2 cursor-pointer active:bg-slate-200 transition-all"
-            >
-              <i className="fa-solid fa-layer-group text-2xl"></i>
-              <span className="text-[10px] font-black uppercase tracking-widest">View All</span>
-            </div>
           </div>
         </div>
 
         {/* Quick Actions Grid */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 pb-10">
           <div 
             onClick={() => navigate('/exam')}
             className="bg-white border border-slate-100 rounded-samsung p-5 shadow-sm flex flex-col justify-between h-40 tap-target active:scale-95 transition-all cursor-pointer"
