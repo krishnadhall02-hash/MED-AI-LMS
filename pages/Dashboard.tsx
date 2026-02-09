@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HamburgerMenu from '../components/HamburgerMenu';
 
@@ -7,6 +7,12 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [unreadNotifs] = useState(2);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [quizAttempted, setQuizAttempted] = useState(false);
+
+  useEffect(() => {
+    const attempted = localStorage.getItem('daily_quiz_attempted');
+    if (attempted) setQuizAttempted(true);
+  }, []);
 
   const recentRecordings = [
     { id: 'v1', title: 'Action Potential & Synapse', subject: 'Physiology', progress: 65, thumbnail: 'https://images.unsplash.com/photo-1530026405186-ed1f139313f8?auto=format&fit=crop&q=80&w=400' },
@@ -115,6 +121,47 @@ const Dashboard: React.FC = () => {
 
             <button className="w-full h-12 bg-oneui-bg text-oneui-text-primary rounded-2xl font-black text-[10px] uppercase tracking-widest border border-oneui-border flex items-center justify-center gap-2 group-hover:bg-oneui-blue group-hover:text-white transition-all group-hover:border-transparent">
               View Analysis <i className="fa-solid fa-chevron-right text-[8px]"></i>
+            </button>
+          </div>
+        </div>
+
+        {/* DAILY QUIZ SECTION - NEW (PART A) */}
+        <div className="space-y-4">
+          <div className="flex justify-between items-center px-2">
+            <h3 className="text-xs font-black text-oneui-text-secondary uppercase tracking-widest">Daily Quiz</h3>
+            <button onClick={() => navigate('/leaderboard')} className="text-[10px] font-black text-oneui-blue uppercase">Leaderboard</button>
+          </div>
+          
+          <div className="bg-oneui-surface rounded-samsung p-6 shadow-sm border border-oneui-border relative overflow-hidden active:scale-[0.98] transition-all cursor-pointer group">
+            <div className="flex items-center gap-5">
+              <div className="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-500 text-3xl shadow-inner relative shrink-0">
+                <i className="fa-solid fa-trophy"></i>
+                <div className="absolute -top-1 -right-1 w-5 h-5 bg-oneui-blue text-white rounded-full flex items-center justify-center text-[8px] font-black border-2 border-white animate-bounce">
+                  $
+                </div>
+              </div>
+              <div className="flex-1">
+                <div className="flex justify-between items-center mb-1">
+                  <h4 className="text-lg font-black text-oneui-text-primary leading-tight tracking-tight">Daily Quiz</h4>
+                  <span className={`text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-widest border ${quizAttempted ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-amber-50 text-amber-600 border-amber-100'}`}>
+                    {quizAttempted ? 'Attempted' : 'Not Attempted'}
+                  </span>
+                </div>
+                <p className="text-xs text-oneui-text-secondary font-medium leading-relaxed">
+                  Answer 1 question correctly daily to rank for the <span className="text-oneui-blue font-bold">Monthly Scholarship</span>.
+                </p>
+              </div>
+            </div>
+            
+            <button 
+              onClick={() => navigate('/daily-quiz')}
+              className={`w-full h-14 mt-6 rounded-2xl font-black text-[11px] uppercase tracking-widest transition-all ${
+                quizAttempted 
+                ? 'bg-slate-50 text-slate-400 border border-oneui-border' 
+                : 'bg-oneui-blue text-white shadow-lg shadow-blue-100'
+              }`}
+            >
+              {quizAttempted ? 'View Result' : 'Start Quiz'}
             </button>
           </div>
         </div>
