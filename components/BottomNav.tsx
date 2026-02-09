@@ -14,7 +14,7 @@ const BottomNav: React.FC = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-white/80 backdrop-blur-xl border-t border-slate-200 px-2 pb-6 pt-2 flex justify-around items-center z-50">
+    <nav className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-oneui-surface/80 backdrop-blur-xl border-t border-oneui-border px-2 pb-6 pt-2 flex justify-around items-center z-50 shadow-[0_-1px_10px_rgba(0,0,0,0.02)]">
       {navItems.map((item) => {
         const isActive = location.pathname === item.path;
         return (
@@ -22,7 +22,7 @@ const BottomNav: React.FC = () => {
             key={item.path}
             to={item.path}
             className={`flex flex-col items-center gap-1 px-3 py-2 rounded-2xl transition-all ${
-              isActive ? 'text-oneui-blue' : 'text-slate-400'
+              isActive ? 'text-oneui-blue' : 'text-oneui-text-secondary'
             }`}
           >
             <div className={`w-12 h-8 flex items-center justify-center rounded-full transition-all ${

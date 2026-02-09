@@ -35,12 +35,12 @@ const LiveClassesList = () => {
   return (
     <div className="bg-oneui-bg min-h-screen pb-32">
       <div className="oneui-header-space flex flex-col justify-end px-8 pb-8">
-         <h1 className="text-4xl font-light text-slate-900 leading-tight">Live<br/><span className="font-bold">Sessions</span></h1>
+         <h1 className="text-4xl font-light text-oneui-text-primary leading-tight">Live<br/><span className="font-bold">Sessions</span></h1>
       </div>
       <div className="px-5 space-y-4">
         <div 
           onClick={() => navigate('/live/1')}
-          className="bg-white rounded-samsung p-6 shadow-xl border border-blue-100 relative overflow-hidden group active:scale-[0.98] transition-all cursor-pointer"
+          className="bg-oneui-surface rounded-samsung p-6 shadow-xl border border-oneui-border relative overflow-hidden group active:scale-[0.98] transition-all cursor-pointer"
         >
           <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full -mr-16 -mt-16 blur-3xl animate-pulse" />
           <div className="flex justify-between items-start mb-4">
@@ -51,17 +51,17 @@ const LiveClassesList = () => {
               <i className="fa-solid fa-tower-broadcast"></i>
             </div>
           </div>
-          <h4 className="text-xl font-black text-slate-900 leading-tight mb-2">Cranial Nerves & Foramina: The Deep Dive</h4>
-          <p className="text-xs text-slate-500 font-bold mb-4">Dr. Anand Sharma • 1,240 Watching</p>
+          <h4 className="text-xl font-black text-oneui-text-primary leading-tight mb-2">Cranial Nerves & Foramina: The Deep Dive</h4>
+          <p className="text-xs text-oneui-text-secondary font-bold mb-4">Dr. Anand Sharma • 1,240 Watching</p>
           <button className="w-full h-12 bg-oneui-blue text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-blue-100">
             Join Now
           </button>
         </div>
 
-        <div className="bg-white rounded-samsung p-6 border border-slate-100 shadow-sm opacity-60">
-           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Upcoming • 4:00 PM</p>
-           <h4 className="text-lg font-black text-slate-900 leading-tight mb-1">Systemic Pathology: Part 1</h4>
-           <p className="text-xs text-slate-400 font-bold">Dr. Sarah Johnson</p>
+        <div className="bg-oneui-surface rounded-samsung p-6 border border-oneui-border shadow-sm opacity-60">
+           <p className="text-[10px] font-black text-oneui-text-secondary uppercase tracking-widest mb-1">Upcoming • 4:00 PM</p>
+           <h4 className="text-lg font-black text-oneui-text-primary leading-tight mb-1">Systemic Pathology: Part 1</h4>
+           <p className="text-xs text-oneui-text-secondary font-bold">Dr. Sarah Johnson</p>
         </div>
       </div>
     </div>
@@ -72,14 +72,14 @@ const LiveClassesList = () => {
 const ProfilePlaceholder = () => (
   <div className="bg-oneui-bg min-h-screen">
     <div className="oneui-header-space flex flex-col justify-end px-8 pb-8">
-       <h1 className="text-4xl font-light text-slate-900 leading-tight">Student<br/><span className="font-bold">Profile</span></h1>
+       <h1 className="text-4xl font-light text-oneui-text-primary leading-tight">Student<br/><span className="font-bold">Profile</span></h1>
     </div>
     <div className="px-8 space-y-6">
-       <div className="bg-white p-8 rounded-samsung border border-slate-100 shadow-sm space-y-6 text-center">
+       <div className="bg-oneui-surface p-8 rounded-samsung border border-oneui-border shadow-sm space-y-6 text-center">
           <img src="https://i.pravatar.cc/150?u=sarah" className="w-32 h-32 rounded-full border-4 border-oneui-blue mx-auto shadow-xl" />
           <div>
-            <h2 className="text-2xl font-black text-slate-900">Dr. Sarah Johnson</h2>
-            <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest">Enrollment: MED-9421-S24U</p>
+            <h2 className="text-2xl font-black text-oneui-text-primary">Dr. Sarah Johnson</h2>
+            <p className="text-oneui-text-secondary font-bold uppercase text-[10px] tracking-widest">Enrollment: MED-9421-S24U</p>
           </div>
        </div>
     </div>
@@ -117,7 +117,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="mobile-frame flex flex-col">
-        <div className="sticky top-0 z-50 px-6 py-3 flex justify-between items-center text-slate-800 bg-oneui-bg">
+        <div className="sticky top-0 z-50 px-6 py-3 flex justify-between items-center text-oneui-text-primary bg-oneui-bg">
           <span className="font-bold text-sm">9:41</span>
           <div className="flex gap-2 text-xs">
             <i className="fa-solid fa-signal"></i>
@@ -126,7 +126,7 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        <main className="flex-1 overflow-x-hidden overflow-y-auto">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-oneui-bg">
           {!isAuthenticated ? (
             renderAuthFlow()
           ) : (
