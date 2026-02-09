@@ -16,12 +16,20 @@
             'samsung': '28px',
           },
           colors: {
-            'oneui-blue': '#4c6ef5',
-            'oneui-bg': '#f4f4f4', // Light Grey Background
-            'oneui-surface': '#ffffff', // Card/Surface White
-            'oneui-border': '#e0e0e0', // Soft Grey Borders
-            'oneui-text-primary': '#212121', // Near Black/Dark Grey
-            'oneui-text-secondary': '#757575', // Medium Grey
+            'oneui-blue': '#475569', // Slate 600
+            'oneui-bg': '#f4f4f4',   // Light Grey Background
+            'oneui-surface': '#ffffff', 
+            'oneui-border': '#e0e0e0', 
+            'oneui-text-primary': '#212121', 
+            'oneui-text-secondary': '#757575',
+            'oneui-footer-bg': '#e2e8f0', // Neutral Light-Medium Grey for Footer
+            'slate-accent': {
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              200: '#e2e8f0',
+              800: '#1e293b',
+              900: '#0f172a'
+            }
           }
         }
       }
@@ -30,15 +38,15 @@
   <style>
     body { 
       font-family: 'Inter', sans-serif; 
-      background-color: #000; /* Outer frame remains black for S24 Ultra simulation */
+      background-color: #000; 
       overflow: hidden;
     }
     .mobile-frame {
       width: 100%;
-      max-width: 430px; /* S24 Ultra width simulation */
+      max-width: 430px; 
       height: 100vh;
       margin: 0 auto;
-      background: #f4f4f4; /* Primary Light Grey background */
+      background: #f4f4f4; 
       position: relative;
       overflow-y: auto;
       overflow-x: hidden;
@@ -47,6 +55,13 @@
     ::-webkit-scrollbar { display: none; }
     .oneui-header-space { height: 25vh; }
     .tap-target { min-height: 56px; }
+    
+    .bg-blue-50 { background-color: #f8fafc !important; }
+    .text-oneui-blue { color: #475569 !important; }
+    .border-oneui-blue { border-color: #475569 !important; }
+    .shadow-blue-100 { shadow-color: rgba(71, 85, 105, 0.1) !important; }
+    .shadow-blue-200 { shadow-color: rgba(71, 85, 105, 0.2) !important; }
+    .shadow-blue-500\/20 { shadow-color: rgba(71, 85, 105, 0.2) !important; }
   </style>
   <script type="importmap">
   {
