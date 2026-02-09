@@ -60,24 +60,19 @@ const LiveClassesList = () => {
             Join Now
           </button>
         </div>
-
-        <div className="bg-oneui-surface rounded-samsung p-6 border border-oneui-border shadow-sm opacity-60">
-           <p className="text-[10px] font-black text-oneui-text-secondary uppercase tracking-widest mb-1">Upcoming • 4:00 PM</p>
-           <h4 className="text-lg font-black text-oneui-text-primary leading-tight mb-1">Systemic Pathology: Part 1</h4>
-           <p className="text-xs text-oneui-text-secondary font-bold">Dr. Sarah Johnson</p>
-        </div>
       </div>
     </div>
   );
 };
 
-const App: React.FC = () => {
+// Root content component to enable useNavigate
+const AppContent: React.FC = () => {
+  const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authStep, setAuthStep] = useState<'LOGIN' | 'OTP' | 'REGISTER' | 'ONBOARDING'>('LOGIN');
   const [identifier, setIdentifier] = useState('');
   const [isInitializing, setIsInitializing] = useState(true);
 
-  // Check for existing session on mount
   useEffect(() => {
     const token = localStorage.getItem('auth_token');
     if (token) {
@@ -87,30 +82,34 @@ const App: React.FC = () => {
   }, []);
 
   const handleLoginSuccess = async () => {
-    // Simulate fetching and caching basic user profile
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Store token securely
-    localStorage.setItem('auth_token', 'mock_secure_token_' + Date.now());
-    
-    // Reset stack by setting authenticated state (redirects to Home/Dashboard)
-    setIsAuthenticated(true);
-  };
-
-  const handleOnboardingComplete = (data: any) => {
-    setIsAuthenticated(true);
+    try {
+      // 1. Secure token storage
+      localStorage.setItem('auth_token', 'mock_secure_token_' + Date.now());
+      
+      // 2. Fetch/Simulate user profile
+      await new Promise(resolve => setTimeout(resolve, 800));
+      localStorage.setItem('user_cached_data', JSON.stringify({ name: 'Dr. Sarah', role: 'STUDENT' }));
+      
+      // 3. Update Auth State
+      setIsAuthenticated(true);
+      
+      // 4. CRITICAL: Navigation Reset
+      // Explicitly redirect to Home and replace history to prevent back navigation to Login/OTP
+      navigate('/', { replace: true });
+      
+    } catch (e) {
+      console.error("Auth redirection failed", e);
+    }
   };
 
   const handleGlobalLogout = () => {
-    // Clear all auth-related local storage
     localStorage.removeItem('auth_token');
     localStorage.removeItem('daily_quiz_attempted');
     localStorage.removeItem('user_cached_data');
-    
-    // Reset internal state
     setIsAuthenticated(false);
     setAuthStep('LOGIN');
     setIdentifier('');
+    navigate('/', { replace: true });
   };
 
   const renderAuthFlow = () => {
@@ -120,7 +119,7 @@ const App: React.FC = () => {
       case 'REGISTER':
         return <Register onSuccess={(id) => { setIdentifier(id); setAuthStep('OTP'); }} onBack={() => setAuthStep('LOGIN')} />;
       case 'ONBOARDING':
-        return <Onboarding onComplete={handleOnboardingComplete} />;
+        return <Onboarding onComplete={() => { setIsAuthenticated(true); navigate('/', { replace: true }); }} />;
       default:
         return <Login onNext={(id) => { setIdentifier(id); setAuthStep('OTP'); }} onNavigateRegister={() => setAuthStep('REGISTER')} />;
     }
@@ -135,56 +134,64 @@ const App: React.FC = () => {
   }
 
   return (
-    <Router>
-      <div className="mobile-frame flex flex-col">
-        {/* Status Bar */}
-        <div className="sticky top-0 z-50 px-6 py-3 flex justify-between items-center text-oneui-text-primary bg-oneui-bg">
-          <span className="font-bold text-sm">9:41</span>
-          <div className="flex gap-2 text-xs">
-            <i className="fa-solid fa-signal"></i>
-            <i className="fa-solid fa-wifi"></i>
-            <i className="fa-solid fa-battery-full"></i>
-          </div>
+    <div className="mobile-frame flex flex-col">
+      {/* Status Bar */}
+      <div className="sticky top-0 z-50 px-6 py-3 flex justify-between items-center text-oneui-text-primary bg-oneui-bg">
+        <span className="font-bold text-sm">9:41</span>
+        <div className="flex gap-2 text-xs">
+          <i className="fa-solid fa-signal"></i>
+          <i className="fa-solid fa-wifi"></i>
+          <i className="fa-solid fa-battery-full"></i>
         </div>
-
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-oneui-bg">
-          {!isAuthenticated ? (
-            renderAuthFlow()
-          ) : (
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/courses" element={<Courses />} />
-              <Route path="/practice" element={<Practice />} />
-              <Route path="/tutor" element={<AITutorPanel />} />
-              <Route path="/live-list" element={<LiveClassesList />} />
-              <Route path="/live/:id" element={<LiveClass />} />
-              <Route path="/video/:id" element={<VideoPlayer />} />
-              <Route path="/recorded-classes" element={<RecordedClasses />} />
-              <Route path="/exam" element={<ExamSimulator />} />
-              <Route path="/exam-results" element={<TestResults />} />
-              <Route path="/analytics" element={<Analytics />} />
-              <Route path="/planner" element={<StudyPlanner />} />
-              <Route path="/tracker" element={<DailyTracker />} />
-              <Route path="/calendar" element={<Calendar />} />
-              <Route path="/notes" element={<NotesLibrary />} />
-              <Route path="/notes/:id" element={<NoteViewer />} />
-              <Route path="/community" element={<Community />} />
-              <Route path="/community/:id" element={<ThreadDetail />} />
-              <Route path="/notifications" element={<Notifications />} />
-              <Route path="/notification-settings" element={<NotificationSettings />} />
-              <Route path="/profile" element={<Profile onLogout={handleGlobalLogout} />} />
-              <Route path="/expert-advice" element={<ExpertAdvice />} />
-              <Route path="/faculty-list" element={<FacultyList />} />
-              <Route path="/book-appointment/:facultyId" element={<BookingFlow />} />
-              <Route path="/daily-quiz" element={<DailyQuiz />} />
-              <Route path="/leaderboard" element={<Leaderboard />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          )}
-        </main>
-
-        {isAuthenticated && <BottomNav />}
       </div>
+
+      <main className="flex-1 overflow-x-hidden overflow-y-auto bg-oneui-bg">
+        {!isAuthenticated ? (
+          <div className="h-full">
+            {renderAuthFlow()}
+          </div>
+        ) : (
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/practice" element={<Practice />} />
+            <Route path="/tutor" element={<AITutorPanel />} />
+            <Route path="/live-list" element={<LiveClassesList />} />
+            <Route path="/live/:id" element={<LiveClass />} />
+            <Route path="/video/:id" element={<VideoPlayer />} />
+            <Route path="/recorded-classes" element={<RecordedClasses />} />
+            <Route path="/exam" element={<ExamSimulator />} />
+            <Route path="/exam-results" element={<TestResults />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/planner" element={<StudyPlanner />} />
+            <Route path="/tracker" element={<DailyTracker />} />
+            <Route path="/calendar" element={<Calendar />} />
+            <Route path="/notes" element={<NotesLibrary />} />
+            <Route path="/notes/:id" element={<NoteViewer />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="/community/:id" element={<ThreadDetail />} />
+            <Route path="/notifications" element={<Notifications />} />
+            <Route path="/notification-settings" element={<NotificationSettings />} />
+            <Route path="/profile" element={<Profile onLogout={handleGlobalLogout} />} />
+            <Route path="/expert-advice" element={<ExpertAdvice />} />
+            <Route path="/faculty-list" element={<FacultyList />} />
+            <Route path="/book-appointment/:facultyId" element={<BookingFlow />} />
+            <Route path="/daily-quiz" element={<DailyQuiz />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        )}
+      </main>
+
+      {isAuthenticated && <BottomNav />}
+    </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 };

@@ -18,11 +18,18 @@ const DailyQuiz: React.FC = () => {
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
+    // Session Guard: Check if token exists
+    const token = localStorage.getItem('auth_token');
+    if (!token) {
+      navigate('/', { replace: true });
+      return;
+    }
+
     const attempted = localStorage.getItem('daily_quiz_attempted');
     if (attempted === 'true') {
       setSubmitted(true);
     }
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     if (submitted || timeLeft <= 0) return;
@@ -35,7 +42,6 @@ const DailyQuiz: React.FC = () => {
     
     setIsSubmitting(true);
     
-    // Simulate API call to register attempt
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
       
@@ -54,11 +60,11 @@ const DailyQuiz: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-oneui-bg">
-      {/* 1. Header Area */}
+      {/* Header Area */}
       <div className="oneui-header-space flex flex-col justify-end px-8 pb-8">
         <div className="flex justify-between items-center mb-6">
           <button 
-            onClick={() => navigate(-1)} 
+            onClick={() => navigate('/')} 
             className="w-12 h-12 bg-oneui-surface rounded-full flex items-center justify-center text-oneui-text-secondary border border-oneui-border active:scale-90 transition-all"
           >
             <i className="fa-solid fa-chevron-left"></i>
@@ -73,7 +79,7 @@ const DailyQuiz: React.FC = () => {
         <h1 className="text-4xl font-light text-oneui-text-primary leading-tight">Daily<br/><span className="font-bold">Challenge</span></h1>
       </div>
 
-      {/* 2. Question Card */}
+      {/* Question Card */}
       <div className="px-5 space-y-6 pb-48">
         <div className="bg-oneui-surface p-8 rounded-samsung shadow-sm border border-oneui-border space-y-8 min-h-[400px]">
           <div className="space-y-4">
@@ -141,7 +147,7 @@ const DailyQuiz: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. Fixed Bottom Action (Sit above BottomNav) */}
+      {/* Fixed Bottom Action */}
       <div className="fixed bottom-24 left-0 right-0 max-w-[430px] mx-auto px-6 z-40">
         {!submitted ? (
           <button 
