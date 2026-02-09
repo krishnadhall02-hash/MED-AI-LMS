@@ -73,26 +73,31 @@ const LiveClassesList = () => {
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
   const [authStep, setAuthStep] = useState<'LOGIN' | 'OTP' | 'REGISTER' | 'ONBOARDING'>('LOGIN');
   const [identifier, setIdentifier] = useState('');
+  const [isInitializing, setIsInitializing] = useState(true);
 
   // Check for existing session on mount
   useEffect(() => {
     const token = localStorage.getItem('auth_token');
     if (token) {
       setIsAuthenticated(true);
-      setHasCompletedOnboarding(true);
     }
+    setIsInitializing(false);
   }, []);
 
-  const handleLoginSuccess = () => {
+  const handleLoginSuccess = async () => {
+    // Simulate fetching and caching basic user profile
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Store token securely
     localStorage.setItem('auth_token', 'mock_secure_token_' + Date.now());
-    setAuthStep('ONBOARDING');
+    
+    // Reset stack by setting authenticated state (redirects to Home/Dashboard)
+    setIsAuthenticated(true);
   };
 
   const handleOnboardingComplete = (data: any) => {
-    setHasCompletedOnboarding(true);
     setIsAuthenticated(true);
   };
 
@@ -104,7 +109,6 @@ const App: React.FC = () => {
     
     // Reset internal state
     setIsAuthenticated(false);
-    setHasCompletedOnboarding(false);
     setAuthStep('LOGIN');
     setIdentifier('');
   };
@@ -122,9 +126,18 @@ const App: React.FC = () => {
     }
   };
 
+  if (isInitializing) {
+    return (
+      <div className="mobile-frame bg-oneui-bg flex items-center justify-center">
+         <div className="w-16 h-16 border-4 border-oneui-blue border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
   return (
     <Router>
       <div className="mobile-frame flex flex-col">
+        {/* Status Bar */}
         <div className="sticky top-0 z-50 px-6 py-3 flex justify-between items-center text-oneui-text-primary bg-oneui-bg">
           <span className="font-bold text-sm">9:41</span>
           <div className="flex gap-2 text-xs">
@@ -165,7 +178,7 @@ const App: React.FC = () => {
               <Route path="/book-appointment/:facultyId" element={<BookingFlow />} />
               <Route path="/daily-quiz" element={<DailyQuiz />} />
               <Route path="/leaderboard" element={<Leaderboard />} />
-              <Route path="*" element={<Navigate to="/" />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           )}
         </main>

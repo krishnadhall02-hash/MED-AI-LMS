@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 interface OTPProps {
   identifier: string;
-  onVerify: () => void;
+  onVerify: () => Promise<void>;
   onBack: () => void;
 }
 
@@ -11,6 +11,7 @@ const OTP: React.FC<OTPProps> = ({ identifier, onVerify, onBack }) => {
   const [otp, setOtp] = useState(['', '', '', '']);
   const [timer, setTimer] = useState(30);
   const [error, setError] = useState('');
+  const [isVerifying, setIsVerifying] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -33,23 +34,37 @@ const OTP: React.FC<OTPProps> = ({ identifier, onVerify, onBack }) => {
     }
   };
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     const code = otp.join('');
     if (code.length < 4) {
       setError('Please enter the 4-digit code');
       return;
     }
+    
+    setIsVerifying(true);
+    setError('');
+    
     // Mock verification
-    if (code === '1234') {
-      onVerify();
-    } else {
-      setError('Invalid code. Try 1234');
+    try {
+      if (code === '1234') {
+        await onVerify();
+      } else {
+        setError('Invalid code. Try 1234');
+        setIsVerifying(false);
+      }
+    } catch (err) {
+      setError('Verification failed. Please try again.');
+      setIsVerifying(false);
     }
   };
 
   return (
     <div className="flex flex-col h-full bg-oneui-bg p-8 animate-in slide-in-from-right duration-500">
-      <button onClick={onBack} className="w-10 h-10 -ml-2 text-slate-800 flex items-center justify-center">
+      <button 
+        onClick={onBack} 
+        disabled={isVerifying}
+        className="w-10 h-10 -ml-2 text-slate-800 flex items-center justify-center disabled:opacity-30"
+      >
         <i className="fa-solid fa-arrow-left text-xl"></i>
       </button>
 
@@ -67,7 +82,8 @@ const OTP: React.FC<OTPProps> = ({ identifier, onVerify, onBack }) => {
                 id={`otp-${i}`}
                 type="text"
                 maxLength={1}
-                className={`w-16 h-20 text-center text-3xl font-black bg-white border-2 ${error ? 'border-red-500' : 'border-slate-200'} rounded-samsung focus:border-oneui-blue focus:outline-none focus:ring-4 focus:ring-blue-50 transition-all shadow-sm`}
+                disabled={isVerifying}
+                className={`w-16 h-20 text-center text-3xl font-black bg-white border-2 ${error ? 'border-red-500' : 'border-slate-200'} rounded-samsung focus:border-oneui-blue focus:outline-none focus:ring-4 focus:ring-blue-50 transition-all shadow-sm disabled:opacity-50`}
                 value={digit}
                 onChange={(e) => handleChange(i, e.target.value)}
               />
@@ -79,7 +95,7 @@ const OTP: React.FC<OTPProps> = ({ identifier, onVerify, onBack }) => {
             {timer > 0 ? (
               <p className="text-slate-400 text-sm font-medium">Resend code in <span className="text-slate-900 font-bold">0:{timer < 10 ? `0${timer}` : timer}</span></p>
             ) : (
-              <button className="text-oneui-blue text-sm font-bold underline">Resend code now</button>
+              <button disabled={isVerifying} className="text-oneui-blue text-sm font-bold underline disabled:opacity-30">Resend code now</button>
             )}
           </div>
         </div>
@@ -88,9 +104,17 @@ const OTP: React.FC<OTPProps> = ({ identifier, onVerify, onBack }) => {
       <div className="pb-8">
         <button 
           onClick={handleVerify}
-          className="w-full h-16 bg-oneui-blue text-white rounded-samsung font-black text-xl shadow-lg shadow-blue-200 hover:scale-[0.98] transition-all"
+          disabled={isVerifying || otp.join('').length < 4}
+          className="w-full h-16 bg-oneui-blue text-white rounded-samsung font-black text-xl shadow-lg shadow-blue-200 hover:scale-[0.98] active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-70 disabled:grayscale-[0.3]"
         >
-          Verify & Log In
+          {isVerifying ? (
+            <>
+              <i className="fa-solid fa-spinner fa-spin"></i>
+              <span>Verifying...</span>
+            </>
+          ) : (
+            'Verify & Log In'
+          )}
         </button>
       </div>
     </div>
