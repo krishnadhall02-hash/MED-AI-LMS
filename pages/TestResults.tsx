@@ -9,6 +9,7 @@ const COLORS = ['#10b981', '#ef4444', '#94a3b8'];
 const TestResults: React.FC = () => {
   const navigate = useNavigate();
   const rawResult = sessionStorage.getItem('last_exam_result');
+  const isSpeedTest = sessionStorage.getItem('is_speed_test') === 'true';
   const result: ExamResult | null = rawResult ? JSON.parse(rawResult) : null;
 
   if (!result) {
@@ -34,10 +35,17 @@ const TestResults: React.FC = () => {
     accuracy: Math.round((result.subjectBreakdown[subj].correct / result.subjectBreakdown[subj].total) * 100)
   }));
 
+  const secPerQ = Math.round(result.timeSpent / result.totalQuestions);
+
   return (
     <div className="pb-32 bg-oneui-bg min-h-screen">
       <div className="oneui-header-space flex flex-col justify-end px-8 pb-8">
-        <h1 className="text-4xl font-light text-slate-900 leading-tight">Exam<br/><span className="font-bold">Report Card</span></h1>
+        <div className="flex justify-between items-center mb-2">
+           <h1 className="text-4xl font-light text-slate-900 leading-tight">Exam<br/><span className="font-bold">Report Card</span></h1>
+           {isSpeedTest && (
+             <span className="bg-amber-500 text-white text-[9px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg shadow-amber-500/20">Speed Test</span>
+           )}
+        </div>
       </div>
 
       <div className="px-5 space-y-6 -mt-4">
@@ -92,10 +100,10 @@ const TestResults: React.FC = () => {
           </div>
           <div className="bg-white p-6 rounded-samsung shadow-sm border border-slate-100">
              <div className="flex items-center gap-3 mb-2 text-amber-500">
-                <i className="fa-solid fa-hourglass-half"></i>
-                <p className="text-[10px] font-black uppercase tracking-widest">Time Taken</p>
+                <i className="fa-solid fa-gauge-high"></i>
+                <p className="text-[10px] font-black uppercase tracking-widest">Avg Speed</p>
              </div>
-             <p className="text-2xl font-black text-slate-800">{Math.floor(result.timeSpent / 60)}m {result.timeSpent % 60}s</p>
+             <p className="text-2xl font-black text-slate-800">{secPerQ}s <span className="text-[10px] text-slate-400 uppercase">/ q</span></p>
           </div>
         </div>
 
@@ -121,7 +129,10 @@ const TestResults: React.FC = () => {
               <h4 className="font-bold text-lg">AI Performance Insight</h4>
            </div>
            <p className="text-sm font-medium leading-relaxed opacity-90">
-             Your accuracy in <span className="font-black underline">Anatomy</span> is exceptional (100%), but you struggled with complex <span className="font-black underline">Pharmacology</span> cases. We recommend a focused revision on Autonomic Nervous System drugs before your next mock.
+             {isSpeedTest 
+               ? `In this High-Pressure Speed Mode, your accuracy was ${Math.round(result.accuracy)}% with ${secPerQ}s per question. This is highly efficient for INI-CET pattern training.`
+               : `Your accuracy in Anatomy is exceptional (100%), but you struggled with complex Pharmacology cases. We recommend a focused revision on Autonomic Nervous System drugs.`
+             }
            </p>
            <button className="w-full h-14 bg-white/20 backdrop-blur-md rounded-2xl font-black text-xs uppercase tracking-widest active:scale-95 transition-all">
              Generate Revision Plan

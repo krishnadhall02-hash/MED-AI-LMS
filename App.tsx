@@ -9,6 +9,8 @@ import AITutorPanel from './components/AITutorPanel';
 import LiveClass from './pages/LiveClass';
 import VideoPlayer from './pages/VideoPlayer';
 import ExamSimulator from './pages/ExamSimulator';
+import CustomizeMockSetup from './pages/CustomizeMockSetup';
+import CustomExamSimulator from './pages/CustomExamSimulator';
 import TestResults from './pages/TestResults';
 import Analytics from './pages/Analytics';
 import StudyPlanner from './pages/StudyPlanner';
@@ -83,20 +85,11 @@ const AppContent: React.FC = () => {
 
   const handleLoginSuccess = async () => {
     try {
-      // 1. Secure token storage
       localStorage.setItem('auth_token', 'mock_secure_token_' + Date.now());
-      
-      // 2. Fetch/Simulate user profile
       await new Promise(resolve => setTimeout(resolve, 800));
       localStorage.setItem('user_cached_data', JSON.stringify({ name: 'Dr. Sarah', role: 'STUDENT' }));
-      
-      // 3. Update Auth State
       setIsAuthenticated(true);
-      
-      // 4. CRITICAL: Navigation Reset
-      // Explicitly redirect to Home and replace history to prevent back navigation to Login/OTP
       navigate('/', { replace: true });
-      
     } catch (e) {
       console.error("Auth redirection failed", e);
     }
@@ -135,7 +128,6 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="mobile-frame flex flex-col">
-      {/* Status Bar */}
       <div className="sticky top-0 z-50 px-6 py-3 flex justify-between items-center text-oneui-text-primary bg-oneui-bg">
         <span className="font-bold text-sm">9:41</span>
         <div className="flex gap-2 text-xs">
@@ -161,6 +153,8 @@ const AppContent: React.FC = () => {
             <Route path="/video/:id" element={<VideoPlayer />} />
             <Route path="/recorded-classes" element={<RecordedClasses />} />
             <Route path="/exam" element={<ExamSimulator />} />
+            <Route path="/customize-mock" element={<CustomizeMockSetup />} />
+            <Route path="/custom-exam" element={<CustomExamSimulator />} />
             <Route path="/exam-results" element={<TestResults />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/planner" element={<StudyPlanner />} />

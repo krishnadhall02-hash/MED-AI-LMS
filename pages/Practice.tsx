@@ -108,15 +108,15 @@ const Practice: React.FC = () => {
               </div>
 
               <div 
-                onClick={() => {}} 
+                onClick={() => navigate('/customize-mock')} 
                 className="bg-oneui-surface rounded-samsung p-6 border border-oneui-border shadow-sm flex flex-col justify-between h-44 active:scale-95 transition-all cursor-pointer group"
               >
-                <div className="w-12 h-12 bg-yellow-50 text-yellow-600 rounded-xl flex items-center justify-center text-2xl group-hover:bg-yellow-500 group-hover:text-white transition-colors">
-                  <i className="fa-solid fa-bolt"></i>
+                <div className="w-12 h-12 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center text-2xl group-hover:bg-orange-500 group-hover:text-white transition-colors">
+                  <i className="fa-solid fa-stopwatch"></i>
                 </div>
                 <div>
-                  <p className="font-black text-lg text-oneui-text-primary leading-tight">Daily Quiz</p>
-                  <p className="text-[10px] font-bold text-yellow-600 uppercase tracking-widest mt-1">10 mins left</p>
+                  <p className="font-black text-lg text-oneui-text-primary leading-tight">Customize Mock</p>
+                  <p className="text-[10px] font-bold text-oneui-text-secondary uppercase tracking-widest mt-1">Adjust time for speed</p>
                 </div>
               </div>
             </div>
@@ -168,7 +168,7 @@ const Practice: React.FC = () => {
                   <h4 className="font-bold text-lg">Weakness Analysis</h4>
                </div>
                <p className="text-sm font-medium leading-relaxed opacity-80 relative z-10">
-                  Our AI has detected gaps in your <span className="text-oneui-blue font-black">Neuroanatomy</span> knowledge. Would you like to practice high-yield foramen MCQs?
+                  Our AI has detected gaps in your <span className="text-oneui-blue font-bold">Neuroanatomy</span> knowledge. Would you like to practice high-yield foramen MCQs?
                </p>
                <button className="w-full h-14 bg-white text-slate-900 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl active:scale-95 transition-all relative z-10">
                   Analyze My Gaps
