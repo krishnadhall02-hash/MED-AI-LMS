@@ -21,6 +21,9 @@ import ThreadDetail from './pages/ThreadDetail';
 import Notifications from './pages/Notifications';
 import NotificationSettings from './pages/NotificationSettings';
 import RecordedClasses from './pages/RecordedClasses';
+import ExpertAdvice from './pages/ExpertAdvice';
+import FacultyList from './pages/FacultyList';
+import BookingFlow from './pages/BookingFlow';
 import Login from './pages/Auth/Login';
 import OTP from './pages/Auth/OTP';
 import Register from './pages/Auth/Register';
@@ -149,6 +152,9 @@ const App: React.FC = () => {
               <Route path="/notifications" element={<Notifications />} />
               <Route path="/notification-settings" element={<NotificationSettings />} />
               <Route path="/profile" element={<ProfilePlaceholder />} />
+              <Route path="/expert-advice" element={<ExpertAdvice />} />
+              <Route path="/faculty-list" element={<FacultyList />} />
+              <Route path="/book-appointment/:facultyId" element={<BookingFlow />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           )}

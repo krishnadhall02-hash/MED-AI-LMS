@@ -13,7 +13,7 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onClose }) => {
 
   const menuItems = [
     { label: 'Schedule', icon: 'fa-calendar-days', path: '/calendar', color: 'text-blue-500' },
-    { label: 'Expert Advice', icon: 'fa-user-doctor', path: '/community', color: 'text-emerald-500' },
+    { label: 'Expert Advice', icon: 'fa-user-doctor', path: '/expert-advice', color: 'text-emerald-500' },
     { label: 'Student Profile', icon: 'fa-user-gear', path: '/profile', color: 'text-slate-700' },
     { label: 'Sign Out', icon: 'fa-right-from-bracket', action: () => setShowSignOutModal(true), color: 'text-red-500' },
   ];
