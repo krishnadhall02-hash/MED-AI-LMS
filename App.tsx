@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import BottomNav from './components/BottomNav';
 import Dashboard from './pages/Dashboard';
@@ -77,13 +77,36 @@ const App: React.FC = () => {
   const [authStep, setAuthStep] = useState<'LOGIN' | 'OTP' | 'REGISTER' | 'ONBOARDING'>('LOGIN');
   const [identifier, setIdentifier] = useState('');
 
+  // Check for existing session on mount
+  useEffect(() => {
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      setIsAuthenticated(true);
+      setHasCompletedOnboarding(true);
+    }
+  }, []);
+
   const handleLoginSuccess = () => {
+    localStorage.setItem('auth_token', 'mock_secure_token_' + Date.now());
     setAuthStep('ONBOARDING');
   };
 
   const handleOnboardingComplete = (data: any) => {
     setHasCompletedOnboarding(true);
     setIsAuthenticated(true);
+  };
+
+  const handleGlobalLogout = () => {
+    // Clear all auth-related local storage
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('daily_quiz_attempted');
+    localStorage.removeItem('user_cached_data');
+    
+    // Reset internal state
+    setIsAuthenticated(false);
+    setHasCompletedOnboarding(false);
+    setAuthStep('LOGIN');
+    setIdentifier('');
   };
 
   const renderAuthFlow = () => {
@@ -136,7 +159,7 @@ const App: React.FC = () => {
               <Route path="/community/:id" element={<ThreadDetail />} />
               <Route path="/notifications" element={<Notifications />} />
               <Route path="/notification-settings" element={<NotificationSettings />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route path="/profile" element={<Profile onLogout={handleGlobalLogout} />} />
               <Route path="/expert-advice" element={<ExpertAdvice />} />
               <Route path="/faculty-list" element={<FacultyList />} />
               <Route path="/book-appointment/:facultyId" element={<BookingFlow />} />

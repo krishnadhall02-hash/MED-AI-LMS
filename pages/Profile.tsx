@@ -28,9 +28,15 @@ const BottomSheet: React.FC<EditSheetProps> = ({ title, isOpen, onClose, childre
   );
 };
 
-const Profile: React.FC = () => {
+interface ProfileProps {
+  onLogout: () => void;
+}
+
+const Profile: React.FC<ProfileProps> = ({ onLogout }) => {
   const navigate = useNavigate();
   const [editingField, setEditingField] = useState<string | null>(null);
+  const [logoutConfig, setLogoutConfig] = useState<{ type: 'device' | 'all', isOpen: boolean } | null>(null);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const studentData = {
     name: 'Dr. Sarah Johnson',
@@ -49,6 +55,32 @@ const Profile: React.FC = () => {
     expiry: '24 Oct 2024'
   };
 
+  const handleLogoutAction = async () => {
+    if (!logoutConfig) return;
+    setIsLoggingOut(true);
+
+    try {
+      if (logoutConfig.type === 'all') {
+        // Simulate backend API call to revoke all sessions
+        // await api.post('/auth/logout-all');
+        await new Promise(resolve => setTimeout(resolve, 1500));
+      } else {
+        // Simulate backend API call to unregister current device
+        // await api.post('/auth/logout-device', { deviceId: 'S24U-9421' });
+        await new Promise(resolve => setTimeout(resolve, 800));
+      }
+      
+      // Execute global logout state reset
+      onLogout();
+    } catch (error) {
+      console.error("Logout failed:", error);
+      alert("Logout failed. Please check your connection.");
+    } finally {
+      setIsLoggingOut(false);
+      setLogoutConfig(null);
+    }
+  };
+
   const menuSection = (title: string, items: { label: string; value?: string; icon: string; action?: () => void; destructive?: boolean }[]) => (
     <div className="space-y-4">
       <h3 className="text-xs font-black text-oneui-text-secondary uppercase tracking-widest px-2">{title}</h3>
@@ -57,7 +89,8 @@ const Profile: React.FC = () => {
           <button
             key={idx}
             onClick={item.action}
-            className={`w-full flex items-center gap-4 p-5 text-left active:bg-oneui-bg transition-colors ${item.destructive ? 'text-red-600' : 'text-oneui-text-primary'}`}
+            disabled={isLoggingOut}
+            className={`w-full flex items-center gap-4 p-5 text-left active:bg-oneui-bg transition-colors disabled:opacity-50 ${item.destructive ? 'text-red-600' : 'text-oneui-text-primary'}`}
           >
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg ${item.destructive ? 'bg-red-50' : 'bg-oneui-bg text-oneui-text-secondary'}`}>
               <i className={`fa-solid ${item.icon}`}></i>
@@ -165,8 +198,8 @@ const Profile: React.FC = () => {
 
         {/* Destructive Section */}
         {menuSection('Account Actions', [
-          { label: 'Logout from this device', icon: 'fa-right-from-bracket', action: () => {}, destructive: true },
-          { label: 'Logout from all devices', icon: 'fa-power-off', action: () => {}, destructive: true },
+          { label: 'Logout from this device', icon: 'fa-right-from-bracket', action: () => setLogoutConfig({ type: 'device', isOpen: true }), destructive: true },
+          { label: 'Logout from all devices', icon: 'fa-power-off', action: () => setLogoutConfig({ type: 'all', isOpen: true }), destructive: true },
         ])}
 
         <div className="text-center pt-4 opacity-30">
@@ -210,6 +243,47 @@ const Profile: React.FC = () => {
            )}
         </div>
       </BottomSheet>
+
+      {/* Logout Confirmation Modal */}
+      {logoutConfig?.isOpen && (
+        <div className="fixed inset-0 z-[120] flex items-center justify-center p-8 bg-black/60 backdrop-blur-md animate-in fade-in duration-300">
+           <div className="bg-white rounded-samsung p-8 w-full max-w-[340px] text-center space-y-6 shadow-2xl animate-in zoom-in duration-300">
+              <div className={`w-20 h-20 rounded-full mx-auto flex items-center justify-center text-3xl shadow-inner ${logoutConfig.type === 'all' ? 'bg-red-100 text-red-600' : 'bg-slate-100 text-slate-500'}`}>
+                 <i className={`fa-solid ${logoutConfig.type === 'all' ? 'fa-power-off' : 'fa-right-from-bracket'}`}></i>
+              </div>
+              <div className="space-y-2">
+                 <h2 className="text-2xl font-black text-slate-900 tracking-tight">
+                    {logoutConfig.type === 'all' ? 'Logout Everywhere?' : 'Logout?'}
+                 </h2>
+                 <p className="text-sm text-slate-500 font-medium leading-relaxed px-4">
+                    {logoutConfig.type === 'all' 
+                      ? 'This will end all active sessions across your phone, tablet, and web. You will need to re-verify your device.' 
+                      : 'You will be logged out from this device only. Your study progress is safe.'}
+                 </p>
+              </div>
+              <div className="flex flex-col gap-3 pt-2">
+                 <button 
+                   onClick={handleLogoutAction}
+                   disabled={isLoggingOut}
+                   className={`w-full h-16 text-white rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl active:scale-95 transition-all flex items-center justify-center gap-3 ${logoutConfig.type === 'all' ? 'bg-red-600 shadow-red-200' : 'bg-slate-900 shadow-slate-200'}`}
+                 >
+                   {isLoggingOut ? (
+                     <i className="fa-solid fa-spinner fa-spin"></i>
+                   ) : (
+                     logoutConfig.type === 'all' ? 'Logout Everywhere' : 'Confirm Logout'
+                   )}
+                 </button>
+                 <button 
+                   onClick={() => setLogoutConfig(null)}
+                   disabled={isLoggingOut}
+                   className="w-full h-14 bg-slate-50 text-slate-500 rounded-2xl font-black text-[10px] uppercase tracking-widest active:scale-95 transition-all disabled:opacity-30"
+                 >
+                   Cancel
+                 </button>
+              </div>
+           </div>
+        </div>
+      )}
     </div>
   );
 };
