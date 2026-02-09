@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HamburgerMenu from '../components/HamburgerMenu';
 
@@ -13,6 +13,33 @@ const Dashboard: React.FC = () => {
     { id: 'v2', title: 'Glomerular Filtration', subject: 'Physiology', progress: 0, thumbnail: 'https://images.unsplash.com/photo-1579154235820-008107779b5c?auto=format&fit=crop&q=80&w=400', isNew: true },
   ];
 
+  const testimonials = [
+    {
+      id: 't1',
+      name: 'Dr. Ananya Iyer',
+      exam: 'NEET PG 2025',
+      text: "The AI Tutor's mnemonics for Pharmacology literally saved my prep. Best tool for quick revision!",
+      rating: 5,
+      avatar: 'https://i.pravatar.cc/150?u=ananya'
+    },
+    {
+      id: 't2',
+      name: 'Dr. Vikram Singh',
+      exam: 'INI-CET Aspirant',
+      text: "Analytics helped me realize my Anatomy was strong but Pathology needed work. Gained 4% in 2 weeks!",
+      rating: 5,
+      avatar: 'https://i.pravatar.cc/150?u=vikram'
+    },
+    {
+      id: 't3',
+      name: 'Dr. Sneha Rao',
+      exam: 'NEXT Step 1',
+      text: "The Live Classes feel so personal despite the large attendance. Love the interactive poll feature.",
+      rating: 4,
+      avatar: 'https://i.pravatar.cc/150?u=sneha'
+    }
+  ];
+
   return (
     <div className="pb-32 bg-oneui-bg min-h-screen relative">
       {/* ☰ HAMBURGER MENU OVERLAY */}
@@ -21,7 +48,6 @@ const Dashboard: React.FC = () => {
       {/* One UI Large Header */}
       <div className="oneui-header-space flex flex-col justify-end px-8 pb-8 bg-oneui-bg relative">
         <div className="absolute top-4 right-8 flex gap-3">
-           {/* Notifications Button */}
            <button 
              onClick={() => navigate('/notifications')}
              className="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center text-slate-400 border border-slate-100 relative active:scale-90 transition-all"
@@ -34,7 +60,6 @@ const Dashboard: React.FC = () => {
               )}
            </button>
 
-           {/* Hamburger Menu Trigger (PART A) */}
            <button 
              onClick={() => setIsMenuOpen(true)}
              className="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center text-slate-900 border border-slate-100 active:scale-90 transition-all"
@@ -45,7 +70,7 @@ const Dashboard: React.FC = () => {
         <h1 className="text-4xl font-light text-slate-900 leading-tight">Good morning,<br/><span className="font-bold">Dr. Sarah</span></h1>
       </div>
 
-      <div className="px-5 space-y-8 -mt-4">
+      <div className="px-5 space-y-8 -mt-4 pb-12">
         
         {/* PERFORMANCE ANALYTICS SECTION */}
         <div className="space-y-4">
@@ -63,7 +88,7 @@ const Dashboard: React.FC = () => {
                 <p className="text-3xl font-black text-slate-900">78%</p>
                 <div className="flex items-center gap-1.5 text-emerald-500 font-bold text-[10px] uppercase tracking-widest">
                   <i className="fa-solid fa-arrow-trend-up"></i>
-                  <span>+4.2% Trend</span>
+                  <span>+4.2% This Week</span>
                 </div>
               </div>
               <div className="flex gap-4">
@@ -89,12 +114,12 @@ const Dashboard: React.FC = () => {
             </div>
 
             <button className="w-full h-12 bg-slate-50 text-slate-900 rounded-2xl font-black text-[10px] uppercase tracking-widest border border-slate-100 flex items-center justify-center gap-2 group-hover:bg-oneui-blue group-hover:text-white transition-all group-hover:border-transparent">
-              View Performance <i className="fa-solid fa-chevron-right text-[8px]"></i>
+              View Analysis <i className="fa-solid fa-chevron-right text-[8px]"></i>
             </button>
           </div>
         </div>
-        
-        {/* LIVE CLASSES SECTION */}
+
+        {/* Ongoing Sessions */}
         <div className="space-y-3">
           <div className="flex justify-between items-center px-2">
             <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">Ongoing Sessions</h3>
@@ -102,8 +127,8 @@ const Dashboard: React.FC = () => {
           </div>
           
           <div 
-            onClick={() => navigate('/live/1')}
-            className="bg-white rounded-samsung p-6 shadow-xl border border-blue-100 relative overflow-hidden group active:scale-[0.98] transition-all cursor-pointer"
+            onClick={() => navigate('/live-list')}
+            className="bg-white rounded-samsung p-6 shadow-sm border border-slate-100 relative overflow-hidden group active:scale-[0.98] transition-all cursor-pointer"
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full -mr-16 -mt-16 blur-3xl animate-pulse" />
             <div className="flex justify-between items-start mb-4">
@@ -121,7 +146,7 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* RECORDED CLASSES SECTION */}
+        {/* Recorded Classes */}
         <div className="space-y-4">
           <div className="flex justify-between items-center px-2">
             <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">Recorded Classes</h3>
@@ -141,11 +166,6 @@ const Dashboard: React.FC = () => {
                     {rec.isNew && <span className="bg-emerald-500 text-white text-[8px] font-black px-2 py-0.5 rounded uppercase tracking-widest">New</span>}
                     {rec.progress > 0 && <span className="bg-oneui-blue text-white text-[8px] font-black px-2 py-0.5 rounded uppercase tracking-widest">Watching</span>}
                   </div>
-                  {rec.progress > 0 && (
-                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
-                      <div className="h-full bg-oneui-blue" style={{ width: `${rec.progress}%` }} />
-                    </div>
-                  )}
                 </div>
                 <div className="p-5 space-y-1">
                   <p className="text-[9px] font-black text-oneui-blue uppercase tracking-widest">{rec.subject}</p>
@@ -160,29 +180,48 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Quick Actions Grid */}
-        <div className="grid grid-cols-2 gap-4 pb-10">
-          <div 
-            onClick={() => navigate('/exam')}
-            className="bg-white border border-slate-100 rounded-samsung p-5 shadow-sm flex flex-col justify-between h-40 tap-target active:scale-95 transition-all cursor-pointer"
-          >
-            <i className="fa-solid fa-file-invoice text-2xl text-oneui-blue"></i>
-            <div>
-              <p className="font-bold text-lg text-slate-800">Mock Exam</p>
-              <p className="text-xs text-slate-400">Full Syllabus #1</p>
-            </div>
+        {/* What Students Say (Testimonials Section) */}
+        <div className="space-y-4">
+          <div className="flex justify-between items-center px-2">
+            <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">What Students Say</h3>
+            <button className="text-[10px] font-black text-oneui-blue uppercase">View All</button>
           </div>
-          <div 
-            onClick={() => navigate('/practice')}
-            className="bg-white rounded-samsung p-5 border border-slate-100 flex flex-col justify-between h-40 tap-target active:scale-95 transition-all cursor-pointer"
-          >
-            <i className="fa-solid fa-bolt text-2xl text-yellow-500"></i>
-            <div>
-              <p className="font-bold text-lg text-slate-800">Daily Quiz</p>
-              <p className="text-xs text-slate-500">10 mins left</p>
-            </div>
+          
+          <div className="flex gap-4 overflow-x-auto no-scrollbar pb-6 -mx-5 px-5">
+            {testimonials.map((testimonial) => (
+              <div 
+                key={testimonial.id}
+                className="min-w-[300px] bg-white rounded-samsung p-6 shadow-sm border border-slate-100 flex flex-col gap-4 active:scale-[0.98] transition-all cursor-default"
+              >
+                <div className="flex items-center gap-4">
+                  <img 
+                    src={testimonial.avatar} 
+                    alt={testimonial.name} 
+                    className="w-12 h-12 rounded-full border border-slate-100 shadow-inner"
+                  />
+                  <div>
+                    <h4 className="font-black text-slate-900 leading-tight">{testimonial.name}</h4>
+                    <p className="text-[10px] font-bold text-oneui-blue uppercase tracking-widest">{testimonial.exam}</p>
+                  </div>
+                </div>
+                
+                <p className="text-[13px] text-slate-600 font-medium leading-relaxed italic line-clamp-3">
+                  "{testimonial.text}"
+                </p>
+
+                <div className="flex items-center gap-1 pt-2">
+                  {[...Array(5)].map((_, i) => (
+                    <i 
+                      key={i} 
+                      className={`fa-solid fa-star text-[10px] ${i < testimonial.rating ? 'text-yellow-400' : 'text-slate-100'}`}
+                    ></i>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
+
       </div>
     </div>
   );

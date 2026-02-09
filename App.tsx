@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import BottomNav from './components/BottomNav';
 import Dashboard from './pages/Dashboard';
 import Courses from './pages/Courses';
@@ -25,6 +25,45 @@ import Login from './pages/Auth/Login';
 import OTP from './pages/Auth/OTP';
 import Register from './pages/Auth/Register';
 import Onboarding from './pages/Onboarding';
+
+// Live Classes Screen Placeholder
+const LiveClassesList = () => {
+  const navigate = useNavigate();
+  return (
+    <div className="bg-oneui-bg min-h-screen pb-32">
+      <div className="oneui-header-space flex flex-col justify-end px-8 pb-8">
+         <h1 className="text-4xl font-light text-slate-900 leading-tight">Live<br/><span className="font-bold">Sessions</span></h1>
+      </div>
+      <div className="px-5 space-y-4">
+        <div 
+          onClick={() => navigate('/live/1')}
+          className="bg-white rounded-samsung p-6 shadow-xl border border-blue-100 relative overflow-hidden group active:scale-[0.98] transition-all cursor-pointer"
+        >
+          <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full -mr-16 -mt-16 blur-3xl animate-pulse" />
+          <div className="flex justify-between items-start mb-4">
+            <span className="bg-red-600 text-white text-[9px] font-black px-2.5 py-1 rounded-md uppercase tracking-widest animate-pulse">
+              Live
+            </span>
+            <div className="w-10 h-10 bg-blue-50 text-oneui-blue rounded-full flex items-center justify-center">
+              <i className="fa-solid fa-tower-broadcast"></i>
+            </div>
+          </div>
+          <h4 className="text-xl font-black text-slate-900 leading-tight mb-2">Cranial Nerves & Foramina: The Deep Dive</h4>
+          <p className="text-xs text-slate-500 font-bold mb-4">Dr. Anand Sharma • 1,240 Watching</p>
+          <button className="w-full h-12 bg-oneui-blue text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-blue-100">
+            Join Now
+          </button>
+        </div>
+
+        <div className="bg-white rounded-samsung p-6 border border-slate-100 shadow-sm opacity-60">
+           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Upcoming • 4:00 PM</p>
+           <h4 className="text-lg font-black text-slate-900 leading-tight mb-1">Systemic Pathology: Part 1</h4>
+           <p className="text-xs text-slate-400 font-bold">Dr. Sarah Johnson</p>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // Simple Profile Placeholder for Menu Navigation
 const ProfilePlaceholder = () => (
@@ -93,6 +132,7 @@ const App: React.FC = () => {
               <Route path="/courses" element={<Courses />} />
               <Route path="/practice" element={<Practice />} />
               <Route path="/tutor" element={<AITutorPanel />} />
+              <Route path="/live-list" element={<LiveClassesList />} />
               <Route path="/live/:id" element={<LiveClass />} />
               <Route path="/video/:id" element={<VideoPlayer />} />
               <Route path="/recorded-classes" element={<RecordedClasses />} />

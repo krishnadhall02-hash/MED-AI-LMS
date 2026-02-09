@@ -7,7 +7,7 @@ const BottomNav: React.FC = () => {
   
   const navItems = [
     { path: '/', icon: 'fa-house', label: 'Home' },
-    { path: '/calendar', icon: 'fa-calendar-days', label: 'Schedule' },
+    { path: '/live-list', icon: 'fa-tower-broadcast', label: 'Live' },
     { path: '/practice', icon: 'fa-stethoscope', label: 'Practice' },
     { path: '/tutor', icon: 'fa-robot', label: 'AI Tutor' },
     { path: '/tracker', icon: 'fa-chart-simple', label: 'Status' },

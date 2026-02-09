@@ -1,24 +1,25 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { generateMCQs } from '../services/gemini';
 import { MCQ } from '../types';
 
 const Practice: React.FC = () => {
+  const navigate = useNavigate();
   const [topic, setTopic] = useState('');
   const [mcqs, setMcqs] = useState<MCQ[]>([]);
   const [loading, setLoading] = useState(false);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selectedOpt, setSelectedOpt] = useState<number | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
-  const [attemptsToday, setAttemptsToday] = useState(2); // Mock: Free user has 2/3 attempts left
+  const [attemptsToday, setAttemptsToday] = useState(2); 
   const [showLimitModal, setShowLimitModal] = useState(false);
   
-  // Progressive Hint State
-  const [revealedHints, setRevealedHints] = useState<{
-    concept: boolean;
-    elimination: boolean;
-    clinical: boolean;
-  }>({ concept: false, elimination: false, clinical: false });
+  const [revealedHints, setRevealedHints] = useState({
+    concept: false,
+    elimination: false,
+    clinical: false,
+  });
 
   const startPractice = async () => {
     if (!topic) return;
@@ -54,95 +55,136 @@ const Practice: React.FC = () => {
       setSelectedOpt(null);
       setShowExplanation(false);
       resetHints();
+    } else {
+      // Finished AI Session
+      setMcqs([]);
     }
-  };
-
-  const revealHint = (type: keyof typeof revealedHints) => {
-    setRevealedHints(prev => ({ ...prev, [type]: true }));
   };
 
   const progress = mcqs.length > 0 ? ((currentIdx + 1) / mcqs.length) * 100 : 0;
 
   return (
-    <div className="flex flex-col h-full bg-oneui-bg">
-      {/* 1. Header & Progress Bar */}
+    <div className="flex flex-col h-full bg-oneui-bg min-h-screen">
+      {/* Header & Progress Bar */}
       <div className="pt-4 pb-2">
         <div className="flex justify-between items-center px-8 mb-4">
-          <h1 className="text-2xl font-black text-slate-900 leading-tight">Practice<br/><span className="font-light text-slate-500">Mode</span></h1>
+          <h1 className="text-2xl font-black text-slate-900 leading-tight">Practice<br/><span className="font-light text-slate-500">Hub</span></h1>
           <div className="flex flex-col items-end gap-1">
             <div className="bg-white px-4 py-2 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-2">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Attempts</span>
-              <span className={`text-xs font-bold ${attemptsToday >= 3 ? 'text-red-500' : 'text-slate-800'}`}>{attemptsToday}/3 Free</span>
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">AI Limit</span>
+              <span className={`text-xs font-bold ${attemptsToday >= 3 ? 'text-red-500' : 'text-slate-800'}`}>{attemptsToday}/3</span>
             </div>
-            {attemptsToday >= 3 && (
-              <span className="text-[8px] font-black text-red-400 uppercase tracking-widest bg-red-50 px-2 py-0.5 rounded">Daily Limit Reached</span>
-            )}
           </div>
         </div>
-        <div className="px-8 mb-4">
-          <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-oneui-blue transition-all duration-500 ease-out"
-              style={{ width: `${progress}%` }}
-            />
+        {mcqs.length > 0 && (
+          <div className="px-8 mb-4">
+            <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-oneui-blue transition-all duration-500 ease-out"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className="flex-1 overflow-y-auto px-5 pb-40 space-y-6">
-        {/* Topic Input (Only shown if no MCQs started) */}
+        {/* PART B: PRACTICE SECTION DASHBOARD (Only shown if no MCQs started) */}
         {mcqs.length === 0 && (
-          <div className="bg-white rounded-samsung p-6 shadow-sm border border-slate-100 space-y-4 animate-in fade-in duration-500">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 bg-blue-50 text-oneui-blue rounded-xl flex items-center justify-center text-xl">
-                <i className="fa-solid fa-stethoscope"></i>
-              </div>
-              <h3 className="font-bold text-slate-800 uppercase text-xs tracking-widest">Target Mastery</h3>
-            </div>
-            <p className="text-sm font-medium text-slate-500 leading-relaxed">Enter a clinical topic to generate personalized practice questions.</p>
-            <div className="relative">
-              <input 
-                type="text" 
-                placeholder="e.g. Hematology, Cranial Nerves"
-                className="w-full h-14 pl-4 pr-14 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-oneui-blue text-slate-800 font-bold"
-                value={topic}
-                onChange={(e) => setTopic(e.target.value)}
-              />
-              <button 
-                onClick={startPractice}
-                disabled={loading}
-                className={`absolute right-2 top-2 w-10 h-10 rounded-xl flex items-center justify-center shadow-lg active:scale-95 transition-all ${attemptsToday >= 3 ? 'bg-slate-300' : 'bg-oneui-blue text-white'}`}
+          <div className="space-y-6 animate-in fade-in duration-500">
+            
+            {/* Formal Testing Cards */}
+            <div className="grid grid-cols-2 gap-4">
+              <div 
+                onClick={() => navigate('/exam')}
+                className="bg-white border border-slate-100 rounded-samsung p-6 shadow-sm flex flex-col justify-between h-44 active:scale-95 transition-all cursor-pointer group"
               >
-                {loading ? <i className="fa-solid fa-spinner fa-spin"></i> : <i className="fa-solid fa-wand-magic-sparkles"></i>}
-              </button>
+                <div className="w-12 h-12 bg-blue-50 text-oneui-blue rounded-xl flex items-center justify-center text-2xl group-hover:bg-oneui-blue group-hover:text-white transition-colors">
+                  <i className="fa-solid fa-file-invoice"></i>
+                </div>
+                <div>
+                  <p className="font-black text-lg text-slate-800 leading-tight">Mock Exam</p>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Full Syllabus</p>
+                </div>
+              </div>
+
+              <div 
+                onClick={() => {}} // Simulation only
+                className="bg-white rounded-samsung p-6 border border-slate-100 shadow-sm flex flex-col justify-between h-44 active:scale-95 transition-all cursor-pointer group"
+              >
+                <div className="w-12 h-12 bg-yellow-50 text-yellow-600 rounded-xl flex items-center justify-center text-2xl group-hover:bg-yellow-500 group-hover:text-white transition-colors">
+                  <i className="fa-solid fa-bolt"></i>
+                </div>
+                <div>
+                  <p className="font-black text-lg text-slate-800 leading-tight">Daily Quiz</p>
+                  <p className="text-[10px] font-bold text-yellow-600 uppercase tracking-widest mt-1">10 mins left</p>
+                </div>
+              </div>
+            </div>
+
+            {/* AI Practice Generator */}
+            <div className="bg-white rounded-samsung p-8 shadow-sm border border-slate-100 space-y-6">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl">
+                  <i className="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <div>
+                   <h3 className="font-black text-slate-900 leading-tight">AI Question Bank</h3>
+                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Custom topic practice</p>
+                </div>
+              </div>
+              
+              <p className="text-sm font-medium text-slate-500 leading-relaxed">Enter a clinical topic or syllabus code (e.g., AN1.1) to generate high-yield MCQs.</p>
+              
+              <div className="relative">
+                <input 
+                  type="text" 
+                  placeholder="e.g. Hematology, Anatomy"
+                  className="w-full h-16 pl-5 pr-16 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-oneui-blue/5 text-slate-800 font-bold text-lg"
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
+                />
+                <button 
+                  onClick={startPractice}
+                  disabled={loading}
+                  className={`absolute right-2 top-2 w-12 h-12 rounded-xl flex items-center justify-center shadow-lg active:scale-90 transition-all ${attemptsToday >= 3 ? 'bg-slate-300' : 'bg-oneui-blue text-white'}`}
+                >
+                  {loading ? <i className="fa-solid fa-spinner fa-spin"></i> : <i className="fa-solid fa-arrow-right"></i>}
+                </button>
+              </div>
+
+              {attemptsToday >= 3 && (
+                 <div className="bg-red-50 p-4 rounded-2xl border border-red-100 flex items-center gap-3">
+                    <i className="fa-solid fa-lock text-red-500"></i>
+                    <p className="text-[10px] font-black text-red-600 uppercase tracking-widest">Daily AI limit reached. Upgrade to Pro.</p>
+                 </div>
+              )}
+            </div>
+
+            {/* AI Tutor Integration Nudge */}
+            <div className="bg-slate-900 rounded-[32px] p-8 text-white space-y-6 shadow-2xl relative overflow-hidden group">
+               <div className="absolute bottom-0 right-0 w-40 h-40 bg-oneui-blue/20 rounded-full -mb-20 -mr-20 blur-3xl"></div>
+               <div className="flex items-center gap-4 relative z-10">
+                  <div className="w-12 h-12 bg-oneui-blue rounded-2xl flex items-center justify-center text-2xl">
+                     <i className="fa-solid fa-robot"></i>
+                  </div>
+                  <h4 className="font-bold text-lg">Weakness Analysis</h4>
+               </div>
+               <p className="text-sm font-medium leading-relaxed opacity-80 relative z-10">
+                  Our AI has detected gaps in your <span className="text-oneui-blue font-black">Neuroanatomy</span> knowledge. Would you like to practice high-yield foramen MCQs?
+               </p>
+               <button className="w-full h-14 bg-white text-slate-900 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl active:scale-95 transition-all relative z-10">
+                  Analyze My Gaps
+               </button>
             </div>
           </div>
         )}
 
-        {/* Upgrade Nudge in Practice Screen */}
-        {mcqs.length === 0 && attemptsToday < 3 && (
-           <div className="bg-indigo-600 p-6 rounded-[28px] text-white space-y-4 shadow-xl shadow-blue-50">
-              <div className="flex items-center gap-3">
-                 <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-xl backdrop-blur-md">
-                    <i className="fa-solid fa-bolt-lightning"></i>
-                 </div>
-                 <h4 className="font-bold">Endless Practice</h4>
-              </div>
-              <p className="text-xs font-medium opacity-80 leading-relaxed">
-                 Free users get 3 practice sessions per day. Go Pro to unlock unlimited high-yield question generation.
-              </p>
-              <button className="w-full h-12 bg-white text-indigo-600 rounded-xl font-black text-[10px] uppercase tracking-widest active:scale-95 transition-all">
-                 Upgrade Plan
-              </button>
-           </div>
-        )}
-
-        {/* MCQ Question Screen */}
+        {/* MCQ Question Screen (Visible when MCQs are loaded) */}
         {mcqs.length > 0 && (
           <div className="space-y-6 animate-in slide-in-from-right duration-300">
-            {/* Same MCQ layout as before */}
             <div className="flex items-center justify-between text-[11px] font-black text-slate-400 px-2 tracking-widest">
-              <span>Q{currentIdx + 1} OF {mcqs.length}</span>
+              <span>QUESTION {currentIdx + 1} OF {mcqs.length}</span>
               <span className={`uppercase px-3 py-1 rounded-full ${
                 mcqs[currentIdx].difficulty === 'hard' ? 'bg-red-50 text-red-500 border border-red-100' : 'bg-emerald-50 text-emerald-500 border border-emerald-100'
               }`}>
@@ -190,7 +232,6 @@ const Practice: React.FC = () => {
                 })}
               </div>
 
-              {/* Explanation Screen */}
               {showExplanation && (
                 <div className="pt-8 border-t border-slate-100 space-y-6 animate-in fade-in">
                   <div className="bg-slate-50 p-6 rounded-2xl space-y-4">
@@ -219,7 +260,7 @@ const Practice: React.FC = () => {
         )}
       </div>
 
-      {/* Daily Limit Modal (1.12B) */}
+      {/* Daily Limit Modal */}
       {showLimitModal && (
         <div className="fixed inset-0 z-[100] flex flex-col justify-end bg-black/40 backdrop-blur-sm animate-in fade-in duration-300">
            <div className="absolute inset-0" onClick={() => setShowLimitModal(false)} />
@@ -230,15 +271,15 @@ const Practice: React.FC = () => {
                     <i className="fa-solid fa-hourglass-end"></i>
                  </div>
                  <div className="space-y-2">
-                    <h2 className="text-2xl font-black text-slate-900">Daily Limit Reached</h2>
+                    <h2 className="text-2xl font-black text-slate-900">AI Limit Reached</h2>
                     <p className="text-sm text-slate-500 font-medium px-8 leading-relaxed">
-                      You've used all 3 free practice sessions for today. Upgrade to Pro for unlimited AI-generated questions and progressive hints.
+                      You've used all free AI practice sessions for today. Formal testing (Mock Exams & Quizzes) remains available.
                     </p>
                  </div>
                  <button className="w-full h-16 bg-oneui-blue text-white rounded-samsung font-black text-lg shadow-xl shadow-blue-100 active:scale-95 transition-all">
-                    Unlock Unlimited Practice
+                    Unlock Unlimited AI
                  </button>
-                 <button onClick={() => setShowLimitModal(false)} className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Maybe Tomorrow</button>
+                 <button onClick={() => setShowLimitModal(false)} className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Back to Hub</button>
               </div>
            </div>
         </div>
