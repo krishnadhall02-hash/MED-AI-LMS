@@ -26,6 +26,7 @@ import FacultyList from './pages/FacultyList';
 import BookingFlow from './pages/BookingFlow';
 import DailyQuiz from './pages/DailyQuiz';
 import Leaderboard from './pages/Leaderboard';
+import Profile from './pages/Profile';
 import Login from './pages/Auth/Login';
 import OTP from './pages/Auth/OTP';
 import Register from './pages/Auth/Register';
@@ -69,24 +70,6 @@ const LiveClassesList = () => {
     </div>
   );
 };
-
-// Simple Profile Placeholder for Menu Navigation
-const ProfilePlaceholder = () => (
-  <div className="bg-oneui-bg min-h-screen">
-    <div className="oneui-header-space flex flex-col justify-end px-8 pb-8">
-       <h1 className="text-4xl font-light text-oneui-text-primary leading-tight">Student<br/><span className="font-bold">Profile</span></h1>
-    </div>
-    <div className="px-8 space-y-6">
-       <div className="bg-oneui-surface p-8 rounded-samsung border border-oneui-border shadow-sm space-y-6 text-center">
-          <img src="https://i.pravatar.cc/150?u=sarah" className="w-32 h-32 rounded-full border-4 border-oneui-blue mx-auto shadow-xl" />
-          <div>
-            <h2 className="text-2xl font-black text-oneui-text-primary">Dr. Sarah Johnson</h2>
-            <p className="text-oneui-text-secondary font-bold uppercase text-[10px] tracking-widest">Enrollment: MED-9421-S24U</p>
-          </div>
-       </div>
-    </div>
-  </div>
-);
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -153,7 +136,7 @@ const App: React.FC = () => {
               <Route path="/community/:id" element={<ThreadDetail />} />
               <Route path="/notifications" element={<Notifications />} />
               <Route path="/notification-settings" element={<NotificationSettings />} />
-              <Route path="/profile" element={<ProfilePlaceholder />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="/expert-advice" element={<ExpertAdvice />} />
               <Route path="/faculty-list" element={<FacultyList />} />
               <Route path="/book-appointment/:facultyId" element={<BookingFlow />} />
