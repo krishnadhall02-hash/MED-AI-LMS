@@ -62,10 +62,10 @@ const SplashScreen: React.FC = () => {
           </svg>
         </div>
         <div className="text-center space-y-3">
-          <h1 className="text-5xl font-black tracking-[0.25em] text-white italic">SYNAPSE</h1>
+          <h1 className="text-4xl font-black tracking-[0.2em] text-white italic">SYNAPSE</h1>
           <div className="flex items-center justify-center gap-4">
             <div className="h-[1px] w-8 bg-synapse-aqua/30"></div>
-            <p className="text-synapse-aqua text-[11px] font-black uppercase tracking-[0.5em] opacity-80">Medical AI Core</p>
+            <p className="text-synapse-aqua text-[11px] font-black uppercase tracking-[0.5em] opacity-80">MEDPOINT AI CORE</p>
             <div className="h-[1px] w-8 bg-synapse-aqua/30"></div>
           </div>
         </div>
@@ -135,25 +135,27 @@ const AppContent: React.FC = () => {
     const timer = setTimeout(() => {
       setShowSplash(false);
       const token = localStorage.getItem('auth_token');
-      if (token) setIsAuthenticated(true);
+      const onboarded = localStorage.getItem('profile_synced');
+      if (token && onboarded) setIsAuthenticated(true);
+      else if (token && !onboarded) setAuthStep('ONBOARDING');
     }, 2800);
     return () => clearTimeout(timer);
   }, []);
 
-  const handleLoginSuccess = async () => {
-    try {
-      localStorage.setItem('auth_token', 'mock_secure_token_' + Date.now());
-      await new Promise(resolve => setTimeout(resolve, 800));
-      localStorage.setItem('user_cached_data', JSON.stringify({ name: 'Dr. Sarah', role: 'STUDENT' }));
+  const handleOTPVerify = async () => {
+    localStorage.setItem('auth_token', 'mock_secure_token_' + Date.now());
+    const onboarded = localStorage.getItem('profile_synced');
+    if (onboarded) {
       setIsAuthenticated(true);
       navigate('/', { replace: true });
-    } catch (e) {
-      console.error("Auth redirection failed", e);
+    } else {
+      setAuthStep('ONBOARDING');
     }
   };
 
   const handleGlobalLogout = () => {
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('profile_synced');
     localStorage.removeItem('daily_quiz_attempted');
     localStorage.removeItem('user_cached_data');
     setIsAuthenticated(false);
@@ -165,11 +167,16 @@ const AppContent: React.FC = () => {
   const renderAuthFlow = () => {
     switch (authStep) {
       case 'OTP':
-        return <OTP identifier={identifier} onVerify={handleLoginSuccess} onBack={() => setAuthStep('LOGIN')} />;
+        return <OTP identifier={identifier} onVerify={handleOTPVerify} onBack={() => setAuthStep('LOGIN')} />;
       case 'REGISTER':
         return <Register onSuccess={(id) => { setIdentifier(id); setAuthStep('OTP'); }} onBack={() => setAuthStep('LOGIN')} />;
       case 'ONBOARDING':
-        return <Onboarding onComplete={() => { setIsAuthenticated(true); navigate('/', { replace: true }); }} />;
+        return <Onboarding onComplete={(data) => { 
+          localStorage.setItem('profile_synced', 'true');
+          localStorage.setItem('user_cached_data', JSON.stringify({ ...data, name: 'Dr. Aspirant' }));
+          setIsAuthenticated(true); 
+          navigate('/', { replace: true }); 
+        }} />;
       default:
         return <Login onNext={(id) => { setIdentifier(id); setAuthStep('OTP'); }} onNavigateRegister={() => setAuthStep('REGISTER')} />;
     }
@@ -179,7 +186,6 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="mobile-frame">
-      {/* 1. STATUS BAR (Safe Area Top - Fixed height, non-scrolling) */}
       <div className="shrink-0 z-[100] px-6 flex justify-between items-center text-white bg-synapse-dark/40 backdrop-blur-xl border-b border-white/5" style={{ height: 'var(--safe-area-top)' }}>
         <span className="font-bold text-sm">9:41</span>
         <div className="flex gap-2 text-xs opacity-60">
@@ -189,7 +195,6 @@ const AppContent: React.FC = () => {
         </div>
       </div>
 
-      {/* 2. SCROLLABLE CONTENT */}
       <main className="flex-1 overflow-x-hidden overflow-y-auto no-scrollbar relative">
         {!isAuthenticated ? (
           <div className="h-full">
@@ -231,7 +236,6 @@ const AppContent: React.FC = () => {
         )}
       </main>
 
-      {/* 3. NAVIGATION (Fixed height with Safe Area Bottom) */}
       {isAuthenticated && <BottomNav />}
     </div>
   );

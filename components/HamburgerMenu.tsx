@@ -20,16 +20,13 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onClose }) => {
 
   return (
     <>
-      {/* Background Dimming Overlay */}
       <div 
         className={`fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         onClick={onClose}
       />
 
-      {/* Slide-in Drawer UI (Right side) */}
       <div className={`fixed top-0 right-0 bottom-0 w-[80%] max-w-[340px] bg-oneui-bg z-[70] shadow-2xl transition-transform duration-500 ease-out flex flex-col ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         
-        {/* Drawer Header (One UI Style) */}
         <div className="oneui-header-space flex flex-col justify-end px-8 pb-8 bg-oneui-bg border-b border-slate-200/50">
           <div className="flex justify-end mb-4">
              <button onClick={onClose} aria-label="Close menu" className="w-10 h-10 flex items-center justify-center text-slate-400 active:scale-90">
@@ -42,12 +39,11 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onClose }) => {
             </div>
             <div>
                <h2 className="text-xl font-black text-slate-900 leading-tight">Dr. Sarah</h2>
-               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">NEET PG Aspirant</p>
+               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Aspirant • Synced</p>
             </div>
           </div>
         </div>
 
-        {/* Menu Items */}
         <div className="flex-1 overflow-y-auto py-6 px-4 space-y-2">
           {menuItems.map((item, idx) => (
             <button
@@ -68,10 +64,9 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onClose }) => {
           ))}
         </div>
 
-        {/* Footer Info */}
         <div className="p-8 text-center space-y-2">
-           <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest">MedAI LMS v2.4.0</p>
-           <p className="text-[9px] font-bold text-slate-400 uppercase">Hardware ID: S24U-9421-MED</p>
+           <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest">SYNAPSE MEDPOINT v2.4.0</p>
+           <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest opacity-40">Hardware ID: S24U-9421-MED</p>
         </div>
       </div>
     </>

@@ -123,7 +123,7 @@ const OTP: React.FC<OTPProps> = ({ identifier, onVerify, onBack }) => {
         <div className="bg-synapse-surface/50 p-5 rounded-2xl flex items-start gap-4 border border-synapse-border">
            <i className="fa-solid fa-shield-halved text-synapse-aqua text-lg mt-0.5"></i>
            <p className="text-xs text-oneui-text-secondary leading-relaxed font-medium">
-             This device (S24 Ultra) will be linked to <span className="text-oneui-text-primary font-bold">Dr. Sarah's Profile</span>.
+             Security: Your Medpoint ID will be bound to this hardware.
            </p>
         </div>
 
@@ -132,7 +132,7 @@ const OTP: React.FC<OTPProps> = ({ identifier, onVerify, onBack }) => {
           disabled={isVerifying || otp.join('').length < 4}
           className="w-full h-20 bg-synapse-aqua text-synapse-deep rounded-samsung font-black text-xl shadow-[0_10px_40px_rgba(45,212,191,0.2)] active:scale-95 disabled:opacity-30 transition-all flex items-center justify-center gap-4"
         >
-          {isVerifying ? <i className="fa-solid fa-circle-notch fa-spin"></i> : 'Complete Sync'}
+          {isVerifying ? <i className="fa-solid fa-circle-notch fa-spin"></i> : 'Complete Link'}
         </button>
       </div>
     </div>

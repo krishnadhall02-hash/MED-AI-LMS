@@ -22,10 +22,10 @@ const Login: React.FC<LoginProps> = ({ onNext, onNavigateRegister }) => {
     <div className="flex flex-col h-full bg-transparent p-8 animate-in fade-in duration-700">
       <div className="flex-1 flex flex-col justify-center space-y-12">
         <div className="space-y-4">
-          <div className="w-16 h-16 synapse-gradient rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(45,212,191,0.3)] mb-8">
+          <div className="w-16 h-16 bg-gradient-to-br from-synapse-aqua to-teal-600 rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(45,212,191,0.3)] mb-8">
             <i className="fa-solid fa-brain text-white text-3xl"></i>
           </div>
-          <h1 className="text-5xl font-black text-white leading-tight tracking-tight">Access<br/><span className="text-synapse-aqua">Synapse AI</span></h1>
+          <h1 className="text-5xl font-black text-white leading-tight tracking-tight uppercase">Synapse<br/><span className="text-synapse-aqua">Medpoint</span></h1>
           <p className="text-slate-400 font-medium text-lg">Next-gen medical preparation platform.</p>
         </div>
 
@@ -47,7 +47,7 @@ const Login: React.FC<LoginProps> = ({ onNext, onNavigateRegister }) => {
           <div className="bg-synapse-aqua/5 border border-synapse-aqua/10 p-5 rounded-2xl flex items-start gap-4">
             <i className="fa-solid fa-shield-bolt text-synapse-aqua mt-1"></i>
             <p className="text-xs text-slate-300 leading-relaxed font-medium">
-              <span className="font-black text-synapse-aqua">End-to-End Encryption:</span> Your learning metrics and AI profile are secured using military-grade AES-256 device binding.
+              <span className="font-black text-synapse-aqua">End-to-End Encryption:</span> Your learning metrics and medical profile are secured using military-grade AES-256 device binding.
             </p>
           </div>
         </div>
@@ -58,7 +58,7 @@ const Login: React.FC<LoginProps> = ({ onNext, onNavigateRegister }) => {
           onClick={handleNext}
           className="w-full h-20 bg-synapse-aqua text-synapse-dark rounded-samsung font-black text-xl shadow-[0_10px_40px_rgba(45,212,191,0.2)] hover:scale-[0.98] active:scale-95 transition-all flex items-center justify-center gap-3"
         >
-          Initialize Login
+          Initialize Sync
           <i className="fa-solid fa-chevron-right text-xs opacity-50"></i>
         </button>
         <button 

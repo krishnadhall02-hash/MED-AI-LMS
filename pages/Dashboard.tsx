@@ -9,6 +9,17 @@ const Dashboard: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [quizAttempted, setQuizAttempted] = useState(false);
   const [isImageViewOpen, setIsImageViewOpen] = useState(false);
+  const [userData, setUserData] = useState<any>(null);
+
+  useEffect(() => {
+    const raw = localStorage.getItem('user_cached_data');
+    if (raw) setUserData(JSON.parse(raw));
+    
+    const attempted = localStorage.getItem('daily_quiz_attempted');
+    if (attempted === 'true') {
+      setQuizAttempted(true);
+    }
+  }, []);
 
   // Mock data for the "Today Image"
   const dailyImage = {
@@ -25,15 +36,8 @@ const Dashboard: React.FC = () => {
     tag: "Physiology • Neuro"
   };
 
-  useEffect(() => {
-    const attempted = localStorage.getItem('daily_quiz_attempted');
-    if (attempted === 'true') {
-      setQuizAttempted(true);
-    }
-  }, []);
-
   return (
-    <div className="pb-40 min-h-screen relative overflow-x-hidden">
+    <div className="pb-40 min-h-screen relative overflow-x-hidden bg-oneui-bg">
       <HamburgerMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
 
       {/* Header with standardized safe padding */}
@@ -57,7 +61,7 @@ const Dashboard: React.FC = () => {
               <i className="fa-solid fa-bars"></i>
            </button>
         </div>
-        <h1 className="text-4xl font-light text-oneui-text-primary leading-tight tracking-tight">Syncing,<br/><span className="font-black text-synapse-aqua">Dr. Sarah</span></h1>
+        <h1 className="text-4xl font-light text-oneui-text-primary leading-tight tracking-tight uppercase">Ready,<br/><span className="font-black text-synapse-aqua tracking-tighter">Dr. {userData?.name?.split(' ')[1] || 'Sarah'}</span></h1>
       </div>
 
       <div className="px-5 space-y-8 pb-12">
@@ -101,7 +105,7 @@ const Dashboard: React.FC = () => {
                 <i className="fa-solid fa-microchip"></i>
               </div>
               <div className="flex-1">
-                <h4 className="text-lg font-black text-oneui-text-primary leading-tight">Today's Synapse</h4>
+                <h4 className="text-lg font-black text-oneui-text-primary leading-tight">Medpoint Synapse</h4>
                 <p className="text-xs text-oneui-text-secondary font-medium mt-1 leading-relaxed">
                   {quizAttempted ? 'Neural pathways strengthened. +20 Points earned.' : 'Connect your concepts. Solve today\'s high-yield clinical case.'}
                 </p>

@@ -1,5 +1,5 @@
 {
-  "name": "MedAI LMS Portal",
+  "name": "SYNAPSE MEDPOINT",
   "description": "An advanced AI-powered Medical Learning Management System featuring a specialized medical tutor, AI-generated question banks, performance analytics, and DRM-protected video delivery simulations.",
   "requestFramePermissions": [
     "microphone",
