@@ -3,11 +3,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>MedAI - One UI Edition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Synapse AI - Medical LMS</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
@@ -16,52 +16,69 @@
             'samsung': '28px',
           },
           colors: {
-            'oneui-blue': '#475569', // Slate 600
-            'oneui-bg': '#f4f4f4',   // Light Grey Background
-            'oneui-surface': '#ffffff', 
-            'oneui-border': '#e0e0e0', 
-            'oneui-text-primary': '#212121', 
-            'oneui-text-secondary': '#757575',
-            'oneui-footer-bg': '#e2e8f0', // Neutral Light-Medium Grey for Footer
-            'slate-accent': {
-              50: '#f8fafc',
-              100: '#f1f5f9',
-              200: '#e2e8f0',
-              800: '#1e293b',
-              900: '#0f172a'
-            }
+            'synapse-deep': '#020617',
+            'synapse-dark': '#0a191e',
+            'synapse-surface': '#111d27',
+            'synapse-elevated': '#1e293b',
+            'synapse-border': 'rgba(45, 212, 191, 0.15)',
+            'oneui-text-primary': '#f1f5f9',
+            'oneui-text-secondary': '#94a3b8',
+            'oneui-text-muted': '#64748b',
+            'synapse-aqua': '#2dd4bf',
+            'synapse-success': '#10b981',
+            'synapse-error': '#f87171',
+            'synapse-warning': '#fbbf24',
+            'oneui-blue': '#2dd4bf',
+            'oneui-bg': '#0a191e',
+            'oneui-surface': '#111d27',
+            'oneui-border': '#1e2d3d'
           }
         }
       }
     }
   </script>
   <style>
+    :root {
+      --safe-area-top: 48px;
+      --safe-area-bottom: 32px;
+    }
     body { 
       font-family: 'Inter', sans-serif; 
       background-color: #000; 
       overflow: hidden;
+      color: #f1f5f9;
     }
     .mobile-frame {
       width: 100%;
       max-width: 430px; 
       height: 100vh;
       margin: 0 auto;
-      background: #f4f4f4; 
+      background: linear-gradient(180deg, #0a191e 0%, #020617 100%); 
       position: relative;
-      overflow-y: auto;
-      overflow-x: hidden;
-      box-shadow: 0 0 50px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 0 50px rgba(0,0,0,0.8);
     }
     ::-webkit-scrollbar { display: none; }
-    .oneui-header-space { height: 25vh; }
-    .tap-target { min-height: 56px; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     
-    .bg-blue-50 { background-color: #f8fafc !important; }
-    .text-oneui-blue { color: #475569 !important; }
-    .border-oneui-blue { border-color: #475569 !important; }
-    .shadow-blue-100 { shadow-color: rgba(71, 85, 105, 0.1) !important; }
-    .shadow-blue-200 { shadow-color: rgba(71, 85, 105, 0.2) !important; }
-    .shadow-blue-500\/20 { shadow-color: rgba(71, 85, 105, 0.2) !important; }
+    .oneui-header-space { 
+      padding-top: 4rem;
+      min-height: 25vh; 
+    }
+    
+    .synapse-glass {
+      background: rgba(17, 29, 39, 0.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(45, 212, 191, 0.1);
+    }
+    
+    input, select, textarea {
+      background-color: #111d27 !important;
+      color: #f1f5f9 !important;
+      border-color: rgba(45, 212, 191, 0.15) !important;
+    }
   </style>
   <script type="importmap">
   {

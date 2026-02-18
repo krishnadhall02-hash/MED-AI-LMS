@@ -34,53 +34,109 @@ import OTP from './pages/Auth/OTP';
 import Register from './pages/Auth/Register';
 import Onboarding from './pages/Onboarding';
 
-// Live Classes Screen Placeholder
-const LiveClassesList = () => {
-  const navigate = useNavigate();
+const SplashScreen: React.FC = () => {
   return (
-    <div className="bg-oneui-bg min-h-screen pb-32">
+    <div className="fixed inset-0 z-[200] bg-synapse-deep flex flex-col items-center justify-center animate-in fade-in duration-700">
+      <div className="relative flex flex-col items-center">
+        <div className="w-48 h-48 relative mb-10">
+          <div className="absolute inset-0 bg-synapse-aqua/10 rounded-full blur-[60px] animate-pulse"></div>
+          <svg viewBox="0 0 200 200" className="w-full h-full drop-shadow-[0_0_20px_rgba(45,212,191,0.4)]">
+            <circle cx="100" cy="100" r="85" fill="none" stroke="#1e2d3d" strokeWidth="8" strokeDasharray="15 5" />
+            <circle cx="100" cy="100" r="78" fill="none" stroke="#2dd4bf" strokeWidth="1" opacity="0.3" />
+            <circle cx="100" cy="100" r="70" fill="none" stroke="#111d27" strokeWidth="12" />
+            <circle cx="100" cy="100" r="70" fill="none" stroke="#2dd4bf" strokeWidth="2" strokeDasharray="2 10" className="animate-[spin_10s_linear_infinite]" />
+            <g transform="translate(60, 60) scale(0.8)">
+              <path d="M50 10 C30 10, 15 25, 15 45 C15 65, 30 80, 50 80 V10" fill="none" stroke="#2dd4bf" strokeWidth="3" strokeLinecap="round">
+                <animate attributeName="stroke-dasharray" values="0,200; 200,0; 0,200" dur="4s" repeatCount="indefinite" />
+              </path>
+              <path d="M50 10 C70 10, 85 25, 85 45 C85 65, 70 80, 50 80 V10" fill="none" stroke="#2dd4bf" strokeWidth="3" strokeLinecap="round">
+                <animate attributeName="stroke-dashoffset" values="200; 0; -200" dur="4s" repeatCount="indefinite" />
+              </path>
+              <circle cx="35" cy="30" r="2.5" fill="#2dd4bf" className="animate-pulse" />
+              <circle cx="65" cy="55" r="2.5" fill="#2dd4bf" className="animate-pulse delay-75" />
+              <circle cx="40" cy="65" r="2.5" fill="#2dd4bf" className="animate-pulse delay-150" />
+              <line x1="50" y1="15" x2="50" y2="75" stroke="#2dd4bf" strokeWidth="1" strokeDasharray="4 4" opacity="0.4" />
+            </g>
+            <circle cx="100" cy="100" r="5" fill="#2dd4bf" className="animate-ping" />
+          </svg>
+        </div>
+        <div className="text-center space-y-3">
+          <h1 className="text-5xl font-black tracking-[0.25em] text-white italic">SYNAPSE</h1>
+          <div className="flex items-center justify-center gap-4">
+            <div className="h-[1px] w-8 bg-synapse-aqua/30"></div>
+            <p className="text-synapse-aqua text-[11px] font-black uppercase tracking-[0.5em] opacity-80">Medical AI Core</p>
+            <div className="h-[1px] w-8 bg-synapse-aqua/30"></div>
+          </div>
+        </div>
+      </div>
+      <div className="absolute bottom-16 w-16 h-1 bg-synapse-surface rounded-full overflow-hidden border border-white/5 shadow-inner">
+        <div className="h-full bg-synapse-aqua animate-[loading_2.5s_ease-in-out_infinite]" style={{ width: '40%' }}></div>
+      </div>
+      <style>{`
+        @keyframes loading {
+          0% { transform: translateX(-150%); }
+          50% { transform: translateX(50%); }
+          100% { transform: translateX(150%); }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+const LiveClassesList: React.FC = () => {
+  const navigate = useNavigate();
+  const classes = [
+    { id: '1', title: 'Neuroanatomy Masterclass', mentor: 'Dr. Anand Sharma', viewers: '1.2k', tags: ['High Yield', 'Anatomy'] },
+    { id: '2', title: 'ECG in 60 Minutes', mentor: 'Dr. Sarah Johnson', viewers: '850', tags: ['Medicine', 'Clinical'] },
+    { id: '3', title: 'Renal Physiology Core', mentor: 'Dr. Vikram Mehra', viewers: '540', tags: ['Physiology'] },
+  ];
+
+  return (
+    <div className="pb-40 min-h-screen bg-synapse-deep">
       <div className="oneui-header-space flex flex-col justify-end px-8 pb-8">
-         <h1 className="text-4xl font-light text-oneui-text-primary leading-tight">Live<br/><span className="font-bold">Sessions</span></h1>
+        <h1 className="text-4xl font-light text-white leading-tight">Live<br /><span className="font-black text-synapse-aqua">Broadcasts</span></h1>
       </div>
       <div className="px-5 space-y-4">
-        <div 
-          onClick={() => navigate('/live/1')}
-          className="bg-oneui-surface rounded-samsung p-6 shadow-xl border border-oneui-border relative overflow-hidden group active:scale-[0.98] transition-all cursor-pointer"
-        >
-          <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full -mr-16 -mt-16 blur-3xl animate-pulse" />
-          <div className="flex justify-between items-start mb-4">
-            <span className="bg-red-600 text-white text-[9px] font-black px-2.5 py-1 rounded-md uppercase tracking-widest animate-pulse">
-              Live
-            </span>
-            <div className="w-10 h-10 bg-blue-50 text-oneui-blue rounded-full flex items-center justify-center">
-              <i className="fa-solid fa-tower-broadcast"></i>
+        {classes.map(c => (
+          <div 
+            key={c.id} 
+            onClick={() => navigate(`/live/${c.id}`)}
+            className="bg-synapse-surface/40 backdrop-blur-md border border-synapse-border rounded-samsung p-6 space-y-4 active:scale-95 transition-all cursor-pointer"
+          >
+            <div className="flex justify-between items-start">
+              <span className="bg-red-600 text-white text-[9px] font-black px-2 py-1 rounded uppercase animate-pulse">Live Now</span>
+              <div className="flex gap-2">
+                {c.tags.map(t => (
+                  <span key={t} className="text-[8px] font-bold text-slate-400 uppercase border border-slate-700 px-2 py-0.5 rounded-full">{t}</span>
+                ))}
+              </div>
             </div>
+            <div>
+              <h3 className="text-xl font-black text-white">{c.title}</h3>
+              <p className="text-xs text-slate-400 font-medium">{c.mentor} • {c.viewers} connected</p>
+            </div>
+            <button className="w-full h-12 bg-white/10 text-white border border-white/10 rounded-xl font-black text-[10px] uppercase tracking-widest">Join Session</button>
           </div>
-          <h4 className="text-xl font-black text-oneui-text-primary leading-tight mb-2">Cranial Nerves & Foramina: The Deep Dive</h4>
-          <p className="text-xs text-oneui-text-secondary font-bold mb-4">Dr. Anand Sharma • 1,240 Watching</p>
-          <button className="w-full h-12 bg-oneui-blue text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-blue-100">
-            Join Now
-          </button>
-        </div>
+        ))}
       </div>
     </div>
   );
 };
 
-// Root content component to enable useNavigate
 const AppContent: React.FC = () => {
   const navigate = useNavigate();
+  const [showSplash, setShowSplash] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authStep, setAuthStep] = useState<'LOGIN' | 'OTP' | 'REGISTER' | 'ONBOARDING'>('LOGIN');
   const [identifier, setIdentifier] = useState('');
-  const [isInitializing, setIsInitializing] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('auth_token');
-    if (token) {
-      setIsAuthenticated(true);
-    }
-    setIsInitializing(false);
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+      const token = localStorage.getItem('auth_token');
+      if (token) setIsAuthenticated(true);
+    }, 2800);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleLoginSuccess = async () => {
@@ -118,26 +174,22 @@ const AppContent: React.FC = () => {
     }
   };
 
-  if (isInitializing) {
-    return (
-      <div className="mobile-frame bg-oneui-bg flex items-center justify-center">
-         <div className="w-16 h-16 border-4 border-oneui-blue border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
-  }
+  if (showSplash) return <SplashScreen />;
 
   return (
-    <div className="mobile-frame flex flex-col">
-      <div className="sticky top-0 z-50 px-6 py-3 flex justify-between items-center text-oneui-text-primary bg-oneui-bg">
+    <div className="mobile-frame">
+      {/* 1. STATUS BAR (Safe Area Top - Fixed height, non-scrolling) */}
+      <div className="shrink-0 z-[100] px-6 flex justify-between items-center text-white bg-synapse-dark/40 backdrop-blur-xl border-b border-white/5" style={{ height: 'var(--safe-area-top)' }}>
         <span className="font-bold text-sm">9:41</span>
-        <div className="flex gap-2 text-xs">
+        <div className="flex gap-2 text-xs opacity-60">
           <i className="fa-solid fa-signal"></i>
           <i className="fa-solid fa-wifi"></i>
-          <i className="fa-solid fa-battery-full"></i>
+          <i className="fa-solid fa-battery-full text-synapse-aqua"></i>
         </div>
       </div>
 
-      <main className="flex-1 overflow-x-hidden overflow-y-auto bg-oneui-bg">
+      {/* 2. SCROLLABLE CONTENT */}
+      <main className="flex-1 overflow-x-hidden overflow-y-auto no-scrollbar relative">
         {!isAuthenticated ? (
           <div className="h-full">
             {renderAuthFlow()}
@@ -177,6 +229,7 @@ const AppContent: React.FC = () => {
         )}
       </main>
 
+      {/* 3. NAVIGATION (Fixed height with Safe Area Bottom) */}
       {isAuthenticated && <BottomNav />}
     </div>
   );

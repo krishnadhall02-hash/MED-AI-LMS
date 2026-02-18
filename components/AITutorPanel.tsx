@@ -14,7 +14,7 @@ const AITutorPanel: React.FC<AITutorPanelProps> = ({ context: initialContext, is
   const [isLoading, setIsLoading] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [activeContext, setActiveContext] = useState(initialContext || 'Neuroanatomy • Cardiology History');
+  const [activeContext, setActiveContext] = useState(initialContext || 'Neuroanatomy • Cardiology');
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -41,8 +41,7 @@ const AITutorPanel: React.FC<AITutorPanelProps> = ({ context: initialContext, is
     setIsLoading(true);
 
     try {
-      // Pass performance and history context string
-      const fullContext = `Current Topic: ${activeContext}. User has watched 45% of Anatomy videos. Weak in: Nerve pathways.`;
+      const fullContext = `Current Topic: ${activeContext}. User level: Intern. Focus on high-yield mnemonics.`;
       const response = await getAIResponse(textToSend, fullContext);
       
       let type: ChatMessage['type'] = 'general';
@@ -93,31 +92,30 @@ const AITutorPanel: React.FC<AITutorPanelProps> = ({ context: initialContext, is
   const toggleListen = () => {
     setIsListening(!isListening);
     if (!isListening) {
-      // Simulate voice input after a delay
       setTimeout(() => {
-        setInput('Generate a mnemonic for cranial nerves I to VI');
+        setInput('Give me a mnemonic for cranial nerves');
         setIsListening(false);
       }, 2000);
     }
   };
 
   const suggestions = [
-    { label: 'Explain last MCQ', prompt: 'Can you explain the last question I got wrong in the Neuroanatomy quiz?' },
-    { label: 'Mnemonic: CN Nerves', prompt: 'Give me a fun mnemonic for the cranial nerves.' },
-    { label: 'Clinical correlation', prompt: 'What is the clinical correlation for a lesion in the Optic Chiasm?' },
+    { label: 'Explain last MCQ', prompt: 'Can you explain the last question I got wrong?' },
+    { label: 'Mnemonic: Nerves', prompt: 'Give me a mnemonic for the cranial nerves.' },
+    { label: 'Clinical context', prompt: 'What is the clinical correlation for an Optic Chiasm lesion?' },
   ];
 
   const renderMessageContent = (m: ChatMessage) => {
-    if (m.role === 'user') return <p>{m.text}</p>;
+    if (m.role === 'user') return <p className="text-synapse-deep font-bold">{m.text}</p>;
 
     switch (m.type) {
       case 'mnemonic':
         return (
           <div className="space-y-3">
-            <div className="flex items-center gap-2 text-amber-600 font-black text-[10px] uppercase tracking-widest bg-amber-50 px-2 py-1 rounded w-fit">
+            <div className="flex items-center gap-2 text-amber-400 font-black text-[10px] uppercase tracking-widest bg-amber-400/10 px-2 py-1 rounded w-fit border border-amber-400/20">
               <i className="fa-solid fa-lightbulb"></i> Mnemonic Aid
             </div>
-            <div className="bg-amber-50/50 p-4 rounded-xl border border-amber-100 italic text-slate-700">
+            <div className="bg-synapse-deep/50 p-4 rounded-xl border border-synapse-border italic text-oneui-text-primary">
               {m.text}
             </div>
           </div>
@@ -125,50 +123,50 @@ const AITutorPanel: React.FC<AITutorPanelProps> = ({ context: initialContext, is
       case 'explanation':
         return (
           <div className="space-y-3">
-            <div className="flex items-center gap-2 text-oneui-blue font-black text-[10px] uppercase tracking-widest bg-blue-50 px-2 py-1 rounded w-fit">
+            <div className="flex items-center gap-2 text-synapse-aqua font-black text-[10px] uppercase tracking-widest bg-synapse-aqua/10 px-2 py-1 rounded w-fit border border-synapse-aqua/20">
               <i className="fa-solid fa-graduation-cap"></i> Concept Breakdown
             </div>
-            <div className="prose prose-sm text-slate-800 leading-relaxed">
+            <div className="text-oneui-text-secondary leading-relaxed font-medium">
               {m.text}
             </div>
           </div>
         );
       case 'clinical_clue':
         return (
-          <div className="bg-red-50 p-4 rounded-xl border border-red-100 border-l-4">
-            <h4 className="text-[10px] font-black text-red-600 uppercase tracking-widest mb-1">Clinical High-Yield</h4>
-            <p className="text-sm font-medium text-slate-800">{m.text}</p>
+          <div className="bg-red-500/10 p-4 rounded-xl border border-red-500/30 border-l-4">
+            <h4 className="text-[10px] font-black text-red-400 uppercase tracking-widest mb-1">Clinical High-Yield</h4>
+            <p className="text-sm font-medium text-oneui-text-primary">{m.text}</p>
           </div>
         );
       default:
-        return <p className="leading-relaxed">{m.text}</p>;
+        return <p className="leading-relaxed text-oneui-text-primary">{m.text}</p>;
     }
   };
 
   return (
     <div className="flex flex-col h-full bg-oneui-bg relative overflow-hidden">
-      {/* 1. Header with Context Chip */}
+      {/* Header */}
       <div className="oneui-header-space flex flex-col justify-end px-8 pb-4">
-        <h1 className="text-4xl font-light text-slate-900 leading-tight">AI Medical<br/><span className="font-bold">Consultant</span></h1>
+        <h1 className="text-4xl font-light text-oneui-text-primary leading-tight tracking-tight">AI Medical<br/><span className="font-bold">Consultant</span></h1>
         <div className="mt-4 flex items-center gap-2">
-          <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Active Focus:</span>
-          <div className="bg-white/80 backdrop-blur-sm border border-slate-200 px-3 py-1 rounded-full flex items-center gap-2 shadow-sm">
-            <div className="w-1.5 h-1.5 bg-oneui-blue rounded-full animate-pulse"></div>
-            <span className="text-[10px] font-bold text-slate-600">{activeContext}</span>
+          <span className="text-[9px] font-black text-oneui-text-muted uppercase tracking-widest">Active:</span>
+          <div className="bg-synapse-surface/60 backdrop-blur-sm border border-synapse-border px-3 py-1 rounded-full flex items-center gap-2 shadow-sm">
+            <div className="w-1.5 h-1.5 bg-synapse-aqua rounded-full animate-pulse shadow-[0_0_5px_rgba(45,212,191,0.6)]"></div>
+            <span className="text-[10px] font-bold text-oneui-text-secondary">{activeContext}</span>
           </div>
         </div>
       </div>
 
-      {/* 2. Messages Area */}
+      {/* Messages */}
       <div className="flex-1 overflow-y-auto px-5 space-y-4 pb-48 pt-4">
         {messages.length === 0 && (
           <div className="text-center py-10 space-y-4 animate-in fade-in zoom-in duration-700">
-            <div className="w-20 h-20 bg-white rounded-samsung shadow-sm mx-auto flex items-center justify-center text-3xl text-oneui-blue border border-slate-50">
+            <div className="w-20 h-20 bg-synapse-surface rounded-samsung shadow-lg mx-auto flex items-center justify-center text-3xl text-synapse-aqua border border-synapse-border">
               <i className="fa-solid fa-brain"></i>
             </div>
-            <div className="space-y-1">
-              <p className="font-black text-slate-900">Personalized Tutoring</p>
-              <p className="text-xs text-slate-500 px-12 leading-relaxed">I'm aware of your study progress. Ask me to explain concepts from your last video or generate mnemonics for hard topics.</p>
+            <div className="space-y-1 px-8">
+              <p className="font-black text-oneui-text-primary text-lg">Neural Tutor Active</p>
+              <p className="text-xs text-oneui-text-secondary leading-relaxed">I'm tracking your neuroanatomy modules. Need a clinical case walkthrough?</p>
             </div>
             
             <div className="flex flex-wrap gap-2 justify-center px-6 mt-4">
@@ -176,7 +174,7 @@ const AITutorPanel: React.FC<AITutorPanelProps> = ({ context: initialContext, is
                 <button 
                   key={i}
                   onClick={() => handleSend(s.prompt)}
-                  className="bg-white px-4 py-2 rounded-full border border-slate-100 text-[11px] font-bold text-oneui-blue shadow-sm hover:bg-slate-50 active:scale-95 transition-all"
+                  className="bg-synapse-surface px-4 py-2 rounded-full border border-synapse-border text-[11px] font-bold text-synapse-aqua shadow-sm active:scale-95 transition-all"
                 >
                   {s.label}
                 </button>
@@ -187,12 +185,12 @@ const AITutorPanel: React.FC<AITutorPanelProps> = ({ context: initialContext, is
 
         {messages.map((m) => (
           <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'} animate-in slide-in-from-bottom-2`}>
-            <div className={`max-w-[88%] rounded-samsung px-6 py-5 shadow-sm transition-all ${
+            <div className={`max-w-[88%] rounded-samsung px-6 py-5 shadow-xl transition-all ${
               m.role === 'user' 
-                ? 'bg-oneui-blue text-white rounded-tr-none' 
-                : 'bg-white text-slate-800 rounded-tl-none border border-slate-100'
+                ? 'bg-synapse-aqua text-synapse-deep rounded-tr-none' 
+                : 'bg-synapse-surface text-oneui-text-primary rounded-tl-none border border-synapse-border'
             }`}>
-              <div className="text-[15px] font-medium">
+              <div className="text-[15px] font-medium leading-relaxed">
                 {renderMessageContent(m)}
               </div>
               
@@ -200,12 +198,12 @@ const AITutorPanel: React.FC<AITutorPanelProps> = ({ context: initialContext, is
                 <div className="mt-4 flex gap-2">
                   <button 
                     onClick={() => speakText(m.text)}
-                    className="h-10 px-4 bg-slate-50 border border-slate-100 text-oneui-blue rounded-xl flex items-center gap-2 text-[10px] font-black uppercase tracking-wider active:scale-90 transition-all"
+                    className="h-10 px-4 bg-synapse-deep border border-synapse-border text-synapse-aqua rounded-xl flex items-center gap-2 text-[10px] font-black uppercase tracking-wider active:scale-90 transition-all"
                   >
                     <i className={`fa-solid ${isSpeaking ? 'fa-spinner fa-spin' : 'fa-volume-high'}`}></i>
-                    {isSpeaking ? 'Speaking...' : 'Read Aloud'}
+                    {isSpeaking ? 'Syncing...' : 'Read Aloud'}
                   </button>
-                  <button className="h-10 w-10 bg-slate-50 border border-slate-100 text-slate-400 rounded-xl flex items-center justify-center active:scale-90 transition-all">
+                  <button className="h-10 w-10 bg-synapse-deep border border-synapse-border text-oneui-text-muted rounded-xl flex items-center justify-center active:scale-90 transition-all">
                     <i className="fa-solid fa-share-nodes text-xs"></i>
                   </button>
                 </div>
@@ -216,39 +214,38 @@ const AITutorPanel: React.FC<AITutorPanelProps> = ({ context: initialContext, is
         
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-white rounded-samsung px-6 py-5 flex gap-2 border border-slate-100 shadow-sm">
-              <div className="w-2 h-2 bg-oneui-blue rounded-full animate-bounce"></div>
-              <div className="w-2 h-2 bg-oneui-blue rounded-full animate-bounce delay-100"></div>
-              <div className="w-2 h-2 bg-oneui-blue rounded-full animate-bounce delay-200"></div>
+            <div className="bg-synapse-surface rounded-samsung px-6 py-5 flex gap-2 border border-synapse-border shadow-lg">
+              <div className="w-2 h-2 bg-synapse-aqua rounded-full animate-bounce"></div>
+              <div className="w-2 h-2 bg-synapse-aqua rounded-full animate-bounce delay-100"></div>
+              <div className="w-2 h-2 bg-synapse-aqua rounded-full animate-bounce delay-200"></div>
             </div>
           </div>
         )}
         <div ref={messagesEndRef} />
       </div>
 
-      {/* 3. Specialized Input Container (One UI Bottom Pattern) */}
+      {/* Input */}
       <div className="absolute bottom-24 left-0 right-0 px-5 pointer-events-none">
         <div className="max-w-[430px] mx-auto space-y-4 pointer-events-auto">
-          {/* Listening Overlay */}
           {isListening && (
-            <div className="bg-oneui-blue/95 backdrop-blur-md p-6 rounded-samsung flex items-center justify-between text-white shadow-2xl animate-in slide-in-from-bottom duration-300">
+            <div className="bg-synapse-aqua/90 backdrop-blur-md p-6 rounded-samsung flex items-center justify-between text-synapse-deep shadow-2xl animate-in slide-in-from-bottom duration-300 border border-white/20">
                <div className="flex items-center gap-4">
                   <div className="flex gap-1 items-end h-6">
                     {[1,2,3,4].map(i => (
-                      <div key={i} className={`w-1 bg-white rounded-full animate-pulse`} style={{height: `${Math.random()*100}%`, animationDelay: `${i*0.1}s`}}></div>
+                      <div key={i} className={`w-1 bg-synapse-deep rounded-full animate-pulse`} style={{height: `${Math.random()*100}%`, animationDelay: `${i*0.1}s`}}></div>
                     ))}
                   </div>
-                  <p className="font-bold">Listening...</p>
+                  <p className="font-black text-sm uppercase tracking-widest">Listening...</p>
                </div>
-               <button onClick={toggleListen} className="text-white/60"><i className="fa-solid fa-xmark"></i></button>
+               <button onClick={toggleListen} className="text-synapse-deep/60"><i className="fa-solid fa-xmark"></i></button>
             </div>
           )}
 
-          <div className="bg-white rounded-samsung shadow-2xl border border-slate-100 p-2 flex gap-2 items-center transition-all focus-within:ring-4 focus-within:ring-blue-50">
+          <div className="bg-synapse-surface rounded-samsung shadow-2xl border border-synapse-border p-2 flex gap-2 items-center transition-all focus-within:ring-2 focus-within:ring-synapse-aqua/20">
             <button 
               onClick={toggleListen}
               className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${
-                isListening ? 'bg-red-50 text-red-500' : 'bg-slate-50 text-slate-400'
+                isListening ? 'bg-red-500 text-white' : 'bg-synapse-deep text-oneui-text-muted'
               }`}
             >
               <i className={`fa-solid ${isListening ? 'fa-stop' : 'fa-microphone'}`}></i>
@@ -259,14 +256,14 @@ const AITutorPanel: React.FC<AITutorPanelProps> = ({ context: initialContext, is
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-              placeholder="Ask for clues or mnemonics..."
-              className="flex-1 h-12 px-2 text-slate-800 focus:outline-none font-bold text-sm bg-transparent"
+              placeholder="Query the AI Core..."
+              className="flex-1 h-12 px-2 text-oneui-text-primary focus:outline-none font-bold text-sm bg-transparent placeholder:text-oneui-text-muted"
             />
             
             <button 
               onClick={() => handleSend()}
               disabled={isLoading || (!input.trim() && !isListening)}
-              className="w-12 h-12 bg-oneui-blue text-white rounded-2xl flex items-center justify-center hover:scale-95 transition-transform disabled:opacity-30 shadow-lg shadow-blue-100"
+              className="w-12 h-12 bg-synapse-aqua text-synapse-deep rounded-2xl flex items-center justify-center hover:scale-95 transition-transform disabled:opacity-30 shadow-lg shadow-synapse-aqua/20"
             >
               <i className="fa-solid fa-paper-plane text-lg"></i>
             </button>

@@ -13,111 +13,102 @@ const DailyTracker: React.FC = () => {
   const navigate = useNavigate();
   const [consistencyScore] = useState(84);
   const [streakCount] = useState(12);
-  const [isIdleDay] = useState(false); // Simulated detection
 
   const stats = [
-    { label: 'Weekly Average', value: '4.2h' },
-    { label: 'Total Hours', value: '156h' },
-    { label: 'Idle Days (30d)', value: '2' },
+    { label: 'Weekly Avg', value: '4.2h' },
+    { label: 'Total Sync', value: '156h' },
+    { label: 'Idle Days', value: '2' },
   ];
 
   return (
-    <div className="pb-40 bg-oneui-bg min-h-screen">
+    <div className="pb-40 bg-transparent min-h-screen">
       <div className="oneui-header-space flex flex-col justify-end px-8 pb-8">
-        <h1 className="text-4xl font-light text-slate-900 leading-tight">Study<br/><span className="font-bold">Tracker</span></h1>
+        <h1 className="text-4xl font-light text-oneui-text-primary leading-tight tracking-tight">
+          Study<br/>
+          <span className="font-black tracking-[0.2em] uppercase text-synapse-aqua text-3xl">Tracker</span>
+        </h1>
       </div>
 
-      <div className="px-5 space-y-6 -mt-4">
-        {/* 1. Consistency Circle & Streak */}
-        <div className="bg-white rounded-samsung p-8 shadow-sm border border-slate-100 flex flex-col items-center gap-6">
-          <div className="relative w-48 h-48 flex items-center justify-center">
+      <div className="px-5 space-y-8 -mt-4">
+        {/* 1. Consistency Mastery Card */}
+        <div className="bg-synapse-surface/80 rounded-samsung p-8 shadow-2xl border border-synapse-border flex flex-col items-center gap-8 backdrop-blur-md">
+          <div className="relative w-56 h-56 flex items-center justify-center">
              <svg className="w-full h-full -rotate-90">
-                <circle cx="96" cy="96" r="88" fill="none" stroke="#f1f5f9" strokeWidth="12" />
+                <circle cx="112" cy="112" r="100" fill="none" stroke="#020617" strokeWidth="16" />
                 <circle 
-                  cx="96" cy="96" r="88" fill="none" stroke="#4c6ef5" strokeWidth="12" 
-                  strokeDasharray={`${(consistencyScore / 100) * 553} 553`}
+                  cx="112" cy="112" r="100" fill="none" stroke="#2dd4bf" strokeWidth="16" 
+                  strokeDasharray={`${(consistencyScore / 100) * 628} 628`}
                   strokeLinecap="round"
-                  className="transition-all duration-1000 ease-out"
+                  className="transition-all duration-1000 ease-out drop-shadow-[0_0_12px_rgba(45,212,191,0.6)]"
                 />
              </svg>
-             <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-5xl font-black text-slate-900">{consistencyScore}%</span>
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Consistency</span>
+             <div className="absolute inset-0 flex flex-col items-center justify-center space-y-1">
+                <span className="text-6xl font-black text-oneui-text-primary tracking-tighter">{consistencyScore}%</span>
+                <span className="text-[10px] font-black text-synapse-aqua uppercase tracking-[0.3em]">Consistency</span>
              </div>
           </div>
 
-          <div className="w-full flex justify-between items-center bg-slate-50 p-6 rounded-2xl border border-slate-100">
-             <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-xl shadow-inner">
-                   <i className="fa-solid fa-fire"></i>
-                </div>
+          <div className="w-full grid grid-cols-2 gap-4">
+             <div className="bg-synapse-deep p-6 rounded-2xl border border-synapse-border flex items-center gap-4">
+                <i className="fa-solid fa-fire text-synapse-aqua text-2xl"></i>
                 <div>
-                  <p className="text-xl font-black text-slate-900">{streakCount} Days</p>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Streak</p>
+                   <p className="text-2xl font-black text-oneui-text-primary">{streakCount}</p>
+                   <p className="text-[8px] font-black text-oneui-text-muted uppercase tracking-widest">Active Streak</p>
                 </div>
              </div>
-             <button className="w-10 h-10 bg-white rounded-full shadow-sm flex items-center justify-center text-slate-300">
-                <i className="fa-solid fa-share-nodes text-xs"></i>
-             </button>
+             <div className="bg-synapse-deep p-6 rounded-2xl border border-synapse-border flex items-center gap-4">
+                <i className="fa-solid fa-award text-synapse-warning text-2xl"></i>
+                <div>
+                   <p className="text-2xl font-black text-oneui-text-primary">Elite</p>
+                   <p className="text-[8px] font-black text-oneui-text-muted uppercase tracking-widest">Tier Rank</p>
+                </div>
+             </div>
           </div>
         </div>
 
-        {/* 2. Idle Day Detection Alert */}
-        {isIdleDay && (
-          <div className="bg-amber-50 border border-amber-100 p-6 rounded-samsung flex items-center gap-5 animate-in shake duration-500">
-             <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-amber-500 text-2xl shadow-sm">
-                <i className="fa-solid fa-cloud-sun"></i>
-             </div>
-             <div className="flex-1">
-                <h4 className="font-black text-slate-900 text-sm">You've been idle today!</h4>
-                <p className="text-xs text-amber-700 font-medium">Don't break your {streakCount}-day streak. Log a 10 min session to stay active.</p>
-             </div>
-          </div>
-        )}
-
-        {/* 3. Quick Stats Grid */}
+        {/* 2. Semantic Stats Grid */}
         <div className="grid grid-cols-3 gap-3">
           {stats.map((s, i) => (
-            <div key={i} className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm text-center space-y-1">
-               <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{s.label}</p>
-               <p className="text-lg font-black text-slate-900">{s.value}</p>
+            <div key={i} className="bg-synapse-surface p-5 rounded-2xl border border-synapse-border text-center space-y-1">
+               <p className="text-[9px] font-black text-oneui-text-muted uppercase tracking-widest">{s.label}</p>
+               <p className="text-xl font-black text-oneui-text-primary">{s.value}</p>
             </div>
           ))}
         </div>
 
-        {/* 4. Study Logs */}
+        {/* 3. Activity Archive with 3-Tier Typography */}
         <div className="space-y-4">
-           <div className="flex justify-between items-center px-2">
-              <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">Recent Activity</h3>
-              <button className="text-[10px] font-black text-oneui-blue uppercase">Full History</button>
-           </div>
-           
+           <h3 className="text-[10px] font-black text-oneui-text-muted uppercase tracking-[0.2em] px-2">Archive history</h3>
            <div className="space-y-3">
               {MOCK_LOGS.map(log => (
-                <div key={log.id} className="bg-white p-5 rounded-samsung border border-slate-100 flex items-center justify-between">
-                   <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400">
+                <div key={log.id} className="bg-synapse-surface p-6 rounded-samsung border border-synapse-border flex items-center justify-between active:scale-[0.98] transition-all">
+                   <div className="flex items-center gap-5">
+                      <div className="w-12 h-12 bg-synapse-deep rounded-xl flex items-center justify-center text-oneui-text-muted border border-synapse-border">
                         {log.type === 'video' && <i className="fa-solid fa-play"></i>}
                         {log.type === 'practice' && <i className="fa-solid fa-stethoscope"></i>}
                         {log.type === 'test' && <i className="fa-solid fa-file-invoice"></i>}
                       </div>
                       <div>
-                        <h5 className="font-black text-slate-900 text-sm">{log.topic}</h5>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{log.duration} mins • {new Date(log.date).toLocaleDateString()}</p>
+                        <h5 className="font-black text-oneui-text-primary text-sm leading-tight">{log.topic}</h5>
+                        <p className="text-[9px] font-bold text-oneui-text-secondary uppercase tracking-[0.1em] mt-1">
+                           {log.duration} MINS <span className="mx-2 text-synapse-border">|</span> {new Date(log.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        </p>
                       </div>
                    </div>
-                   <div className="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-emerald-500">
-                      <i className="fa-solid fa-check"></i>
+                   <div className="w-8 h-8 bg-synapse-aqua/10 text-synapse-aqua rounded-full flex items-center justify-center border border-synapse-aqua/20">
+                      <i className="fa-solid fa-check text-[10px]"></i>
                    </div>
                 </div>
               ))}
            </div>
         </div>
 
-        {/* 5. Manual Log Button */}
-        <button className="w-full h-16 bg-slate-900 text-white rounded-samsung font-black text-sm uppercase tracking-widest shadow-xl active:scale-95 transition-all">
-          <i className="fa-solid fa-plus mr-2"></i> Log New Session
-        </button>
+        {/* 4. Action CTA */}
+        <div className="pt-4">
+          <button className="w-full h-20 bg-synapse-aqua text-synapse-deep rounded-samsung font-black text-sm uppercase tracking-[0.3em] shadow-[0_10px_40px_rgba(45,212,191,0.3)] active:scale-95 transition-all">
+            Initiate Neural Session
+          </button>
+        </div>
       </div>
     </div>
   );
