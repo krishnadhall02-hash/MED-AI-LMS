@@ -39,6 +39,8 @@ const CustomExamSimulator: React.FC = () => {
   const [questions, setQuestions] = useState<MCQ[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>([]);
+  const [skipped, setSkipped] = useState<boolean[]>([]);
+  const [hintLevels, setHintLevels] = useState<number[]>([]);
   const [timeLeft, setTimeLeft] = useState(0);
   const [isPaletteOpen, setIsPaletteOpen] = useState(false);
   const [isInitializing, setIsInitializing] = useState(true);
@@ -61,6 +63,8 @@ const CustomExamSimulator: React.FC = () => {
     }
     setQuestions(generated);
     setAnswers(new Array(parsed.questionCount).fill(null));
+    setSkipped(new Array(parsed.questionCount).fill(false));
+    setHintLevels(new Array(parsed.questionCount).fill(0));
     setIsInitializing(false);
   }, [navigate]);
 
@@ -100,6 +104,8 @@ const CustomExamSimulator: React.FC = () => {
     };
 
     sessionStorage.setItem('last_exam_result', JSON.stringify(result));
+    sessionStorage.setItem('last_exam_questions', JSON.stringify(questions));
+    sessionStorage.setItem('last_exam_answers', JSON.stringify(answers));
     sessionStorage.setItem('is_speed_test', config.isSpeedMode ? 'true' : 'false');
     navigate('/exam-results');
   }, [answers, timeLeft, questions, config, navigate]);
@@ -129,6 +135,28 @@ const CustomExamSimulator: React.FC = () => {
     const newAnswers = [...answers];
     newAnswers[currentIdx] = optIdx;
     setAnswers(newAnswers);
+
+    const newSkips = [...skipped];
+    newSkips[currentIdx] = false;
+    setSkipped(newSkips);
+  };
+
+  const handleHint = () => {
+    const newLevels = [...hintLevels];
+    newLevels[currentIdx] = Math.min(newLevels[currentIdx] + 1, 2);
+    setHintLevels(newLevels);
+  };
+
+  const handleSkip = () => {
+    const newSkips = [...skipped];
+    newSkips[currentIdx] = true;
+    setSkipped(newSkips);
+    
+    if (currentIdx < questions.length - 1) {
+      setCurrentIdx(prev => prev + 1);
+    } else {
+      setIsPaletteOpen(true);
+    }
   };
 
   if (isInitializing) {
@@ -206,6 +234,39 @@ const CustomExamSimulator: React.FC = () => {
               </button>
             ))}
           </div>
+
+          {/* Hint and Skip Buttons */}
+          <div className="flex items-center gap-4 pt-2">
+             <button 
+               onClick={handleHint}
+               className={`flex-1 h-14 rounded-2xl border-2 flex items-center justify-center gap-3 transition-all ${
+                 hintLevels[currentIdx] > 0 ? 'bg-amber-50 border-amber-500 text-amber-500' : 'bg-slate-50 border-slate-100 text-slate-400'
+               }`}
+             >
+               <i className="fa-solid fa-lightbulb"></i>
+               <span className="text-[10px] font-black uppercase tracking-widest">
+                  {hintLevels[currentIdx] === 0 ? 'Hint' : `Hint ${hintLevels[currentIdx]}`}
+               </span>
+             </button>
+             <button 
+               onClick={handleSkip}
+               className="h-14 px-8 bg-slate-100 border border-slate-200 text-slate-500 rounded-2xl font-black text-[10px] uppercase tracking-widest active:bg-slate-200 transition-all"
+             >
+               Skip
+             </button>
+          </div>
+
+          {/* Hint Display */}
+          {hintLevels[currentIdx] > 0 && (
+            <div className="p-5 bg-amber-50/50 rounded-2xl border border-amber-100 animate-in slide-in-from-top duration-300">
+               <p className="text-[9px] font-black text-amber-600 uppercase tracking-widest mb-1">AI Diagnostic Insight</p>
+               <p className="text-xs font-medium text-slate-600 leading-relaxed italic">
+                 {hintLevels[currentIdx] === 1 
+                   ? (questions[currentIdx].clinicalClue || "Look for clinical buzzwords in the presentation.") 
+                   : (questions[currentIdx].conceptHint || "Consider the physiological mechanism underlying this case.")}
+               </p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -253,7 +314,9 @@ const CustomExamSimulator: React.FC = () => {
                       ? 'border-oneui-blue bg-blue-50 text-oneui-blue' 
                       : answers[i] !== null 
                         ? 'bg-oneui-blue border-oneui-blue text-white shadow-md' 
-                        : 'bg-white border-slate-100 text-slate-400'
+                        : skipped[i]
+                          ? 'bg-slate-100 border-slate-200 text-slate-400'
+                          : 'bg-white border-slate-100 text-slate-400'
                   }`}
                 >
                   {i + 1}

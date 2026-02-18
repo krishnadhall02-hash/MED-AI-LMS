@@ -12,6 +12,7 @@ import ExamSimulator from './pages/ExamSimulator';
 import CustomizeMockSetup from './pages/CustomizeMockSetup';
 import CustomExamSimulator from './pages/CustomExamSimulator';
 import TestResults from './pages/TestResults';
+import TestReview from './pages/TestReview';
 import Analytics from './pages/Analytics';
 import StudyPlanner from './pages/StudyPlanner';
 import DailyTracker from './pages/DailyTracker';
@@ -208,6 +209,7 @@ const AppContent: React.FC = () => {
             <Route path="/customize-mock" element={<CustomizeMockSetup />} />
             <Route path="/custom-exam" element={<CustomExamSimulator />} />
             <Route path="/exam-results" element={<TestResults />} />
+            <Route path="/test-review" element={<TestReview />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/planner" element={<StudyPlanner />} />
             <Route path="/tracker" element={<DailyTracker />} />

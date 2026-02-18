@@ -128,10 +128,16 @@ const TestResults: React.FC = () => {
         {/* Actions */}
         <div className="flex flex-col gap-3 pb-12">
           <button 
+            onClick={() => navigate('/test-review')}
+            className="h-16 bg-white border-2 border-synapse-aqua text-synapse-aqua rounded-samsung font-black uppercase tracking-widest active:scale-95 transition-all shadow-lg shadow-synapse-aqua/5"
+          >
+            Review Test
+          </button>
+          <button 
             onClick={() => navigate('/practice')}
             className="h-16 bg-synapse-aqua text-synapse-deep rounded-samsung font-black uppercase tracking-widest shadow-xl active:scale-95 transition-all"
           >
-            Review Mistakes
+            Practice Similar
           </button>
           <button 
             onClick={() => navigate('/')}

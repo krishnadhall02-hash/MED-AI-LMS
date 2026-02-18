@@ -11,7 +11,8 @@ const MOCK_EXAM_QUESTIONS: MCQ[] = [
     correctAnswer: 2,
     explanation: 'Thunderclap headache is classic for SAH, often due to a ruptured berry aneurysm.',
     difficulty: 'medium',
-    subject: 'Medicine'
+    subject: 'Medicine',
+    clinicalClue: 'Look for "basal cisterns" finding.'
   },
   {
     id: 'e2',
@@ -20,34 +21,17 @@ const MOCK_EXAM_QUESTIONS: MCQ[] = [
     correctAnswer: 1,
     explanation: 'The left umbilical vein becomes the ligamentum teres after birth.',
     difficulty: 'easy',
-    subject: 'Anatomy'
+    subject: 'Anatomy',
+    clinicalClue: 'Venous remnant in the liver.'
   },
   {
     id: 'e3',
     question: 'Which of the following is the most sensitive imaging modality for detecting early acute ischemic stroke?',
-    options: ['Non-contrast CT Brain', 'CT Angiography', 'Diffusion-weighted MRI', 'T2-weighted MRI'],
+    options: ['Non-contrast CT Brain', 'CT Ang Angiography', 'Diffusion-weighted MRI', 'T2-weighted MRI'],
     correctAnswer: 2,
     explanation: 'DWI MRI can detect ischemic changes within minutes of onset.',
     difficulty: 'medium',
     subject: 'Radiology'
-  },
-  {
-    id: 'e4',
-    question: 'A patient presents with dry mouth, blurred vision, and dilated pupils after accidental ingestion of some seeds. Which of the following is the antidote?',
-    options: ['Atropine', 'Physostigmine', 'Pralidoxime', 'Neostigmine'],
-    correctAnswer: 1,
-    explanation: 'Physostigmine is a tertiary amine carbamate that crosses the blood-brain barrier and is used for anticholinergic toxicity.',
-    difficulty: 'hard',
-    subject: 'Pharmacology'
-  },
-  {
-    id: 'e5',
-    question: 'Waiters tip palsy is caused by injury to which roots of the brachial plexus?',
-    options: ['C5, C6', 'C8, T1', 'C7 only', 'C5-T1'],
-    correctAnswer: 0,
-    explanation: "Erb's palsy results from damage to the upper trunk (C5-C6).",
-    difficulty: 'easy',
-    subject: 'Anatomy'
   }
 ];
 
@@ -56,6 +40,8 @@ const ExamSimulator: React.FC = () => {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(new Array(MOCK_EXAM_QUESTIONS.length).fill(null));
   const [flags, setFlags] = useState<boolean[]>(new Array(MOCK_EXAM_QUESTIONS.length).fill(false));
+  const [skipped, setSkipped] = useState<boolean[]>(new Array(MOCK_EXAM_QUESTIONS.length).fill(false));
+  const [hintLevels, setHintLevels] = useState<number[]>(new Array(MOCK_EXAM_QUESTIONS.length).fill(0));
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
   const [isPaletteOpen, setIsPaletteOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -84,12 +70,36 @@ const ExamSimulator: React.FC = () => {
     const newAnswers = [...answers];
     newAnswers[currentIdx] = optIdx;
     setAnswers(newAnswers);
+    
+    // Clear skip status if an answer is selected
+    const newSkips = [...skipped];
+    newSkips[currentIdx] = false;
+    setSkipped(newSkips);
   };
 
   const toggleFlag = () => {
     const newFlags = [...flags];
     newFlags[currentIdx] = !newFlags[currentIdx];
     setFlags(newFlags);
+  };
+
+  const handleHint = () => {
+    const newLevels = [...hintLevels];
+    newLevels[currentIdx] = Math.min(newLevels[currentIdx] + 1, 2);
+    setHintLevels(newLevels);
+  };
+
+  const handleSkip = () => {
+    const newSkips = [...skipped];
+    newSkips[currentIdx] = true;
+    setSkipped(newSkips);
+    
+    // Auto-advance if not at the end
+    if (currentIdx < MOCK_EXAM_QUESTIONS.length - 1) {
+      setCurrentIdx(prev => prev + 1);
+    } else {
+      setIsPaletteOpen(true); // Open palette to review skipped at the end
+    }
   };
 
   const handleSubmit = useCallback(() => {
@@ -125,8 +135,9 @@ const ExamSimulator: React.FC = () => {
       subjectBreakdown
     };
 
-    // Use session storage or state management to pass results to next screen
     sessionStorage.setItem('last_exam_result', JSON.stringify(result));
+    sessionStorage.setItem('last_exam_questions', JSON.stringify(MOCK_EXAM_QUESTIONS));
+    sessionStorage.setItem('last_exam_answers', JSON.stringify(answers));
     navigate('/exam-results');
   }, [answers, timeLeft, navigate]);
 
@@ -163,13 +174,15 @@ const ExamSimulator: React.FC = () => {
       <div className="flex-1 overflow-y-auto p-6 space-y-8 bg-slate-50/50">
         <div className="flex justify-between items-center text-[10px] font-black text-slate-400 tracking-[0.15em] uppercase">
           <span>Question {currentIdx + 1} of {MOCK_EXAM_QUESTIONS.length}</span>
-          <button 
-            onClick={toggleFlag}
-            className={`flex items-center gap-2 transition-all ${flags[currentIdx] ? 'text-amber-500' : 'text-slate-300'}`}
-          >
-            <i className={`fa-${flags[currentIdx] ? 'solid' : 'regular'} fa-flag`}></i>
-            <span>{flags[currentIdx] ? 'Flagged' : 'Flag'}</span>
-          </button>
+          <div className="flex gap-4">
+             <button 
+               onClick={toggleFlag}
+               className={`flex items-center gap-2 transition-all ${flags[currentIdx] ? 'text-amber-500' : 'text-slate-300'}`}
+             >
+               <i className={`fa-${flags[currentIdx] ? 'solid' : 'regular'} fa-flag`}></i>
+               <span>{flags[currentIdx] ? 'Flagged' : 'Flag'}</span>
+             </button>
+          </div>
         </div>
 
         <div className="bg-white rounded-[32px] p-8 shadow-sm border border-slate-100 space-y-8 min-h-[300px]">
@@ -197,6 +210,39 @@ const ExamSimulator: React.FC = () => {
               </button>
             ))}
           </div>
+
+          {/* Hint and Skip Buttons */}
+          <div className="flex items-center gap-4 pt-2">
+             <button 
+               onClick={handleHint}
+               className={`flex-1 h-14 rounded-2xl border-2 flex items-center justify-center gap-3 transition-all ${
+                 hintLevels[currentIdx] > 0 ? 'bg-amber-50 border-amber-500 text-amber-500' : 'bg-slate-50 border-slate-100 text-slate-400'
+               }`}
+             >
+               <i className="fa-solid fa-lightbulb"></i>
+               <span className="text-[10px] font-black uppercase tracking-widest">
+                  {hintLevels[currentIdx] === 0 ? 'Show Hint' : `Hint ${hintLevels[currentIdx]} Active`}
+               </span>
+             </button>
+             <button 
+               onClick={handleSkip}
+               className="h-14 px-8 bg-slate-100 border border-slate-200 text-slate-500 rounded-2xl font-black text-[10px] uppercase tracking-widest active:bg-slate-200 transition-all"
+             >
+               Skip
+             </button>
+          </div>
+
+          {/* Hint Display */}
+          {hintLevels[currentIdx] > 0 && (
+            <div className="p-5 bg-amber-50/50 rounded-2xl border border-amber-100 animate-in slide-in-from-top duration-300">
+               <p className="text-[9px] font-black text-amber-600 uppercase tracking-widest mb-1">High-Yield Clue</p>
+               <p className="text-xs font-medium text-slate-600 leading-relaxed italic">
+                 {hintLevels[currentIdx] === 1 
+                   ? (MOCK_EXAM_QUESTIONS[currentIdx].clinicalClue || "Relate the symptoms to the most common vascular or structural anatomic cause.") 
+                   : "Think about the progressive changes or remnants associated with fetal development."}
+               </p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -217,15 +263,6 @@ const ExamSimulator: React.FC = () => {
           className="w-14 h-14 bg-white border border-slate-100 rounded-2xl flex items-center justify-center text-slate-400 active:scale-90 transition-all shadow-sm"
         >
           <i className="fa-solid fa-grid-2"></i>
-        </button>
-
-        <button 
-          onClick={toggleFullscreen}
-          className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all shadow-sm ${
-            isFullscreen ? 'bg-oneui-blue text-white' : 'bg-white border border-slate-100 text-slate-400'
-          }`}
-        >
-          <i className={`fa-solid fa-${isFullscreen ? 'compress' : 'expand'}`}></i>
         </button>
 
         <button 
@@ -251,8 +288,8 @@ const ExamSimulator: React.FC = () => {
                   <span className="text-[10px] font-bold text-slate-400 uppercase">Answered</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-amber-500"></div>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">Flagged</span>
+                  <div className="w-2 h-2 rounded-full bg-slate-300"></div>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase">Skipped</span>
                 </div>
               </div>
             </div>
@@ -270,13 +307,20 @@ const ExamSimulator: React.FC = () => {
                       ? 'border-oneui-blue bg-blue-50 text-oneui-blue' 
                       : answers[i] !== null 
                         ? 'bg-oneui-blue border-oneui-blue text-white shadow-md' 
-                        : 'bg-white border-slate-100 text-slate-400'
+                        : skipped[i]
+                          ? 'bg-slate-100 border-slate-200 text-slate-400'
+                          : 'bg-white border-slate-100 text-slate-400'
                   }`}
                 >
                   {i + 1}
                   {flags[i] && (
                     <div className="absolute -top-1 -right-1 w-4 h-4 bg-amber-500 rounded-full border-2 border-white flex items-center justify-center">
                       <i className="fa-solid fa-flag text-[6px] text-white"></i>
+                    </div>
+                  )}
+                  {skipped[i] && answers[i] === null && !flags[i] && (
+                    <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-slate-300 rounded-full border-2 border-white flex items-center justify-center">
+                      <i className="fa-solid fa-slash text-[6px] text-white"></i>
                     </div>
                   )}
                 </button>
