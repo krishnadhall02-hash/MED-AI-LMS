@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --safe-area-top: 48px;
+  --safe-area-bottom: 32px;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #000;
+  overflow: hidden;
+  color: #f1f5f9;
+}
+
+.mobile-frame {
+  width: 100%;
+  max-width: 430px;
+  height: 100vh;
+  margin: 0 auto;
+  background: linear-gradient(180deg, #0a191e 0%, #020617 100%);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 0 50px rgba(0,0,0,0.8);
+}
+
+::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.oneui-header-space {
+  padding-top: 4rem;
+  min-height: 25vh;
+}
+
+.synapse-glass {
+  background: rgba(17, 29, 39, 0.75);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(45, 212, 191, 0.1);
+}
+
+input, select, textarea {
+  background-color: #111d27 !important;
+  color: #f1f5f9 !important;
+  border-color: rgba(45, 212, 191, 0.15) !important;
+}
+
+@keyframes loading {
+  0% { transform: translateX(-150%); }
+  50% { transform: translateX(50%); }
+  100% { transform: translateX(150%); }
+}
