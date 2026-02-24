@@ -15,7 +15,7 @@ const BottomNav: React.FC = () => {
 
   return (
     <nav 
-      className="shrink-0 max-w-[430px] mx-auto bg-synapse-deep/95 border-t border-synapse-border px-2 pt-2 flex justify-around items-start z-50 backdrop-blur-2xl"
+      className="shrink-0 max-w-[430px] mx-auto bg-synapse-dark border-t border-white/5 px-2 pt-2 flex justify-around items-start z-50 shadow-[0_-10px_30px_rgba(0,0,0,0.3)]"
       style={{ 
         height: 'calc(80px + var(--safe-area-bottom))', 
         paddingBottom: 'var(--safe-area-bottom)' 
@@ -31,7 +31,7 @@ const BottomNav: React.FC = () => {
             aria-current={isActive ? 'page' : undefined}
             aria-label={`Navigate to ${item.label}`}
             className={`flex flex-col items-center gap-1.5 px-3 py-2 rounded-2xl transition-all duration-500 ${
-              isActive ? 'text-synapse-aqua' : 'text-oneui-text-muted'
+              isActive ? 'text-synapse-aqua' : 'text-slate-500'
             }`}
           >
             <div className={`w-12 h-8 flex items-center justify-center rounded-full transition-all duration-300 ${

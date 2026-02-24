@@ -21,6 +21,8 @@
             'synapse-surface': '#111d27',
             'synapse-elevated': '#1e293b',
             'synapse-border': 'rgba(45, 212, 191, 0.15)',
+            'synapse-light-bg': '#f8fafc',
+            'synapse-card-white': '#ffffff',
             'oneui-text-primary': '#f1f5f9',
             'oneui-text-secondary': '#94a3b8',
             'oneui-text-muted': '#64748b',
@@ -31,7 +33,9 @@
             'oneui-blue': '#2dd4bf',
             'oneui-bg': '#0a191e',
             'oneui-surface': '#111d27',
-            'oneui-border': '#1e2d3d'
+            'oneui-border': '#1e2d3d',
+            'synapse-text-dark': '#1e293b',
+            'synapse-text-muted': '#64748b'
           }
         }
       }
@@ -53,7 +57,7 @@
       max-width: 430px; 
       height: 100vh;
       margin: 0 auto;
-      background: linear-gradient(180deg, #0a191e 0%, #020617 100%); 
+      background: #0a191e; 
       position: relative;
       display: flex;
       flex-direction: column;
@@ -92,8 +96,10 @@
     }
   }
   </script>
+<link rel="stylesheet" href="/index.css">
 </head>
 <body>
   <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
 </body>
 </html>

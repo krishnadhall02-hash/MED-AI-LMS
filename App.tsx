@@ -93,30 +93,30 @@ const LiveClassesList: React.FC = () => {
   ];
 
   return (
-    <div className="pb-40 min-h-screen bg-synapse-deep">
-      <div className="oneui-header-space flex flex-col justify-end px-8 pb-8">
+    <div className="pb-40 min-h-screen bg-synapse-light-bg">
+      <div className="bg-synapse-dark pt-12 px-8 pb-12 rounded-b-[40px] shadow-lg">
         <h1 className="text-4xl font-light text-white leading-tight">Live<br /><span className="font-black text-synapse-aqua">Broadcasts</span></h1>
       </div>
-      <div className="px-5 space-y-4">
+      <div className="px-5 space-y-4 -mt-6">
         {classes.map(c => (
           <div 
             key={c.id} 
             onClick={() => navigate(`/live/${c.id}`)}
-            className="bg-synapse-surface/40 backdrop-blur-md border border-synapse-border rounded-samsung p-6 space-y-4 active:scale-95 transition-all cursor-pointer"
+            className="bg-synapse-card-white shadow-md border border-slate-100 rounded-samsung p-6 space-y-4 active:scale-95 transition-all cursor-pointer"
           >
             <div className="flex justify-between items-start">
               <span className="bg-red-600 text-white text-[9px] font-black px-2 py-1 rounded uppercase animate-pulse">Live Now</span>
               <div className="flex gap-2">
                 {c.tags.map(t => (
-                  <span key={t} className="text-[8px] font-bold text-slate-400 uppercase border border-slate-700 px-2 py-0.5 rounded-full">{t}</span>
+                  <span key={t} className="text-[8px] font-bold text-slate-400 uppercase border border-slate-200 px-2 py-0.5 rounded-full">{t}</span>
                 ))}
               </div>
             </div>
             <div>
-              <h3 className="text-xl font-black text-white">{c.title}</h3>
-              <p className="text-xs text-slate-400 font-medium">{c.mentor} • {c.viewers} connected</p>
+              <h3 className="text-xl font-black text-synapse-text-dark">{c.title}</h3>
+              <p className="text-xs text-synapse-text-muted font-medium">{c.mentor} • {c.viewers} connected</p>
             </div>
-            <button className="w-full h-12 bg-white/10 text-white border border-white/10 rounded-xl font-black text-[10px] uppercase tracking-widest">Join Session</button>
+            <button className="w-full h-12 bg-synapse-dark text-white rounded-xl font-black text-[10px] uppercase tracking-widest active:bg-synapse-surface transition-colors">Join Session</button>
           </div>
         ))}
       </div>
@@ -186,7 +186,8 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="mobile-frame">
-      <div className="shrink-0 z-[100] px-6 flex justify-between items-center text-white bg-synapse-dark/40 backdrop-blur-xl border-b border-white/5" style={{ height: 'var(--safe-area-top)' }}>
+      {/* Dark Header / Status Bar Area */}
+      <div className="shrink-0 z-[100] px-6 flex justify-between items-center text-white bg-synapse-dark border-b border-white/5" style={{ height: 'var(--safe-area-top)' }}>
         <span className="font-bold text-sm">9:41</span>
         <div className="flex gap-2 text-xs opacity-60">
           <i className="fa-solid fa-signal"></i>
@@ -195,7 +196,7 @@ const AppContent: React.FC = () => {
         </div>
       </div>
 
-      <main className="flex-1 overflow-x-hidden overflow-y-auto no-scrollbar relative">
+      <main className={`flex-1 overflow-x-hidden overflow-y-auto no-scrollbar relative ${isAuthenticated ? 'bg-synapse-light-bg' : 'bg-synapse-deep'}`}>
         {!isAuthenticated ? (
           <div className="h-full">
             {renderAuthFlow()}
