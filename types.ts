@@ -104,11 +104,15 @@ export interface MCQ {
   correctAnswer: number;
   explanation: string;
   difficulty: 'easy' | 'medium' | 'hard';
+  difficultyLevel?: number; // 1-5
   clinicalClue?: string;
   mnemonic?: string;
   conceptHint?: string;
   eliminationHint?: string;
   subject?: string;
+  subtopic?: string;
+  estimatedTime?: number; // seconds
+  clinicalWeight?: number; // 1-10
 }
 
 export interface ExamResult {
@@ -189,6 +193,23 @@ export interface Comment {
   timestamp: number;
   isVerified: boolean;
   upvotes: number;
+}
+
+export enum AdaptiveMode {
+  NORMAL = 'NORMAL',
+  CHALLENGE = 'CHALLENGE',
+  BOOSTER = 'BOOSTER',
+  TIME_PRESSURE = 'TIME_PRESSURE'
+}
+
+export interface AdaptiveState {
+  currentDifficulty: number;
+  streak: number;
+  mode: AdaptiveMode;
+  topicPerformance: { [topic: string]: { correct: number, total: number } };
+  skillIndex: number;
+  lastResponses: boolean[];
+  avgTime: number;
 }
 
 export interface ChatMessage {

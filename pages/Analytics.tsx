@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, 
-  Cell, PieChart, Pie 
+  Cell, PieChart, Pie, LineChart, Line, CartesianGrid
 } from 'recharts';
 
 const MOCK_STATS = {
@@ -12,6 +12,16 @@ const MOCK_STATS = {
   totalTests: 45,
   avgAccuracy: 78,
   trend: '+4.2%',
+  skillIndex: 842,
+  adaptiveLevel: 4, // Clinical Case
+  adaptiveHistory: [
+    { day: 'Mon', level: 2, skill: 650 },
+    { day: 'Tue', level: 2, skill: 680 },
+    { day: 'Wed', level: 3, skill: 720 },
+    { day: 'Thu', level: 3, skill: 750 },
+    { day: 'Fri', level: 4, skill: 810 },
+    { day: 'Sat', level: 4, skill: 842 },
+  ],
   subjectWise: [
     { subject: 'Anatomy', accuracy: 85, color: '#4c6ef5' },
     { subject: 'Physiology', accuracy: 72, color: '#4c6ef5' },
@@ -65,6 +75,71 @@ const Analytics: React.FC = () => {
 
       <div className="px-5 space-y-6 -mt-4">
         
+        {/* ADAPTIVE MASTERY INSIGHTS */}
+        <div className="bg-synapse-dark rounded-samsung p-8 border border-white/5 space-y-6 shadow-2xl overflow-hidden relative">
+           <div className="absolute top-0 right-0 w-64 h-64 bg-synapse-aqua/5 rounded-full -mr-32 -mt-32 blur-3xl" />
+           
+           <div className="flex justify-between items-center relative z-10">
+              <div className="flex items-center gap-3">
+                 <div className="w-10 h-10 bg-synapse-aqua/10 rounded-xl flex items-center justify-center text-synapse-aqua border border-synapse-aqua/20">
+                    <i className="fa-solid fa-microchip"></i>
+                 </div>
+                 <div>
+                    <h3 className="font-black text-white uppercase text-xs tracking-widest">Adaptive Mastery</h3>
+                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">AI-Driven Progression</p>
+                 </div>
+              </div>
+              <div className="text-right">
+                 <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Skill Index</p>
+                 <p className="text-2xl font-black text-synapse-aqua">{MOCK_STATS.skillIndex}</p>
+              </div>
+           </div>
+
+           <div className="h-48 w-full relative z-10">
+              <ResponsiveContainer width="100%" height="100%">
+                 <LineChart data={MOCK_STATS.adaptiveHistory}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" vertical={false} />
+                    <XAxis 
+                      dataKey="day" 
+                      axisLine={false} 
+                      tickLine={false} 
+                      tick={{ fill: '#64748b', fontSize: 10, fontWeight: 'bold' }} 
+                    />
+                    <YAxis hide domain={['dataMin - 100', 'dataMax + 100']} />
+                    <Tooltip 
+                      contentStyle={{ backgroundColor: '#0a191e', border: '1px solid #ffffff10', borderRadius: '12px' }}
+                      itemStyle={{ color: '#2dd4bf', fontSize: '12px', fontWeight: 'bold' }}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="skill" 
+                      stroke="#2dd4bf" 
+                      strokeWidth={4} 
+                      dot={{ fill: '#2dd4bf', strokeWidth: 2, r: 4, stroke: '#0a191e' }}
+                      activeDot={{ r: 6, strokeWidth: 0 }}
+                    />
+                 </LineChart>
+              </ResponsiveContainer>
+           </div>
+
+           <div className="grid grid-cols-2 gap-4 relative z-10">
+              <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
+                 <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Current Level</p>
+                 <div className="flex items-center gap-2">
+                    <span className="text-lg font-black text-white">Level {MOCK_STATS.adaptiveLevel}</span>
+                    <span className="px-2 py-0.5 bg-synapse-aqua/20 rounded-md text-[8px] font-black text-synapse-aqua uppercase">Clinical</span>
+                 </div>
+              </div>
+              <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
+                 <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Mode Trend</p>
+                 <div className="flex items-center gap-2">
+                    <i className="fa-solid fa-arrow-trend-up text-emerald-400"></i>
+                    <span className="text-lg font-black text-white">Challenge</span>
+                 </div>
+              </div>
+           </div>
+        </div>
+
         {/* RANK & PERCENTILE CARD */}
         <div className="bg-synapse-surface/80 rounded-samsung p-8 border border-synapse-border space-y-8 backdrop-blur-sm">
            <div className="grid grid-cols-2 gap-8 divide-x divide-synapse-border/40">

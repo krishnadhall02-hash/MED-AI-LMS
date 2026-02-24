@@ -1,7 +1,8 @@
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MCQ, ExamResult } from '../types';
+import { MCQ, ExamResult, AdaptiveMode, AdaptiveState } from '../types';
+import { INITIAL_ADAPTIVE_STATE, updateAdaptiveState, getModeInfo, getDifficultyLabel } from '../services/adaptiveEngine';
 
 const MOCK_EXAM_QUESTIONS: MCQ[] = [
   {
@@ -11,8 +12,11 @@ const MOCK_EXAM_QUESTIONS: MCQ[] = [
     correctAnswer: 2,
     explanation: 'Thunderclap headache is classic for SAH, often due to a ruptured berry aneurysm.',
     difficulty: 'medium',
+    difficultyLevel: 3,
     subject: 'Medicine',
-    clinicalClue: 'Look for "basal cisterns" finding.'
+    subtopic: 'Neurology',
+    clinicalClue: 'Look for "basal cisterns" finding.',
+    conceptHint: 'Rupture of an aneurysm in the Circle of Willis leads to blood in the subarachnoid space.'
   },
   {
     id: 'e2',
@@ -21,17 +25,36 @@ const MOCK_EXAM_QUESTIONS: MCQ[] = [
     correctAnswer: 1,
     explanation: 'The left umbilical vein becomes the ligamentum teres after birth.',
     difficulty: 'easy',
+    difficultyLevel: 1,
     subject: 'Anatomy',
-    clinicalClue: 'Venous remnant in the liver.'
+    subtopic: 'Embryology',
+    clinicalClue: 'Venous remnant in the liver.',
+    conceptHint: 'Fetal circulation bypasses the liver via the ductus venosus, but the umbilical vein itself carries oxygenated blood from the placenta.'
   },
   {
     id: 'e3',
     question: 'Which of the following is the most sensitive imaging modality for detecting early acute ischemic stroke?',
-    options: ['Non-contrast CT Brain', 'CT Ang Angiography', 'Diffusion-weighted MRI', 'T2-weighted MRI'],
+    options: ['Non-contrast CT Brain', 'CT Angiography', 'Diffusion-weighted MRI', 'T2-weighted MRI'],
     correctAnswer: 2,
     explanation: 'DWI MRI can detect ischemic changes within minutes of onset.',
     difficulty: 'medium',
-    subject: 'Radiology'
+    difficultyLevel: 3,
+    subject: 'Radiology',
+    subtopic: 'Neuroradiology',
+    conceptHint: 'Cytotoxic edema causes restricted diffusion of water molecules.'
+  },
+  {
+    id: 'e4',
+    question: 'A patient with chronic alcoholism presents with ataxia, ophthalmoplegia, and confusion. What is the initial management?',
+    options: ['Intravenous Glucose', 'Intravenous Thiamine', 'CT Head', 'Lumbar Puncture'],
+    correctAnswer: 1,
+    explanation: 'Wernicke Encephalopathy requires immediate Thiamine. Giving glucose first can precipitate or worsen the condition.',
+    difficulty: 'hard',
+    difficultyLevel: 4,
+    subject: 'Medicine',
+    subtopic: 'Neurology',
+    clinicalClue: 'Classic triad of WE.',
+    conceptHint: 'Thiamine is a cofactor for pyruvate dehydrogenase; deficiency leads to impaired glucose metabolism in the brain.'
   }
 ];
 
@@ -45,6 +68,11 @@ const ExamSimulator: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
   const [isPaletteOpen, setIsPaletteOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  
+  // Adaptive Engine State
+  const [adaptiveState, setAdaptiveState] = useState<AdaptiveState>(INITIAL_ADAPTIVE_STATE);
+  const [showModeNotification, setShowModeNotification] = useState<AdaptiveMode | null>(null);
+  const questionStartTime = useRef<number>(Date.now());
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -54,11 +82,20 @@ const ExamSimulator: React.FC = () => {
           handleSubmit();
           return 0;
         }
+        // Time Pressure Mode: Reduce timer faster if active
+        if (adaptiveState.mode === AdaptiveMode.TIME_PRESSURE) {
+           // In a real app, we might just subtract more or show a faster ticking UI
+           // For this demo, let's just make it feel more urgent
+        }
         return prev - 1;
       });
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [adaptiveState.mode]);
+
+  useEffect(() => {
+    questionStartTime.current = Date.now();
+  }, [currentIdx]);
 
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
@@ -67,14 +104,42 @@ const ExamSimulator: React.FC = () => {
   };
 
   const handleSelectOption = (optIdx: number) => {
+    if (answers[currentIdx] !== null) return; // Prevent re-answering for adaptive logic simplicity
+
     const newAnswers = [...answers];
     newAnswers[currentIdx] = optIdx;
     setAnswers(newAnswers);
+    
+    const timeTaken = (Date.now() - questionStartTime.current) / 1000;
+    const q = MOCK_EXAM_QUESTIONS[currentIdx];
+    const isCorrect = optIdx === q.correctAnswer;
+
+    // Update Adaptive State
+    const newState = updateAdaptiveState(
+      adaptiveState,
+      isCorrect,
+      timeTaken,
+      q.subtopic || q.subject || 'General'
+    );
+
+    if (newState.mode !== adaptiveState.mode) {
+      setShowModeNotification(newState.mode);
+      setTimeout(() => setShowModeNotification(null), 3000);
+    }
+
+    setAdaptiveState(newState);
     
     // Clear skip status if an answer is selected
     const newSkips = [...skipped];
     newSkips[currentIdx] = false;
     setSkipped(newSkips);
+
+    // Auto-advance after a short delay to show feedback if needed
+    setTimeout(() => {
+      if (currentIdx < MOCK_EXAM_QUESTIONS.length - 1) {
+        setCurrentIdx(prev => prev + 1);
+      }
+    }, 800);
   };
 
   const toggleFlag = () => {
@@ -145,8 +210,20 @@ const ExamSimulator: React.FC = () => {
     setIsFullscreen(!isFullscreen);
   };
 
+  const modeInfo = getModeInfo(adaptiveState.mode);
+
   return (
     <div className={`flex flex-col h-screen bg-white transition-all duration-500 ${isFullscreen ? 'fixed inset-0 z-[100]' : ''}`}>
+      {/* Mode Notification Toast */}
+      {showModeNotification && (
+        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[200] animate-in slide-in-from-top duration-500">
+           <div className={`${getModeInfo(showModeNotification).bgColor} ${getModeInfo(showModeNotification).borderColor} border px-6 py-3 rounded-full shadow-xl flex items-center gap-3 backdrop-blur-md`}>
+              <i className={`fa-solid ${getModeInfo(showModeNotification).icon} ${getModeInfo(showModeNotification).color}`}></i>
+              <span className="text-xs font-black uppercase tracking-widest text-slate-900">{getModeInfo(showModeNotification).label} Activated</span>
+           </div>
+        </div>
+      )}
+
       {/* 1. Header with Timer */}
       <div className="bg-slate-900 text-white p-4 flex justify-between items-center shadow-lg relative z-20">
         <div className="flex items-center gap-3">
@@ -154,11 +231,16 @@ const ExamSimulator: React.FC = () => {
             <i className="fa-solid fa-xmark text-xl"></i>
           </button>
           <div className="h-8 w-[1px] bg-white/10 mx-1"></div>
-          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-oneui-blue">Mock Exam 01</span>
+          <div className="flex flex-col">
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-oneui-blue">Adaptive Core</span>
+            <div className="flex items-center gap-2">
+               <span className="text-[8px] font-bold text-slate-500 uppercase">Skill Index: {adaptiveState.skillIndex}</span>
+            </div>
+          </div>
         </div>
 
-        <div className={`px-4 py-2 rounded-2xl flex items-center gap-2 border border-white/10 ${timeLeft < 60 ? 'bg-red-500/20 text-red-400 animate-pulse' : 'bg-white/5'}`}>
-          <i className="fa-regular fa-clock"></i>
+        <div className={`px-4 py-2 rounded-2xl flex items-center gap-2 border border-white/10 ${timeLeft < 60 || adaptiveState.mode === AdaptiveMode.TIME_PRESSURE ? 'bg-red-500/20 text-red-400 animate-pulse' : 'bg-white/5'}`}>
+          <i className={`fa-regular ${adaptiveState.mode === AdaptiveMode.TIME_PRESSURE ? 'fa-stopwatch' : 'fa-clock'}`}></i>
           <span className="font-mono font-bold text-lg">{formatTime(timeLeft)}</span>
         </div>
 
@@ -172,6 +254,23 @@ const ExamSimulator: React.FC = () => {
 
       {/* 2. Question Area */}
       <div className="flex-1 overflow-y-auto p-6 space-y-8 bg-slate-50/50">
+        {/* Adaptive Status Bar */}
+        <div className="flex items-center justify-between gap-4">
+           <div className={`flex-1 ${modeInfo.bgColor} ${modeInfo.borderColor} border rounded-2xl p-3 flex items-center gap-3 shadow-sm`}>
+              <div className={`w-8 h-8 rounded-lg ${modeInfo.bgColor} border ${modeInfo.borderColor} flex items-center justify-center ${modeInfo.color}`}>
+                 <i className={`fa-solid ${modeInfo.icon} text-sm`}></i>
+              </div>
+              <div className="flex-1">
+                 <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">{modeInfo.label}</p>
+                 <p className="text-[10px] font-bold text-slate-700">{modeInfo.description}</p>
+              </div>
+           </div>
+           <div className="bg-white border border-slate-100 rounded-2xl p-3 flex flex-col items-center justify-center min-w-[80px]">
+              <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">Difficulty</p>
+              <p className="text-[10px] font-black text-oneui-blue uppercase">{getDifficultyLabel(adaptiveState.currentDifficulty)}</p>
+           </div>
+        </div>
+
         <div className="flex justify-between items-center text-[10px] font-black text-slate-400 tracking-[0.15em] uppercase">
           <span>Question {currentIdx + 1} of {MOCK_EXAM_QUESTIONS.length}</span>
           <div className="flex gap-4">
@@ -197,19 +296,46 @@ const ExamSimulator: React.FC = () => {
                 onClick={() => handleSelectOption(i)}
                 className={`w-full text-left p-5 rounded-2xl border-2 transition-all flex items-center gap-4 ${
                   answers[currentIdx] === i 
-                    ? 'border-oneui-blue bg-blue-50/50 text-slate-900 shadow-sm' 
+                    ? (i === MOCK_EXAM_QUESTIONS[currentIdx].correctAnswer ? 'border-synapse-success bg-emerald-50 text-emerald-900 shadow-sm' : 'border-synapse-error bg-red-50 text-red-900 shadow-sm')
                     : 'border-slate-50 bg-white text-slate-600 hover:border-slate-200'
                 }`}
               >
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs transition-colors ${
-                   answers[currentIdx] === i ? 'bg-oneui-blue text-white' : 'bg-slate-50 text-slate-400'
+                   answers[currentIdx] === i 
+                    ? (i === MOCK_EXAM_QUESTIONS[currentIdx].correctAnswer ? 'bg-synapse-success text-white' : 'bg-synapse-error text-white')
+                    : 'bg-slate-50 text-slate-400'
                 }`}>
                   {String.fromCharCode(65 + i)}
                 </div>
                 <span className="font-semibold flex-1 leading-tight">{opt}</span>
+                {answers[currentIdx] !== null && i === MOCK_EXAM_QUESTIONS[currentIdx].correctAnswer && (
+                  <i className="fa-solid fa-circle-check text-synapse-success"></i>
+                )}
               </button>
             ))}
           </div>
+
+          {/* Booster Mode Content */}
+          {adaptiveState.mode === AdaptiveMode.BOOSTER && (
+            <div className="p-6 bg-synapse-aqua/5 rounded-[24px] border border-synapse-aqua/20 space-y-4 animate-in zoom-in duration-500">
+               <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-synapse-aqua/10 rounded-xl flex items-center justify-center text-synapse-aqua">
+                     <i className="fa-solid fa-brain"></i>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-synapse-aqua">Booster Insight</p>
+                    <p className="text-xs font-bold text-slate-700">Simplified Concept Breakdown</p>
+                  </div>
+               </div>
+               <p className="text-sm text-slate-600 leading-relaxed">
+                  {MOCK_EXAM_QUESTIONS[currentIdx].conceptHint}
+               </p>
+               <div className="flex gap-2">
+                  <span className="px-3 py-1 bg-white border border-synapse-aqua/20 rounded-full text-[9px] font-bold text-synapse-aqua uppercase">Memory Trick</span>
+                  <span className="px-3 py-1 bg-white border border-synapse-aqua/20 rounded-full text-[9px] font-bold text-synapse-aqua uppercase">Visual Flow</span>
+               </div>
+            </div>
+          )}
 
           {/* Hint and Skip Buttons */}
           <div className="flex items-center gap-4 pt-2">
