@@ -212,6 +212,52 @@ export interface AdaptiveState {
   avgTime: number;
 }
 
+export enum MisconceptionType {
+  CONCEPT_CONFUSION = 'CONCEPT_CONFUSION',
+  CALCULATION_ERROR = 'CALCULATION_ERROR',
+  MECHANISM_REVERSAL = 'MECHANISM_REVERSAL',
+  CLINICAL_INTERPRETATION = 'CLINICAL_INTERPRETATION',
+  DISTRACTOR_TRAP = 'DISTRACTOR_TRAP'
+}
+
+export interface WeaknessInsight {
+  topic: string;
+  subtopic: string;
+  score: number; // 0-1
+  errorFrequency: number;
+  recencyWeight: number;
+  misconceptionPattern: MisconceptionType;
+  status: 'Weak' | 'Severe' | 'Critical';
+  improvementTrend: 'improving' | 'declining' | 'stable';
+}
+
+export interface RemediationContent {
+  mcqs: MCQ[];
+  clinicalCases: ClinicalCase[];
+  revisionSheet: RevisionSheet;
+}
+
+export interface ClinicalCase {
+  id: string;
+  scenario: string;
+  steps: {
+    question: string;
+    options: string[];
+    correctAnswer: number;
+    reasoning: string;
+  }[];
+  diagnosticApproach: string;
+}
+
+export interface RevisionSheet {
+  title: string;
+  summary: string;
+  flowchart?: string; // Markdown or simple text representation
+  mnemonics: string[];
+  commonTraps: string[];
+  mostTestedMarkers: string[];
+}
+
 export interface ChatMessage {
   id: string;
   role: 'user' | 'model';

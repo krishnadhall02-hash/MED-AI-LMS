@@ -10,6 +10,7 @@ const Dashboard: React.FC = () => {
   const [quizAttempted, setQuizAttempted] = useState(false);
   const [isImageViewOpen, setIsImageViewOpen] = useState(false);
   const [userData, setUserData] = useState<any>(null);
+  const [hasWeakness, setHasWeakness] = useState(true); // Mocking weakness detection
 
   useEffect(() => {
     const raw = localStorage.getItem('user_cached_data');
@@ -65,6 +66,23 @@ const Dashboard: React.FC = () => {
       </div>
 
       <div className="px-5 space-y-8 pb-12 -mt-8">
+        {/* Weakness Alert */}
+        {hasWeakness && (
+          <div 
+            onClick={() => navigate('/weakness-repair')}
+            className="bg-red-500/10 border border-red-500/20 rounded-samsung p-5 flex items-center gap-4 animate-in slide-in-from-top duration-500 cursor-pointer active:scale-[0.98] transition-all"
+          >
+            <div className="w-12 h-12 bg-red-500/20 rounded-2xl flex items-center justify-center text-red-500 shadow-inner">
+              <i className="fa-solid fa-triangle-exclamation text-xl"></i>
+            </div>
+            <div className="flex-1">
+              <h4 className="text-[10px] font-black text-red-500 uppercase tracking-widest mb-0.5">Neural Gap Detected</h4>
+              <p className="text-xs font-bold text-synapse-text-dark">Focused Improvement Recommended</p>
+            </div>
+            <i className="fa-solid fa-chevron-right text-red-500/40 text-xs"></i>
+          </div>
+        )}
+
         {/* Analytics Card */}
         <div className="space-y-4">
           <div className="flex justify-between items-center px-2">

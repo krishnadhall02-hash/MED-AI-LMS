@@ -29,6 +29,7 @@ import FacultyList from './pages/FacultyList';
 import BookingFlow from './pages/BookingFlow';
 import DailyQuiz from './pages/DailyQuiz';
 import Leaderboard from './pages/Leaderboard';
+import WeaknessRepair from './pages/WeaknessRepair';
 import Profile from './pages/Profile';
 import Login from './pages/Auth/Login';
 import OTP from './pages/Auth/OTP';
@@ -232,6 +233,7 @@ const AppContent: React.FC = () => {
             <Route path="/book-appointment/:facultyId" element={<BookingFlow />} />
             <Route path="/daily-quiz" element={<DailyQuiz />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/weakness-repair" element={<WeaknessRepair />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         )}
