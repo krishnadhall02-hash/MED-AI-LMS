@@ -31,13 +31,13 @@ const Calendar: React.FC = () => {
           key={d}
           onClick={() => setSelectedDay(d)}
           className={`aspect-square flex flex-col items-center justify-center gap-1 rounded-2xl transition-all relative ${
-            isSelected ? 'bg-oneui-blue text-white shadow-lg' : 'hover:bg-slate-100 text-slate-800'
+            isSelected ? 'bg-synapse-blue-primary text-white shadow-lg' : 'hover:bg-slate-50 text-synapse-text-primary'
           }`}
         >
           <span className={`text-sm font-bold ${isSelected ? 'font-black' : ''}`}>{d}</span>
           {hasEvents && (
             <div className="flex gap-0.5">
-               <div className={`w-1 h-1 rounded-full ${isSelected ? 'bg-white' : 'bg-oneui-blue'}`} />
+               <div className={`w-1 h-1 rounded-full ${isSelected ? 'bg-white' : 'bg-synapse-blue-primary'}`} />
             </div>
           )}
         </button>
@@ -47,41 +47,41 @@ const Calendar: React.FC = () => {
   };
 
   return (
-    <div className="pb-40 bg-oneui-bg min-h-screen">
+    <div className="pb-40 bg-synapse-blue-light min-h-screen">
       <div className="oneui-header-space flex flex-col justify-end px-8 pb-8">
-        <h1 className="text-4xl font-light text-slate-900 leading-tight">My<br/><span className="font-bold">Schedule</span></h1>
+        <h1 className="text-4xl font-light text-synapse-text-primary leading-tight">My<br/><span className="font-bold">Schedule</span></h1>
       </div>
 
       <div className="px-5 space-y-6 -mt-4">
         {/* View Switcher */}
-        <div className="flex bg-white p-1.5 rounded-2xl border border-slate-100 shadow-sm">
+        <div className="flex bg-white p-1.5 rounded-2xl border border-white shadow-sm card-shadow">
            <button 
              onClick={() => setView('month')}
-             className={`flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${view === 'month' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-400'}`}
+             className={`flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${view === 'month' ? 'bg-synapse-blue-primary text-white shadow-lg' : 'text-synapse-text-secondary'}`}
            >
              Month
            </button>
            <button 
              onClick={() => setView('week')}
-             className={`flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${view === 'week' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-400'}`}
+             className={`flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${view === 'week' ? 'bg-synapse-blue-primary text-white shadow-lg' : 'text-synapse-text-secondary'}`}
            >
              Week
            </button>
         </div>
 
         {/* Calendar Grid */}
-        <div className="bg-white rounded-samsung p-6 shadow-sm border border-slate-100 space-y-6">
+        <div className="bg-white rounded-samsung p-6 shadow-sm border border-white space-y-6 card-shadow">
           <div className="flex justify-between items-center px-2">
-             <h3 className="font-black text-slate-900 text-lg">October 2023</h3>
-             <div className="flex gap-4 text-slate-400">
-                <button><i className="fa-solid fa-chevron-left"></i></button>
-                <button><i className="fa-solid fa-chevron-right"></i></button>
+             <h3 className="font-black text-synapse-text-primary text-lg">October 2023</h3>
+             <div className="flex gap-4 text-synapse-text-secondary">
+                <button className="hover:text-synapse-blue-primary transition-colors"><i className="fa-solid fa-chevron-left"></i></button>
+                <button className="hover:text-synapse-blue-primary transition-colors"><i className="fa-solid fa-chevron-right"></i></button>
              </div>
           </div>
           
           <div className="grid grid-cols-7 gap-2">
              {['S','M','T','W','T','F','S'].map(d => (
-               <div key={d} className="text-center text-[10px] font-black text-slate-400 uppercase tracking-widest py-2">{d}</div>
+               <div key={d} className="text-center text-[10px] font-black text-synapse-text-secondary uppercase tracking-widest py-2">{d}</div>
              ))}
              {renderMonth()}
           </div>
@@ -90,14 +90,14 @@ const Calendar: React.FC = () => {
         {/* Agenda */}
         <div className="space-y-4">
            <div className="flex justify-between items-center px-2">
-              <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">Agenda • {selectedDay} Oct</h3>
+              <h3 className="text-xs font-black text-synapse-text-secondary uppercase tracking-widest">Agenda • {selectedDay} Oct</h3>
            </div>
 
            <div className="space-y-3">
               {dayEvents.length > 0 ? dayEvents.map(event => (
-                <div key={event.id} className="bg-white p-5 rounded-samsung border border-slate-100 flex items-center gap-5 active:scale-95 transition-all cursor-pointer">
+                <div key={event.id} className="bg-white p-5 rounded-samsung border border-white flex items-center gap-5 active:scale-95 transition-all cursor-pointer card-shadow">
                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-xl ${
-                     event.type === 'class' ? 'bg-blue-50 text-oneui-blue' :
+                     event.type === 'class' ? 'bg-synapse-blue-primary/10 text-synapse-blue-primary' :
                      event.type === 'test' ? 'bg-red-50 text-red-500' : 'bg-emerald-50 text-emerald-500'
                    }`}>
                       <i className={`fa-solid ${
@@ -106,15 +106,15 @@ const Calendar: React.FC = () => {
                       }`}></i>
                    </div>
                    <div className="flex-1">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-0.5">{event.time} • {event.type}</p>
-                      <h5 className="font-black text-slate-900">{event.title}</h5>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-synapse-text-secondary mb-0.5">{event.time} • {event.type}</p>
+                      <h5 className="font-black text-synapse-text-primary">{event.title}</h5>
                    </div>
                    <button className="text-slate-200">
                       <i className="fa-solid fa-chevron-right text-xs"></i>
                    </button>
                 </div>
               )) : (
-                <div className="bg-white/50 border border-dashed border-slate-200 p-10 rounded-samsung text-center text-slate-400 italic text-sm">
+                <div className="bg-white/50 border border-dashed border-slate-200 p-10 rounded-samsung text-center text-synapse-text-secondary italic text-sm">
                   No events scheduled for this day
                 </div>
               )}

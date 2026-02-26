@@ -84,30 +84,30 @@ const Practice: React.FC = () => {
   const progress = mcqs.length > 0 ? ((currentIdx + 1) / mcqs.length) * 100 : 0;
 
   return (
-    <div className="flex flex-col h-full bg-oneui-bg min-h-screen">
+    <div className="flex flex-col h-full bg-synapse-blue-light min-h-screen">
       {/* Header Area */}
       <div className="pt-4 pb-2">
         <div className="flex justify-between items-center px-8 mb-4">
           <div className="flex items-center gap-4">
             {view !== 'HUB' && (
-              <button onClick={goBack} className="w-10 h-10 bg-synapse-surface rounded-full flex items-center justify-center text-oneui-text-secondary border border-synapse-border active:scale-90">
+              <button onClick={goBack} className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-synapse-text-secondary border border-synapse-blue-soft active:scale-90 shadow-sm">
                 <i className="fa-solid fa-chevron-left"></i>
               </button>
             )}
-            <h1 className="text-2xl font-black text-oneui-text-primary leading-tight">Practice<br/><span className="font-light text-oneui-text-secondary tracking-tight">Hub</span></h1>
+            <h1 className="text-2xl font-black text-synapse-text-primary leading-tight">Practice<br/><span className="font-light text-synapse-text-secondary tracking-tight">Hub</span></h1>
           </div>
           <div className="flex flex-col items-end gap-1">
-            <div className="bg-synapse-surface px-4 py-2 rounded-2xl border border-synapse-border shadow-sm flex items-center gap-2">
-              <span className="text-[10px] font-black text-oneui-text-muted uppercase tracking-widest">AI Limit</span>
-              <span className={`text-xs font-bold ${attemptsToday >= 3 ? 'text-red-400' : 'text-oneui-text-primary'}`}>{attemptsToday}/3</span>
+            <div className="bg-white px-4 py-2 rounded-2xl border border-synapse-blue-soft shadow-sm flex items-center gap-2">
+              <span className="text-[10px] font-black text-synapse-text-secondary uppercase tracking-widest">AI Limit</span>
+              <span className={`text-xs font-bold ${attemptsToday >= 3 ? 'text-synapse-error' : 'text-synapse-blue-primary'}`}>{attemptsToday}/3</span>
             </div>
           </div>
         </div>
         {view === 'MCQ_ENGINE' && mcqs.length > 0 && (
           <div className="px-8 mb-4">
-            <div className="w-full h-1.5 bg-synapse-deep rounded-full overflow-hidden">
+            <div className="w-full h-1.5 bg-synapse-blue-soft rounded-full overflow-hidden">
               <div 
-                className="h-full bg-synapse-aqua transition-all duration-500 ease-out shadow-[0_0_10px_rgba(45,212,191,0.4)]"
+                className="h-full bg-synapse-blue-primary transition-all duration-500 ease-out shadow-sm"
                 style={{ width: `${progress}%` }}
               />
             </div>
@@ -124,47 +124,47 @@ const Practice: React.FC = () => {
             <div className="grid grid-cols-2 gap-4">
               <div 
                 onClick={() => setView('SUBJECTS')}
-                className="bg-synapse-surface border border-synapse-border rounded-samsung p-6 shadow-xl flex flex-col justify-between h-44 active:scale-95 transition-all cursor-pointer group"
+                className="bg-white border border-white rounded-samsung p-6 shadow-lg flex flex-col justify-between h-44 active:scale-95 transition-all cursor-pointer group card-shadow"
               >
-                <div className="w-12 h-12 bg-synapse-aqua/10 text-synapse-aqua rounded-xl flex items-center justify-center text-2xl group-hover:bg-synapse-aqua group-hover:text-synapse-deep transition-colors">
+                <div className="w-12 h-12 bg-synapse-blue-primary/10 text-synapse-blue-primary rounded-xl flex items-center justify-center text-2xl group-hover:bg-synapse-blue-primary group-hover:text-white transition-colors">
                   <i className="fa-solid fa-book-medical"></i>
                 </div>
                 <div>
-                  <p className="font-black text-lg text-oneui-text-primary leading-tight">Subject-Wise</p>
-                  <p className="text-[10px] font-bold text-oneui-text-muted uppercase tracking-widest mt-1">Focused Mastery</p>
+                  <p className="font-black text-lg text-synapse-text-primary leading-tight">Subject-Wise</p>
+                  <p className="text-[10px] font-bold text-synapse-text-secondary uppercase tracking-widest mt-1">Focused Mastery</p>
                 </div>
               </div>
 
               <div 
                 onClick={() => setView('PYQ')}
-                className="bg-synapse-surface rounded-samsung p-6 border border-synapse-border shadow-xl flex flex-col justify-between h-44 active:scale-95 transition-all cursor-pointer group"
+                className="bg-white rounded-samsung p-6 border border-white shadow-lg flex flex-col justify-between h-44 active:scale-95 transition-all cursor-pointer group card-shadow"
               >
-                <div className="w-12 h-12 bg-synapse-warning/10 text-synapse-warning rounded-xl flex items-center justify-center text-2xl group-hover:bg-synapse-warning group-hover:text-synapse-deep transition-colors">
+                <div className="w-12 h-12 bg-synapse-warning/10 text-synapse-warning rounded-xl flex items-center justify-center text-2xl group-hover:bg-synapse-warning group-hover:text-white transition-colors">
                   <i className="fa-solid fa-clock-rotate-left"></i>
                 </div>
                 <div>
-                  <p className="font-black text-lg text-oneui-text-primary leading-tight">PYQ Practice</p>
-                  <p className="text-[10px] font-bold text-oneui-text-muted uppercase tracking-widest mt-1">Previous Years</p>
+                  <p className="font-black text-lg text-synapse-text-primary leading-tight">PYQ Practice</p>
+                  <p className="text-[10px] font-bold text-synapse-text-secondary uppercase tracking-widest mt-1">Previous Years</p>
                 </div>
               </div>
             </div>
 
             {/* AI Generator Card */}
-            <div className="bg-synapse-surface rounded-samsung p-8 shadow-xl border border-synapse-border space-y-6">
+            <div className="bg-white rounded-samsung p-8 shadow-lg border border-white space-y-6 card-shadow">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-synapse-aqua/10 text-synapse-aqua rounded-2xl flex items-center justify-center text-2xl border border-synapse-aqua/20">
+                <div className="w-12 h-12 bg-synapse-blue-primary/10 text-synapse-blue-primary rounded-2xl flex items-center justify-center text-2xl border border-synapse-blue-primary/10">
                   <i className="fa-solid fa-wand-magic-sparkles"></i>
                 </div>
                 <div>
-                   <h3 className="font-black text-oneui-text-primary leading-tight">AI Core Generator</h3>
-                   <p className="text-[10px] font-black text-oneui-text-muted uppercase tracking-widest">Random High-Yield</p>
+                   <h3 className="font-black text-synapse-text-primary leading-tight">AI Core Generator</h3>
+                   <p className="text-[10px] font-black text-synapse-text-secondary uppercase tracking-widest">Random High-Yield</p>
                 </div>
               </div>
-              <div className="bg-synapse-deep rounded-2xl p-5 border border-white/5 space-y-4">
-                 <p className="text-xs text-oneui-text-secondary leading-relaxed font-medium">Generate a mixed clinical set across all 19 subjects.</p>
+              <div className="bg-synapse-blue-light rounded-2xl p-5 border border-synapse-blue-soft space-y-4">
+                 <p className="text-xs text-synapse-text-secondary leading-relaxed font-medium">Generate a mixed clinical set across all 19 subjects.</p>
                  <button 
                   onClick={() => startPractice('Mixed Medical High-Yield')}
-                  className="w-full h-12 bg-synapse-aqua text-synapse-deep rounded-xl font-black text-[10px] uppercase tracking-widest"
+                  className="w-full h-12 bg-synapse-blue-primary text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-sm"
                  >
                    Initialize AI Sync
                  </button>
@@ -173,15 +173,15 @@ const Practice: React.FC = () => {
 
             {/* Global Exams */}
             <div className="space-y-4">
-              <h3 className="text-[10px] font-black text-oneui-text-muted uppercase tracking-[0.2em] px-2">Global Testing</h3>
+              <h3 className="text-[10px] font-black text-synapse-text-secondary uppercase tracking-[0.2em] px-2">Global Testing</h3>
               <div className="grid grid-cols-2 gap-4">
-                 <div onClick={() => navigate('/exam')} className="bg-synapse-surface/40 p-5 rounded-2xl border border-synapse-border flex flex-col gap-3 active:scale-95 transition-all cursor-pointer">
-                    <i className="fa-solid fa-file-contract text-synapse-aqua"></i>
-                    <p className="text-sm font-black text-oneui-text-primary">Mock Exams</p>
+                 <div onClick={() => navigate('/exam')} className="bg-white p-5 rounded-2xl border border-white flex flex-col gap-3 active:scale-95 transition-all cursor-pointer shadow-sm card-shadow">
+                    <i className="fa-solid fa-file-contract text-synapse-blue-primary"></i>
+                    <p className="text-sm font-black text-synapse-text-primary">Mock Exams</p>
                  </div>
-                 <div onClick={() => navigate('/customize-mock')} className="bg-synapse-surface/40 p-5 rounded-2xl border border-synapse-border flex flex-col gap-3 active:scale-95 transition-all cursor-pointer">
-                    <i className="fa-solid fa-sliders text-synapse-aqua"></i>
-                    <p className="text-sm font-black text-oneui-text-primary">Custom Tests</p>
+                 <div onClick={() => navigate('/customize-mock')} className="bg-white p-5 rounded-2xl border border-white flex flex-col gap-3 active:scale-95 transition-all cursor-pointer shadow-sm card-shadow">
+                    <i className="fa-solid fa-sliders text-synapse-blue-primary"></i>
+                    <p className="text-sm font-black text-synapse-text-primary">Custom Tests</p>
                  </div>
               </div>
             </div>
@@ -192,26 +192,26 @@ const Practice: React.FC = () => {
         {view === 'SUBJECTS' && (
           <div className="space-y-6 animate-in slide-in-from-right duration-300">
              <div className="flex justify-between items-center px-2">
-                <h3 className="text-[10px] font-black text-oneui-text-muted uppercase tracking-[0.2em]">Select Subject</h3>
+                <h3 className="text-[10px] font-black text-synapse-text-secondary uppercase tracking-[0.2em]">Select Subject</h3>
              </div>
              <div className="grid grid-cols-2 gap-4">
                 {SUBJECTS.map(subj => (
                   <div 
                     key={subj.id}
                     onClick={() => { setSelectedSubject(subj); setView('TOPICS'); }}
-                    className="bg-synapse-surface border border-synapse-border rounded-samsung p-6 shadow-xl space-y-4 active:scale-95 transition-all cursor-pointer group hover:border-synapse-aqua/50"
+                    className="bg-white border border-white rounded-samsung p-6 shadow-lg space-y-4 active:scale-95 transition-all cursor-pointer group hover:border-synapse-blue-primary/50 card-shadow"
                   >
-                    <div className="w-12 h-12 bg-synapse-deep rounded-xl flex items-center justify-center text-synapse-aqua text-xl border border-synapse-border group-hover:bg-synapse-aqua group-hover:text-synapse-deep transition-all">
+                    <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-synapse-blue-primary text-xl border border-slate-100 group-hover:bg-synapse-blue-primary group-hover:text-white transition-all shadow-sm">
                       <i className={`fa-solid ${subj.icon}`}></i>
                     </div>
                     <div>
-                      <h4 className="font-black text-oneui-text-primary text-sm tracking-tight">{subj.name}</h4>
+                      <h4 className="font-black text-synapse-text-primary text-sm tracking-tight">{subj.name}</h4>
                       <div className="flex justify-between items-center mt-2">
-                         <span className="text-[9px] font-bold text-oneui-text-muted uppercase">{subj.totalTopics} Topics</span>
-                         <span className="text-[9px] font-black text-synapse-aqua">{subj.accuracy}%</span>
+                         <span className="text-[9px] font-bold text-synapse-text-secondary uppercase">{subj.totalTopics} Topics</span>
+                         <span className="text-[9px] font-black text-synapse-blue-primary">{subj.accuracy}%</span>
                       </div>
-                      <div className="w-full h-1 bg-synapse-deep rounded-full mt-2 overflow-hidden">
-                         <div className="h-full bg-synapse-aqua" style={{ width: `${subj.accuracy}%` }} />
+                      <div className="w-full h-1 bg-slate-100 rounded-full mt-2 overflow-hidden">
+                         <div className="h-full bg-synapse-blue-primary" style={{ width: `${subj.accuracy}%` }} />
                       </div>
                     </div>
                   </div>
@@ -223,13 +223,13 @@ const Practice: React.FC = () => {
         {/* VIEW: TOPICS LIST */}
         {view === 'TOPICS' && (
           <div className="space-y-6 animate-in slide-in-from-right duration-300">
-             <div className="bg-synapse-surface p-6 rounded-samsung border border-synapse-border flex items-center gap-5">
-                <div className="w-14 h-14 bg-synapse-aqua/10 rounded-2xl flex items-center justify-center text-synapse-aqua text-2xl border border-synapse-aqua/20">
+             <div className="bg-white p-6 rounded-samsung border border-white flex items-center gap-5 shadow-lg card-shadow">
+                <div className="w-14 h-14 bg-synapse-blue-primary/10 rounded-2xl flex items-center justify-center text-synapse-blue-primary text-2xl border border-synapse-blue-primary/10">
                    <i className={`fa-solid ${selectedSubject.icon}`}></i>
                 </div>
                 <div>
-                   <h3 className="text-xl font-black text-oneui-text-primary">{selectedSubject.name}</h3>
-                   <p className="text-[10px] font-black text-oneui-text-muted uppercase tracking-widest">Neural Pathway Focus</p>
+                   <h3 className="text-xl font-black text-synapse-text-primary">{selectedSubject.name}</h3>
+                   <p className="text-[10px] font-black text-synapse-text-secondary uppercase tracking-widest">Neural Pathway Focus</p>
                 </div>
              </div>
              <div className="space-y-3">
@@ -237,10 +237,10 @@ const Practice: React.FC = () => {
                   <div 
                     key={topicName}
                     onClick={() => startPractice(`${selectedSubject.name}: ${topicName}`)}
-                    className="bg-synapse-surface/40 p-5 rounded-2xl border border-synapse-border flex items-center justify-between active:scale-[0.98] transition-all cursor-pointer group"
+                    className="bg-white p-5 rounded-2xl border border-white flex items-center justify-between active:scale-[0.98] transition-all cursor-pointer group shadow-sm card-shadow"
                   >
-                     <p className="font-bold text-oneui-text-primary">{topicName}</p>
-                     <div className="w-8 h-8 rounded-full bg-synapse-deep flex items-center justify-center text-synapse-aqua text-[10px] group-hover:bg-synapse-aqua group-hover:text-synapse-deep transition-all">
+                     <p className="font-bold text-synapse-text-primary">{topicName}</p>
+                     <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-synapse-blue-primary text-[10px] group-hover:bg-synapse-blue-primary group-hover:text-white transition-all border border-slate-100">
                         <i className="fa-solid fa-play ml-0.5"></i>
                      </div>
                   </div>
@@ -255,14 +255,14 @@ const Practice: React.FC = () => {
              {/* Filter Section */}
              <div className="space-y-6">
                 <div className="space-y-3">
-                   <p className="text-[10px] font-black text-oneui-text-muted uppercase tracking-widest px-2">Exam Category</p>
+                   <p className="text-[10px] font-black text-synapse-text-secondary uppercase tracking-widest px-2">Exam Category</p>
                    <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
                       {EXAMS.map(exam => (
                         <button 
                           key={exam}
                           onClick={() => setSelectedExam(exam)}
                           className={`px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest whitespace-nowrap transition-all border ${
-                            selectedExam === exam ? 'bg-synapse-aqua text-synapse-deep border-synapse-aqua' : 'bg-synapse-surface text-oneui-text-muted border-synapse-border'
+                            selectedExam === exam ? 'bg-synapse-blue-primary text-white border-synapse-blue-primary shadow-md' : 'bg-white text-synapse-text-secondary border-synapse-blue-soft shadow-sm'
                           }`}
                         >
                           {exam}
@@ -272,14 +272,14 @@ const Practice: React.FC = () => {
                 </div>
 
                 <div className="space-y-3">
-                   <p className="text-[10px] font-black text-oneui-text-muted uppercase tracking-widest px-2">Select Year</p>
+                   <p className="text-[10px] font-black text-synapse-text-secondary uppercase tracking-widest px-2">Select Year</p>
                    <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
                       {YEARS.map(year => (
                         <button 
                           key={year}
                           onClick={() => setSelectedYear(year)}
                           className={`px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest whitespace-nowrap transition-all border ${
-                            selectedYear === year ? 'bg-synapse-aqua text-synapse-deep border-synapse-aqua' : 'bg-synapse-surface text-oneui-text-muted border-synapse-border'
+                            selectedYear === year ? 'bg-synapse-blue-primary text-white border-synapse-blue-primary shadow-md' : 'bg-white text-synapse-text-secondary border-synapse-blue-soft shadow-sm'
                           }`}
                         >
                           {year}
@@ -291,26 +291,26 @@ const Practice: React.FC = () => {
 
              {/* PYQ List */}
              <div className="space-y-4">
-                <h3 className="text-xs font-black text-oneui-text-primary uppercase tracking-widest px-2 flex items-center gap-2">
-                   Available Recalls <span className="text-[10px] text-oneui-text-muted">(Mock Database)</span>
+                <h3 className="text-xs font-black text-synapse-text-primary uppercase tracking-widest px-2 flex items-center gap-2">
+                   Available Recalls <span className="text-[10px] text-synapse-text-secondary">(Mock Database)</span>
                 </h3>
                 <div className="space-y-3">
                    {[1, 2, 3].map(i => (
                      <div 
                       key={i}
                       onClick={() => startPractice(`${selectedExam} ${selectedYear} Recall Set ${i}`)}
-                      className="bg-synapse-surface p-6 rounded-samsung border border-synapse-border flex items-center justify-between active:scale-[0.98] transition-all cursor-pointer group"
+                      className="bg-white p-6 rounded-samsung border border-white flex items-center justify-between active:scale-[0.98] transition-all cursor-pointer group shadow-lg card-shadow"
                      >
                         <div className="flex items-center gap-5">
-                           <div className="w-12 h-12 bg-synapse-deep rounded-xl flex items-center justify-center text-synapse-warning text-xl border border-synapse-border">
+                           <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-synapse-warning text-xl border border-slate-100 shadow-sm">
                               <i className="fa-solid fa-clock-rotate-left"></i>
                            </div>
                            <div>
-                              <h4 className="font-black text-oneui-text-primary">{selectedExam} {selectedYear} Set 0{i}</h4>
-                              <p className="text-[9px] font-bold text-oneui-text-muted uppercase tracking-widest mt-1">30 High-Yield Recalls • 45m Estimated</p>
+                              <h4 className="font-black text-synapse-text-primary">{selectedExam} {selectedYear} Set 0{i}</h4>
+                              <p className="text-[9px] font-bold text-synapse-text-secondary uppercase tracking-widest mt-1">30 High-Yield Recalls • 45m Estimated</p>
                            </div>
                         </div>
-                        <i className="fa-solid fa-chevron-right text-xs text-synapse-border group-hover:text-synapse-aqua transition-colors"></i>
+                        <i className="fa-solid fa-chevron-right text-xs text-slate-200 group-hover:text-synapse-blue-primary transition-colors"></i>
                      </div>
                    ))}
                 </div>
@@ -323,22 +323,22 @@ const Practice: React.FC = () => {
           <div className="space-y-6 animate-in slide-in-from-right duration-300">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-20 space-y-6">
-                 <div className="w-16 h-16 border-4 border-synapse-aqua border-t-transparent rounded-full animate-spin shadow-[0_0_15px_rgba(45,212,191,0.4)]"></div>
-                 <p className="text-sm font-black text-synapse-aqua uppercase tracking-[0.3em] animate-pulse">Initializing Synapse...</p>
+                 <div className="w-16 h-16 border-4 border-synapse-blue-primary border-t-transparent rounded-full animate-spin shadow-sm"></div>
+                 <p className="text-sm font-black text-synapse-blue-primary uppercase tracking-[0.3em] animate-pulse">Initializing Synapse...</p>
               </div>
             ) : mcqs.length > 0 ? (
               <div className="space-y-6">
-                <div className="flex items-center justify-between text-[11px] font-black text-oneui-text-muted px-2 tracking-widest">
+                <div className="flex items-center justify-between text-[11px] font-black text-synapse-text-secondary px-2 tracking-widest">
                   <span>QUESTION {currentIdx + 1} OF {mcqs.length}</span>
                   <span className={`uppercase px-3 py-1 rounded-full border ${
-                    mcqs[currentIdx].difficulty === 'hard' ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                    mcqs[currentIdx].difficulty === 'hard' ? 'bg-red-50 text-red-500 border-red-100' : 'bg-emerald-50 text-emerald-500 border-emerald-100'
                   }`}>
                     {mcqs[currentIdx].difficulty}
                   </span>
                 </div>
 
-                <div className="bg-synapse-surface p-8 rounded-samsung shadow-2xl border border-synapse-border space-y-8 min-h-[400px] flex flex-col">
-                  <h2 className="text-2xl font-black text-oneui-text-primary leading-snug tracking-tight">
+                <div className="bg-white p-8 rounded-samsung shadow-2xl border border-white space-y-8 min-h-[400px] flex flex-col card-shadow">
+                  <h2 className="text-2xl font-black text-synapse-text-primary leading-snug tracking-tight">
                     {mcqs[currentIdx].question}
                   </h2>
 
@@ -348,12 +348,12 @@ const Practice: React.FC = () => {
                       const isCorrect = i === mcqs[currentIdx].correctAnswer;
                       const showResult = showExplanation;
                       
-                      let buttonStyle = "bg-synapse-deep border-synapse-border text-oneui-text-secondary";
+                      let buttonStyle = "bg-slate-50 border-slate-100 text-synapse-text-secondary";
                       if (showResult) {
-                        if (isCorrect) buttonStyle = "bg-emerald-500/10 border-emerald-500 text-emerald-400";
-                        else if (isSelected) buttonStyle = "bg-red-500/10 border-red-500 text-red-400";
+                        if (isCorrect) buttonStyle = "bg-emerald-50 border-emerald-500 text-emerald-700";
+                        else if (isSelected) buttonStyle = "bg-red-50 border-red-500 text-red-700";
                       } else if (isSelected) {
-                        buttonStyle = "bg-synapse-aqua/10 border-synapse-aqua text-synapse-aqua";
+                        buttonStyle = "bg-synapse-blue-primary border-synapse-blue-primary text-white";
                       }
 
                       return (
@@ -367,7 +367,7 @@ const Practice: React.FC = () => {
                           className={`w-full text-left p-5 min-h-[72px] rounded-2xl border-2 transition-all flex items-center gap-5 active:scale-[0.98] ${buttonStyle}`}
                         >
                           <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-black text-sm ${
-                            isSelected ? 'bg-synapse-aqua text-synapse-deep shadow-[0_0_10px_rgba(45,212,191,0.4)]' : 'bg-synapse-surface text-oneui-text-muted'
+                            isSelected ? 'bg-white text-synapse-blue-primary shadow-sm' : 'bg-white text-slate-400 border border-slate-100 shadow-sm'
                           }`}>
                             {String.fromCharCode(65 + i)}
                           </div>
@@ -378,23 +378,23 @@ const Practice: React.FC = () => {
                   </div>
 
                   {showExplanation && (
-                    <div className="pt-8 border-t border-synapse-border space-y-6 animate-in fade-in">
-                      <div className="bg-synapse-deep p-6 rounded-2xl space-y-4 border border-synapse-border">
+                    <div className="pt-8 border-t border-slate-100 space-y-6 animate-in fade-in">
+                      <div className="bg-slate-50 p-6 rounded-2xl space-y-4 border border-slate-100">
                         <div className="flex items-center gap-3">
                           <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-white ${selectedOpt === mcqs[currentIdx].correctAnswer ? 'bg-emerald-500' : 'bg-red-500'}`}>
                             <i className={`fa-solid ${selectedOpt === mcqs[currentIdx].correctAnswer ? 'fa-check' : 'fa-xmark'}`}></i>
                           </div>
-                          <h4 className="font-black text-oneui-text-primary text-[10px] uppercase tracking-widest">
+                          <h4 className="font-black text-synapse-text-primary text-[10px] uppercase tracking-widest">
                             {selectedOpt === mcqs[currentIdx].correctAnswer ? 'CORRECT CHOICE' : 'REASONING'}
                           </h4>
                         </div>
-                        <p className="text-oneui-text-secondary text-[13px] leading-relaxed font-medium">
+                        <p className="text-synapse-text-secondary text-[13px] leading-relaxed font-medium">
                           {mcqs[currentIdx].explanation}
                         </p>
                       </div>
                       <button 
                         onClick={handleNext}
-                        className="w-full h-16 bg-synapse-aqua text-synapse-deep rounded-samsung font-black text-lg shadow-xl shadow-synapse-aqua/10 active:scale-95 transition-all"
+                        className="w-full h-16 bg-synapse-blue-primary text-white rounded-samsung font-black text-lg shadow-xl shadow-synapse-blue-primary/10 active:scale-95 transition-all"
                       >
                         {currentIdx < mcqs.length - 1 ? 'Next Challenge' : 'Exit Session'}
                       </button>

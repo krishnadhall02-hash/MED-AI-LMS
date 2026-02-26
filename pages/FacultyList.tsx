@@ -36,12 +36,12 @@ const FacultyList: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="pb-40 bg-oneui-bg min-h-screen">
+    <div className="pb-40 bg-synapse-blue-light min-h-screen">
       <div className="oneui-header-space flex flex-col justify-end px-8 pb-8">
-        <button onClick={() => navigate(-1)} className="w-10 h-10 -ml-2 text-slate-500 mb-2">
+        <button onClick={() => navigate(-1)} className="w-10 h-10 -ml-2 text-synapse-text-secondary mb-2">
           <i className="fa-solid fa-arrow-left text-xl"></i>
         </button>
-        <h1 className="text-4xl font-light text-slate-900 leading-tight">Choose Your<br/><span className="font-bold">Expert</span></h1>
+        <h1 className="text-4xl font-light text-synapse-text-primary leading-tight">Choose Your<br/><span className="font-bold">Expert</span></h1>
       </div>
 
       <div className="px-5 space-y-4 -mt-4">
@@ -49,18 +49,18 @@ const FacultyList: React.FC = () => {
           <div 
             key={f.id}
             onClick={() => f.status === 'Available' && navigate(`/book-appointment/${f.id}`)}
-            className={`bg-white rounded-samsung p-6 shadow-sm border border-slate-100 flex flex-col gap-6 active:scale-[0.98] transition-all cursor-pointer ${f.status === 'Busy' ? 'opacity-70 grayscale-[0.5]' : ''}`}
+            className={`bg-white rounded-samsung p-6 shadow-sm border border-white flex flex-col gap-6 active:scale-[0.98] transition-all cursor-pointer card-shadow ${f.status === 'Busy' ? 'opacity-70 grayscale-[0.5]' : ''}`}
           >
             <div className="flex items-center gap-5">
               <div className="relative">
-                <img src={f.avatar} alt={f.name} className="w-20 h-20 rounded-[24px] object-cover border-2 border-slate-50 shadow-sm" />
+                <img src={f.avatar} alt={f.name} className="w-20 h-20 rounded-[24px] object-cover border-2 border-white shadow-sm" />
                 <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full border-4 border-white ${f.status === 'Available' ? 'bg-emerald-500' : 'bg-red-500'}`} />
               </div>
               <div className="flex-1">
-                 <h4 className="text-lg font-black text-slate-900 leading-tight">{f.name}</h4>
-                 <p className="text-[10px] font-black text-oneui-blue uppercase tracking-widest mt-0.5">{f.subject}</p>
+                 <h4 className="text-lg font-black text-synapse-text-primary leading-tight">{f.name}</h4>
+                 <p className="text-[10px] font-black text-synapse-blue-primary uppercase tracking-widest mt-0.5">{f.subject}</p>
                  <div className="flex gap-4 mt-2">
-                    <div className="flex items-center gap-1.5 text-slate-400">
+                    <div className="flex items-center gap-1.5 text-synapse-text-secondary">
                        <i className="fa-solid fa-briefcase text-[10px]"></i>
                        <span className="text-[10px] font-bold uppercase">{f.exp}</span>
                     </div>
@@ -72,7 +72,7 @@ const FacultyList: React.FC = () => {
               </div>
             </div>
 
-            <p className="text-xs font-medium text-slate-500 leading-relaxed px-1">
+            <p className="text-xs font-medium text-synapse-text-secondary leading-relaxed px-1">
               {f.bio}
             </p>
 
@@ -80,7 +80,7 @@ const FacultyList: React.FC = () => {
               disabled={f.status === 'Busy'}
               className={`w-full h-14 rounded-2xl font-black text-[11px] uppercase tracking-widest transition-all ${
                 f.status === 'Available' 
-                ? 'bg-oneui-blue text-white shadow-lg shadow-blue-100' 
+                ? 'bg-synapse-blue-primary text-white shadow-lg shadow-synapse-blue-primary/20' 
                 : 'bg-slate-100 text-slate-400 cursor-not-allowed'
               }`}
             >

@@ -16,25 +16,33 @@
             'samsung': '28px',
           },
           colors: {
-            'synapse-deep': '#020617',
-            'synapse-dark': '#0a191e',
-            'synapse-surface': '#111d27',
-            'synapse-elevated': '#1e293b',
-            'synapse-border': 'rgba(45, 212, 191, 0.15)',
-            'synapse-light-bg': '#f8fafc',
-            'synapse-card-white': '#ffffff',
-            'oneui-text-primary': '#f1f5f9',
-            'oneui-text-secondary': '#94a3b8',
-            'oneui-text-muted': '#64748b',
-            'synapse-aqua': '#2dd4bf',
+            'synapse-blue-primary': '#3b82f6',
+            'synapse-blue-secondary': '#60a5fa',
+            'synapse-blue-light': '#f0f9ff',
+            'synapse-blue-soft': '#e0f2fe',
+            'synapse-text-primary': '#0f172a',
+            'synapse-text-secondary': '#475569',
+            'synapse-text-muted': '#94a3b8',
+            'synapse-border-soft': '#f1f5f9',
+            'synapse-card': '#ffffff',
             'synapse-success': '#10b981',
-            'synapse-error': '#f87171',
-            'synapse-warning': '#fbbf24',
-            'oneui-blue': '#2dd4bf',
-            'oneui-bg': '#0a191e',
-            'oneui-surface': '#111d27',
-            'oneui-border': '#1e2d3d',
-            'synapse-text-dark': '#1e293b',
+            'synapse-error': '#ef4444',
+            'synapse-warning': '#f59e0b',
+            // Legacy mappings for compatibility during transition
+            'synapse-deep': '#0f172a',
+            'synapse-dark': '#1e293b',
+            'synapse-surface': '#ffffff',
+            'synapse-aqua': '#3b82f6',
+            'synapse-light-bg': '#f0f9ff',
+            'synapse-card-white': '#ffffff',
+            'oneui-text-primary': '#0f172a',
+            'oneui-text-secondary': '#475569',
+            'oneui-text-muted': '#94a3b8',
+            'oneui-blue': '#3b82f6',
+            'oneui-bg': '#f0f9ff',
+            'oneui-surface': '#ffffff',
+            'oneui-border': '#f1f5f9',
+            'synapse-text-dark': '#0f172a',
             'synapse-text-muted': '#64748b'
           }
         }
@@ -48,21 +56,21 @@
     }
     body { 
       font-family: 'Inter', sans-serif; 
-      background-color: #000; 
+      background-color: #f0f9ff; 
       overflow: hidden;
-      color: #f1f5f9;
+      color: #0f172a;
     }
     .mobile-frame {
       width: 100%;
       max-width: 430px; 
       height: 100vh;
       margin: 0 auto;
-      background: #0a191e; 
+      background: linear-gradient(to bottom, #e0f2fe 0%, #bae6fd 50%, #f0f9ff 100%); 
       position: relative;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 0 50px rgba(0,0,0,0.8);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
     }
     ::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -73,15 +81,19 @@
     }
     
     .synapse-glass {
-      background: rgba(17, 29, 39, 0.75);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(45, 212, 191, 0.1);
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
     }
     
     input, select, textarea {
-      background-color: #111d27 !important;
-      color: #f1f5f9 !important;
-      border-color: rgba(45, 212, 191, 0.15) !important;
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      border-color: #e2e8f0 !important;
+    }
+    
+    .card-shadow {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
     }
   </style>
   <script type="importmap">

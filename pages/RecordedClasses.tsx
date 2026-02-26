@@ -47,12 +47,12 @@ const RecordedClasses: React.FC = () => {
   const selectedData = MOCK_DATA.find(s => s.id === activeSubject);
 
   return (
-    <div className="pb-40 bg-oneui-bg min-h-screen">
+    <div className="pb-40 bg-synapse-blue-light min-h-screen">
       <div className="oneui-header-space flex flex-col justify-end px-8 pb-8">
-        <button onClick={() => navigate(-1)} className="w-10 h-10 -ml-2 text-slate-500 mb-2">
+        <button onClick={() => navigate(-1)} className="w-10 h-10 -ml-2 text-synapse-text-secondary mb-2 active:scale-90">
           <i className="fa-solid fa-arrow-left"></i>
         </button>
-        <h1 className="text-4xl font-light text-slate-900 leading-tight">Video<br/><span className="font-bold">Archive</span></h1>
+        <h1 className="text-4xl font-light text-synapse-text-primary leading-tight">Video<br/><span className="font-bold">Archive</span></h1>
       </div>
 
       <div className="px-5 space-y-8 -mt-4">
@@ -62,8 +62,8 @@ const RecordedClasses: React.FC = () => {
              <button
                key={s.id}
                onClick={() => setActiveSubject(s.id)}
-               className={`px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest whitespace-nowrap transition-all ${
-                 activeSubject === s.id ? 'bg-slate-900 text-white shadow-lg' : 'bg-white text-slate-400 border border-slate-100'
+               className={`px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest whitespace-nowrap transition-all border ${
+                 activeSubject === s.id ? 'bg-synapse-blue-primary text-white border-synapse-blue-primary shadow-md' : 'bg-white text-synapse-text-secondary border-white shadow-sm'
                }`}
              >
                {s.subject}
@@ -76,7 +76,7 @@ const RecordedClasses: React.FC = () => {
           {selectedData?.topics.map((topic) => (
             <div key={topic.id} className="space-y-4">
                <div className="flex justify-between items-center px-2">
-                  <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">{topic.title}</h3>
+                  <h3 className="text-xs font-black text-synapse-text-secondary uppercase tracking-widest">{topic.title}</h3>
                   <span className="text-[10px] font-bold text-slate-300">{topic.recordings.length} Sessions</span>
                </div>
                
@@ -85,12 +85,12 @@ const RecordedClasses: React.FC = () => {
                     <div 
                       key={rec.id}
                       onClick={() => !rec.isExpired && navigate(`/video/${rec.id}`)}
-                      className={`bg-white p-5 rounded-samsung border flex items-center gap-5 transition-all shadow-sm ${
+                      className={`bg-white p-5 rounded-samsung border border-white flex items-center gap-5 transition-all shadow-sm card-shadow ${
                         rec.isExpired ? 'opacity-50 grayscale cursor-not-allowed' : 'active:scale-95 cursor-pointer'
                       }`}
                     >
                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-xl ${
-                         rec.isExpired ? 'bg-slate-100 text-slate-300' : 'bg-blue-50 text-oneui-blue'
+                         rec.isExpired ? 'bg-slate-100 text-slate-300' : 'bg-synapse-blue-primary/10 text-synapse-blue-primary'
                        }`}>
                           <i className={`fa-solid ${rec.isExpired ? 'fa-video-slash' : 'fa-play'}`}></i>
                        </div>
@@ -103,10 +103,10 @@ const RecordedClasses: React.FC = () => {
                              }`}>
                                 {rec.isExpired ? 'Expired' : `Expires in ${rec.expiry}`}
                              </span>
-                             {rec.watched && <i className="fa-solid fa-circle-check text-oneui-blue text-[10px]"></i>}
+                             {rec.watched && <i className="fa-solid fa-circle-check text-synapse-blue-primary text-[10px]"></i>}
                           </div>
-                          <h4 className="font-black text-slate-900 leading-tight">{rec.title}</h4>
-                          <p className="text-[10px] font-bold text-slate-400 uppercase">{rec.duration} • HQ Recording</p>
+                          <h4 className="font-black text-synapse-text-primary leading-tight">{rec.title}</h4>
+                          <p className="text-[10px] font-bold text-synapse-text-secondary uppercase">{rec.duration} • HQ Recording</p>
                        </div>
                        
                        <div className="flex flex-col items-center gap-1 opacity-20">
@@ -121,12 +121,12 @@ const RecordedClasses: React.FC = () => {
         </div>
 
         {/* Access Info Nudge */}
-        <div className="bg-slate-900 p-8 rounded-[32px] text-white space-y-4">
+        <div className="bg-synapse-blue-primary p-8 rounded-[32px] text-white space-y-4 shadow-lg card-shadow">
            <div className="flex items-center gap-4">
-              <i className="fa-solid fa-circle-info text-oneui-blue"></i>
+              <i className="fa-solid fa-circle-info text-white"></i>
               <h4 className="font-bold">About Video Access</h4>
            </div>
-           <p className="text-xs font-medium opacity-70 leading-relaxed">
+           <p className="text-xs font-medium opacity-90 leading-relaxed">
              Recordings are available for a limited time (48-72 hours) post-upload for security reasons. Download is disabled for DRM protection.
            </p>
         </div>

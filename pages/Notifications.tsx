@@ -60,18 +60,18 @@ const Notifications: React.FC = () => {
   const categoryIcons = {
     class: { icon: 'fa-video', color: 'bg-red-50 text-red-500' },
     test: { icon: 'fa-file-invoice', color: 'bg-emerald-50 text-emerald-500' },
-    study: { icon: 'fa-brain', color: 'bg-blue-50 text-oneui-blue' },
+    study: { icon: 'fa-brain', color: 'bg-synapse-blue-primary/10 text-synapse-blue-primary' },
     announcement: { icon: 'fa-bullhorn', color: 'bg-amber-50 text-amber-500' }
   };
 
   return (
-    <div className="pb-40 bg-oneui-bg min-h-screen">
+    <div className="pb-40 bg-synapse-blue-light min-h-screen">
       <div className="oneui-header-space flex flex-col justify-end px-8 pb-8">
         <div className="flex justify-between items-start">
-           <h1 className="text-4xl font-light text-slate-900 leading-tight">Alerts &<br/><span className="font-bold">Updates</span></h1>
+           <h1 className="text-4xl font-light text-synapse-text-primary leading-tight">Alerts &<br/><span className="font-bold">Updates</span></h1>
            <button 
              onClick={() => navigate('/notification-settings')}
-             className="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center text-slate-400 border border-slate-100"
+             className="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center text-synapse-text-secondary border border-white card-shadow"
            >
               <i className="fa-solid fa-gear"></i>
            </button>
@@ -85,8 +85,8 @@ const Notifications: React.FC = () => {
              <button
                key={cat}
                onClick={() => setFilter(cat as any)}
-               className={`px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest whitespace-nowrap transition-all ${
-                 filter === cat ? 'bg-slate-900 text-white shadow-lg' : 'bg-white text-slate-400 border border-slate-100 hover:bg-slate-50'
+               className={`px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest whitespace-nowrap transition-all card-shadow ${
+                 filter === cat ? 'bg-synapse-blue-primary text-white shadow-lg' : 'bg-white text-synapse-text-secondary border border-white hover:bg-slate-50'
                }`}
              >
                {cat}
@@ -100,12 +100,12 @@ const Notifications: React.FC = () => {
             <div 
               key={n.id}
               onClick={() => handleAction(n)}
-              className={`bg-white p-5 rounded-samsung border transition-all active:scale-95 cursor-pointer relative ${
-                n.isRead ? 'border-slate-50 opacity-70' : 'border-blue-100 shadow-sm'
+              className={`bg-white p-5 rounded-samsung border transition-all active:scale-95 cursor-pointer relative card-shadow ${
+                n.isRead ? 'border-slate-50 opacity-70' : 'border-white shadow-sm'
               }`}
             >
               {!n.isRead && (
-                 <div className="absolute top-5 right-5 w-2 h-2 bg-oneui-blue rounded-full animate-pulse" />
+                 <div className="absolute top-5 right-5 w-2 h-2 bg-synapse-blue-primary rounded-full animate-pulse" />
               )}
               
               <div className="flex gap-5">
@@ -114,20 +114,20 @@ const Notifications: React.FC = () => {
                 </div>
                 <div className="flex-1 space-y-1">
                    <div className="flex justify-between items-center">
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{n.category}</p>
+                      <p className="text-[10px] font-black text-synapse-text-secondary uppercase tracking-widest">{n.category}</p>
                       <p className="text-[10px] text-slate-300 font-bold">{new Date(n.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
                    </div>
-                   <h4 className={`text-sm leading-tight ${n.isRead ? 'font-bold text-slate-500' : 'font-black text-slate-900'}`}>{n.title}</h4>
-                   <p className="text-xs text-slate-500 font-medium leading-relaxed">{n.message}</p>
+                   <h4 className={`text-sm leading-tight ${n.isRead ? 'font-bold text-synapse-text-secondary' : 'font-black text-synapse-text-primary'}`}>{n.title}</h4>
+                   <p className="text-xs text-synapse-text-secondary font-medium leading-relaxed">{n.message}</p>
                 </div>
               </div>
             </div>
           )) : (
             <div className="py-20 text-center space-y-4">
-               <div className="w-20 h-20 bg-white rounded-full border border-slate-100 mx-auto flex items-center justify-center text-slate-200 text-3xl">
+               <div className="w-20 h-20 bg-white rounded-full border border-white mx-auto flex items-center justify-center text-slate-200 text-3xl card-shadow">
                   <i className="fa-solid fa-bell-slash"></i>
                </div>
-               <p className="text-sm font-bold text-slate-400">All caught up!</p>
+               <p className="text-sm font-bold text-synapse-text-secondary">All caught up!</p>
             </div>
           )}
         </div>

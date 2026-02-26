@@ -53,16 +53,16 @@ const Community: React.FC = () => {
   const subjects = ['All', 'Anatomy', 'Pharma', 'Medicine', 'Physio'];
 
   return (
-    <div className="pb-40 bg-oneui-bg min-h-screen">
+    <div className="pb-40 bg-synapse-blue-light min-h-screen">
       <div className="oneui-header-space flex flex-col justify-end px-8 pb-8">
-        <h1 className="text-4xl font-light text-slate-900 leading-tight">Community<br/><span className="font-bold">Discussion</span></h1>
+        <h1 className="text-4xl font-light text-synapse-text-primary leading-tight">Community<br/><span className="font-bold">Discussion</span></h1>
       </div>
 
       <div className="px-5 space-y-6 -mt-4">
         {/* Search Bar */}
-        <div className="bg-white rounded-2xl h-14 px-5 flex items-center gap-3 border border-slate-100 shadow-sm">
+        <div className="bg-white rounded-2xl h-14 px-5 flex items-center gap-3 border border-white shadow-sm card-shadow">
            <i className="fa-solid fa-magnifying-glass text-slate-300"></i>
-           <input type="text" placeholder="Search doubts & discussions..." className="bg-transparent border-none flex-1 focus:outline-none font-medium text-sm" />
+           <input type="text" placeholder="Search doubts & discussions..." className="bg-transparent border-none flex-1 focus:outline-none font-medium text-sm text-synapse-text-primary" />
         </div>
 
         {/* Filters */}
@@ -72,8 +72,8 @@ const Community: React.FC = () => {
                 <button 
                   key={s}
                   onClick={() => setActiveSubject(s)}
-                  className={`px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest whitespace-nowrap transition-all border ${
-                    activeSubject === s ? 'bg-slate-900 text-white border-slate-900 shadow-lg' : 'bg-white text-slate-400 border-slate-100 hover:bg-slate-50'
+                  className={`px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest whitespace-nowrap transition-all border card-shadow ${
+                    activeSubject === s ? 'bg-synapse-blue-primary text-white border-synapse-blue-primary shadow-lg' : 'bg-white text-synapse-text-secondary border-white hover:bg-slate-50'
                   }`}
                 >
                   {s}
@@ -82,21 +82,21 @@ const Community: React.FC = () => {
            </div>
            
            <div className="flex justify-between items-center px-1">
-              <div className="flex bg-slate-100 p-1 rounded-xl">
+              <div className="flex bg-white p-1 rounded-xl card-shadow border border-white">
                  <button 
                    onClick={() => setSortBy('latest')}
-                   className={`px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${sortBy === 'latest' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400'}`}
+                   className={`px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${sortBy === 'latest' ? 'bg-synapse-blue-primary text-white shadow-sm' : 'text-synapse-text-secondary'}`}
                  >
                    Latest
                  </button>
                  <button 
                    onClick={() => setSortBy('popular')}
-                   className={`px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${sortBy === 'popular' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400'}`}
+                   className={`px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${sortBy === 'popular' ? 'bg-synapse-blue-primary text-white shadow-sm' : 'text-synapse-text-secondary'}`}
                  >
                    Popular
                  </button>
               </div>
-              <button className="text-oneui-blue text-[10px] font-black uppercase tracking-widest">Mark all read</button>
+              <button className="text-synapse-blue-primary text-[10px] font-black uppercase tracking-widest">Mark all read</button>
            </div>
         </div>
 
@@ -106,39 +106,39 @@ const Community: React.FC = () => {
              <div 
                key={thread.id} 
                onClick={() => navigate(`/community/${thread.id}`)}
-               className="bg-white p-6 rounded-samsung border border-slate-100 shadow-sm active:scale-[0.98] transition-all cursor-pointer group"
+               className="bg-white p-6 rounded-samsung border border-white shadow-sm active:scale-[0.98] transition-all cursor-pointer group card-shadow"
              >
                 <div className="flex justify-between items-start mb-4">
                    <div className="flex items-center gap-3">
                       <img src={thread.authorAvatar} className="w-8 h-8 rounded-full border border-slate-100" />
                       <div>
-                         <p className="text-[11px] font-black text-slate-900">{thread.author}</p>
-                         <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
+                         <p className="text-[11px] font-black text-synapse-text-primary">{thread.author}</p>
+                         <p className="text-[9px] font-bold text-synapse-text-secondary uppercase tracking-widest">
                            {new Date(thread.timestamp).toLocaleDateString()} • {thread.subject}
                          </p>
                       </div>
                    </div>
                    {thread.isVerified && (
-                      <span className="bg-blue-50 text-oneui-blue text-[8px] font-black uppercase px-2 py-1 rounded-md border border-blue-100">
+                      <span className="bg-synapse-blue-primary/10 text-synapse-blue-primary text-[8px] font-black uppercase px-2 py-1 rounded-md border border-synapse-blue-primary/20">
                          Mentor Verified
                       </span>
                    )}
                 </div>
 
-                <h3 className="text-lg font-black text-slate-900 leading-tight mb-2 group-hover:text-oneui-blue transition-colors">
+                <h3 className="text-lg font-black text-synapse-text-primary leading-tight mb-2 group-hover:text-synapse-blue-primary transition-colors">
                   {thread.title}
                 </h3>
-                <p className="text-sm text-slate-500 line-clamp-2 font-medium leading-relaxed mb-5">
+                <p className="text-sm text-synapse-text-secondary line-clamp-2 font-medium leading-relaxed mb-5">
                   {thread.content}
                 </p>
 
                 <div className="flex items-center justify-between border-t border-slate-50 pt-4">
                    <div className="flex items-center gap-6">
-                      <div className="flex items-center gap-1.5 text-slate-400">
+                      <div className="flex items-center gap-1.5 text-synapse-text-secondary">
                          <i className="fa-regular fa-thumbs-up"></i>
                          <span className="text-xs font-black">{thread.upvotes}</span>
                       </div>
-                      <div className="flex items-center gap-1.5 text-slate-400">
+                      <div className="flex items-center gap-1.5 text-synapse-text-secondary">
                          <i className="fa-regular fa-comment"></i>
                          <span className="text-xs font-black">{thread.commentsCount}</span>
                       </div>
@@ -152,7 +152,7 @@ const Community: React.FC = () => {
         </div>
 
         {/* Floating Action Button */}
-        <button className="fixed bottom-24 right-6 w-16 h-16 bg-slate-900 text-white rounded-full shadow-2xl flex items-center justify-center text-2xl active:scale-90 transition-all z-30">
+        <button className="fixed bottom-24 right-6 w-16 h-16 bg-synapse-blue-primary text-white rounded-full shadow-2xl flex items-center justify-center text-2xl active:scale-90 transition-all z-30">
            <i className="fa-solid fa-plus"></i>
         </button>
       </div>

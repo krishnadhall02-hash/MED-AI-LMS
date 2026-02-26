@@ -68,9 +68,9 @@ const MOCK_DATA: Subject[] = [
 
 const PricingBadge: React.FC<{ type: PricingType }> = ({ type }) => {
   const styles = {
-    FREE: 'bg-synapse-success/10 text-synapse-success border-synapse-success/20',
-    PAID: 'bg-synapse-aqua/10 text-synapse-aqua border-synapse-aqua/20',
-    TRIAL: 'bg-synapse-warning/10 text-synapse-warning border-synapse-warning/20'
+    FREE: 'bg-emerald-50 text-emerald-600 border-emerald-100',
+    PAID: 'bg-synapse-blue-primary/10 text-synapse-blue-primary border-synapse-blue-primary/10',
+    TRIAL: 'bg-amber-50 text-amber-600 border-amber-100'
   };
   return (
     <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm border ${styles[type]}`}>
@@ -81,7 +81,7 @@ const PricingBadge: React.FC<{ type: PricingType }> = ({ type }) => {
 
 const SyllabusBadge: React.FC<{ tag: SyllabusTag }> = ({ tag }) => (
   <span className={`inline-flex items-center px-2 py-0.5 rounded-lg text-[9px] font-black tracking-tight border ${
-    tag.weightage === 'High' ? 'bg-synapse-error/10 text-synapse-error border-synapse-error/20' : 'bg-synapse-elevated text-oneui-text-muted border-synapse-border'
+    tag.weightage === 'High' ? 'bg-red-50 text-red-500 border-red-100' : 'bg-slate-50 text-slate-400 border-slate-100'
   }`}>
     {tag.syllabusName}: {tag.code}
   </span>
@@ -103,44 +103,44 @@ const Courses: React.FC = () => {
 
   if (!selectedSubject) {
     return (
-      <div className="pb-32 animate-in fade-in duration-500 bg-transparent">
+      <div className="pb-32 animate-in fade-in duration-500 bg-synapse-blue-light min-h-screen">
         <div className="oneui-header-space flex flex-col justify-end px-8 pb-8">
-          <h1 className="text-4xl font-light text-oneui-text-primary leading-tight tracking-tight">Academic<br/><span className="font-black text-synapse-aqua uppercase tracking-widest text-3xl">Archive</span></h1>
+          <h1 className="text-4xl font-light text-synapse-text-primary leading-tight tracking-tight">Academic<br/><span className="font-black text-synapse-blue-primary uppercase tracking-widest text-3xl">Archive</span></h1>
         </div>
         <div className="px-5 space-y-6">
-          <div className="bg-synapse-surface rounded-2xl h-16 px-6 flex items-center gap-4 border border-synapse-border shadow-2xl backdrop-blur-md mb-8 group focus-within:ring-2 focus-within:ring-synapse-aqua/20 transition-all">
-            <i className="fa-solid fa-magnifying-glass text-oneui-text-muted"></i>
-            <input type="text" placeholder="Search modules..." className="bg-transparent border-none flex-1 focus:outline-none font-bold text-oneui-text-primary placeholder:text-oneui-text-muted" />
+          <div className="bg-white rounded-2xl h-16 px-6 flex items-center gap-4 border border-white shadow-sm card-shadow mb-8 group focus-within:ring-2 focus-within:ring-synapse-blue-primary/10 transition-all">
+            <i className="fa-solid fa-magnifying-glass text-slate-300"></i>
+            <input type="text" placeholder="Search modules..." className="bg-transparent border-none flex-1 focus:outline-none font-bold text-synapse-text-primary placeholder:text-slate-300" />
           </div>
           {MOCK_DATA.map((subject) => (
             <div 
               key={subject.id} 
               onClick={() => setSelectedSubject(subject)}
-              className="bg-synapse-surface rounded-samsung overflow-hidden shadow-2xl border border-synapse-border flex flex-col active:scale-[0.98] transition-all cursor-pointer group"
+              className="bg-white rounded-samsung overflow-hidden shadow-sm border border-white flex flex-col active:scale-[0.98] transition-all cursor-pointer group card-shadow"
             >
               <div className="relative h-44">
-                <img src={subject.thumbnail} alt={subject.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-70" />
+                <img src={subject.thumbnail} alt={subject.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90" />
                 <div className="absolute top-5 left-5">
                   <PricingBadge type={subject.pricing} />
                 </div>
                 {subject.pricing === 'FREE' && (
-                  <div className="absolute bottom-5 right-5 bg-synapse-success text-synapse-deep text-[9px] font-black px-3 py-1.5 rounded-lg shadow-lg">
+                  <div className="absolute bottom-5 right-5 bg-emerald-500 text-white text-[9px] font-black px-3 py-1.5 rounded-lg shadow-lg">
                     FOUNDATIONAL
                   </div>
                 )}
               </div>
               <div className="p-8 space-y-6">
                 <div>
-                   <h3 className="text-2xl font-black text-oneui-text-primary">{subject.title}</h3>
-                   <p className="text-sm text-oneui-text-secondary mt-1 font-medium leading-relaxed">{subject.description}</p>
+                   <h3 className="text-2xl font-black text-synapse-text-primary">{subject.title}</h3>
+                   <p className="text-sm text-synapse-text-secondary mt-1 font-medium leading-relaxed">{subject.description}</p>
                 </div>
                 <div className="space-y-3">
-                  <div className="flex justify-between text-[10px] font-black text-oneui-text-muted uppercase tracking-[0.2em]">
+                  <div className="flex justify-between text-[10px] font-black text-synapse-text-secondary uppercase tracking-[0.2em]">
                     <span>Neural Sync</span>
-                    <span className="text-synapse-aqua">{subject.progress}%</span>
+                    <span className="text-synapse-blue-primary">{subject.progress}%</span>
                   </div>
-                  <div className="w-full h-2 bg-synapse-deep rounded-full overflow-hidden">
-                    <div className="h-full bg-synapse-aqua rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(45,212,191,0.4)]" style={{ width: `${subject.progress}%` }}></div>
+                  <div className="w-full h-2 bg-slate-50 rounded-full overflow-hidden">
+                    <div className="h-full bg-synapse-blue-primary rounded-full transition-all duration-1000 shadow-sm" style={{ width: `${subject.progress}%` }}></div>
                   </div>
                 </div>
               </div>
@@ -154,16 +154,16 @@ const Courses: React.FC = () => {
   // 2. TOPIC LIST VIEW
   if (!selectedTopic) {
     return (
-      <div className="pb-32 animate-in slide-in-from-right duration-300">
+      <div className="pb-32 animate-in slide-in-from-right duration-300 bg-synapse-blue-light min-h-screen">
         <div className="oneui-header-space flex flex-col justify-end px-8 pb-8 relative">
-          <button onClick={goBack} className="absolute top-4 left-6 w-12 h-12 flex items-center justify-center text-oneui-text-secondary active:scale-90 transition-transform">
+          <button onClick={goBack} className="absolute top-4 left-6 w-12 h-12 flex items-center justify-center text-synapse-text-secondary active:scale-90 transition-transform">
             <i className="fa-solid fa-arrow-left"></i>
           </button>
           <div className="flex items-center gap-4 mb-2">
-            <h1 className="text-4xl font-bold text-oneui-text-primary leading-tight tracking-tight">{selectedSubject.title}</h1>
+            <h1 className="text-4xl font-bold text-synapse-text-primary leading-tight tracking-tight">{selectedSubject.title}</h1>
             {selectedSubject.pricing === 'FREE' && <PricingBadge type="FREE" />}
           </div>
-          <p className="text-[10px] text-synapse-aqua font-black uppercase tracking-[0.3em]">Module Curriculum</p>
+          <p className="text-[10px] text-synapse-blue-primary font-black uppercase tracking-[0.3em]">Module Curriculum</p>
         </div>
 
         <div className="px-5 mt-4 space-y-4">
@@ -171,18 +171,18 @@ const Courses: React.FC = () => {
             <button 
               key={topic.id}
               onClick={() => setSelectedTopic(topic)}
-              className="w-full bg-synapse-surface p-8 rounded-samsung border border-synapse-border flex items-center justify-between shadow-2xl active:scale-[0.98] transition-all text-left group backdrop-blur-sm"
+              className="w-full bg-white p-8 rounded-samsung border border-white flex items-center justify-between shadow-sm active:scale-[0.98] transition-all text-left group card-shadow"
             >
               <div className="space-y-4 flex-1">
                 <div className="flex flex-wrap gap-2">
                   {topic.syllabusTags?.map((tag, idx) => <SyllabusBadge key={idx} tag={tag} />)}
                 </div>
                 <div>
-                   <h3 className="font-black text-oneui-text-primary text-xl leading-tight">{topic.title}</h3>
-                   <p className="text-xs text-oneui-text-muted font-black uppercase tracking-widest mt-1">{topic.subtopics.length} Neural Nodes</p>
+                   <h3 className="font-black text-synapse-text-primary text-xl leading-tight">{topic.title}</h3>
+                   <p className="text-xs text-synapse-text-secondary font-black uppercase tracking-widest mt-1">{topic.subtopics.length} Neural Nodes</p>
                 </div>
               </div>
-              <div className="w-12 h-12 bg-synapse-deep rounded-2xl flex items-center justify-center text-oneui-text-muted group-hover:text-synapse-aqua group-hover:bg-synapse-aqua/10 transition-all border border-synapse-border">
+              <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-300 group-hover:text-synapse-blue-primary group-hover:bg-synapse-blue-primary/10 transition-all border border-slate-100">
                 <i className="fa-solid fa-chevron-right"></i>
               </div>
             </button>
@@ -194,37 +194,37 @@ const Courses: React.FC = () => {
 
   // 3. SUBTOPIC & CONTENT VIEW (Fallback/Generic return)
   return (
-    <div className="pb-32 animate-in slide-in-from-right duration-300">
+    <div className="pb-32 animate-in slide-in-from-right duration-300 bg-synapse-blue-light min-h-screen">
       <div className="oneui-header-space flex flex-col justify-end px-8 pb-8 relative">
-        <button onClick={goBack} className="absolute top-4 left-6 w-12 h-12 flex items-center justify-center text-oneui-text-secondary">
+        <button onClick={goBack} className="absolute top-4 left-6 w-12 h-12 flex items-center justify-center text-synapse-text-secondary">
           <i className="fa-solid fa-arrow-left"></i>
         </button>
         <div className="flex justify-between items-end">
           <div>
-            <h1 className="text-3xl font-black text-oneui-text-primary leading-tight tracking-tight">{selectedTopic.title}</h1>
-            <p className="text-[10px] text-synapse-aqua font-black uppercase tracking-[0.2em] mt-1">{selectedSubject.title}</p>
+            <h1 className="text-3xl font-black text-synapse-text-primary leading-tight tracking-tight">{selectedTopic.title}</h1>
+            <p className="text-[10px] text-synapse-blue-primary font-black uppercase tracking-[0.2em] mt-1">{selectedSubject.title}</p>
           </div>
         </div>
       </div>
       <div className="px-5 mt-8 space-y-12">
          {selectedTopic.subtopics.map(st => (
            <div key={st.id} className="space-y-4">
-              <h4 className="text-[10px] font-black text-oneui-text-muted uppercase tracking-[0.2em] px-2">{st.title}</h4>
+              <h4 className="text-[10px] font-black text-synapse-text-secondary uppercase tracking-[0.2em] px-2">{st.title}</h4>
               <div className="space-y-3">
                  {st.contents.map(c => (
                    <div 
                     key={c.id} 
                     onClick={() => c.type === 'video' && navigate(`/video/${c.id}`)}
-                    className="bg-synapse-surface p-5 rounded-2xl border border-synapse-border flex items-center gap-5 active:scale-95 transition-all cursor-pointer"
+                    className="bg-white p-5 rounded-2xl border border-white flex items-center gap-5 active:scale-95 transition-all cursor-pointer shadow-sm card-shadow"
                    >
-                      <div className="w-12 h-12 rounded-xl bg-synapse-deep flex items-center justify-center text-synapse-aqua text-xl border border-synapse-border">
+                      <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-synapse-blue-primary text-xl border border-slate-100">
                          <i className={`fa-solid ${c.type === 'video' ? 'fa-play' : 'fa-file-lines'}`}></i>
                       </div>
                       <div className="flex-1">
-                         <p className="font-bold text-oneui-text-primary text-[15px]">{c.title}</p>
-                         {c.duration && <p className="text-[9px] font-black text-oneui-text-muted uppercase tracking-widest">{c.duration} Session</p>}
+                         <p className="font-bold text-synapse-text-primary text-[15px]">{c.title}</p>
+                         {c.duration && <p className="text-[9px] font-black text-synapse-text-secondary uppercase tracking-widest">{c.duration} Session</p>}
                       </div>
-                      {c.isCompleted ? <i className="fa-solid fa-circle-check text-synapse-success"></i> : <i className="fa-regular fa-circle text-synapse-border"></i>}
+                      {c.isCompleted ? <i className="fa-solid fa-circle-check text-emerald-500"></i> : <i className="fa-regular fa-circle text-slate-200"></i>}
                    </div>
                  ))}
               </div>

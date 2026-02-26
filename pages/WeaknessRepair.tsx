@@ -44,11 +44,11 @@ const WeaknessRepair: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="h-screen bg-synapse-dark flex flex-col items-center justify-center p-10 space-y-8">
-        <div className="w-24 h-24 border-4 border-synapse-aqua/20 border-t-synapse-aqua rounded-full animate-spin shadow-[0_0_20px_rgba(45,212,191,0.2)]"></div>
+      <div className="h-screen bg-synapse-blue-light flex flex-col items-center justify-center p-10 space-y-8">
+        <div className="w-24 h-24 border-4 border-synapse-blue-primary/20 border-t-synapse-blue-primary rounded-full animate-spin shadow-sm"></div>
         <div className="text-center space-y-3">
-          <h2 className="text-2xl font-black text-white tracking-tight uppercase">Initializing Neural Repair</h2>
-          <p className="text-slate-400 text-sm font-medium animate-pulse">AI is mapping your misconceptions and generating targeted clinical cases...</p>
+          <h2 className="text-2xl font-black text-synapse-text-primary tracking-tight uppercase">Initializing Neural Repair</h2>
+          <p className="text-synapse-text-secondary text-sm font-medium animate-pulse">AI is mapping your misconceptions and generating targeted clinical cases...</p>
         </div>
       </div>
     );
@@ -56,38 +56,38 @@ const WeaknessRepair: React.FC = () => {
 
   if (!remediation) {
     return (
-      <div className="h-screen bg-synapse-dark flex flex-col items-center justify-center p-10 text-center">
+      <div className="h-screen bg-synapse-blue-light flex flex-col items-center justify-center p-10 text-center">
         <i className="fa-solid fa-triangle-exclamation text-red-500 text-5xl mb-6"></i>
-        <h2 className="text-xl font-black text-white mb-2">Sync Error</h2>
-        <p className="text-slate-400 text-sm mb-8">Could not generate remediation content. Please try again.</p>
-        <button onClick={() => navigate(-1)} className="bg-white/10 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest">Go Back</button>
+        <h2 className="text-xl font-black text-synapse-text-primary mb-2">Sync Error</h2>
+        <p className="text-synapse-text-secondary text-sm mb-8">Could not generate remediation content. Please try again.</p>
+        <button onClick={() => navigate(-1)} className="bg-synapse-blue-primary text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest shadow-lg">Go Back</button>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-synapse-light-bg pb-20">
+    <div className="min-h-screen bg-synapse-blue-light pb-20">
       {/* Header */}
-      <div className="bg-synapse-dark pt-12 px-8 pb-10 rounded-b-[40px] shadow-xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/5 rounded-full -mr-32 -mt-32 blur-3xl" />
-        <button onClick={() => navigate(-1)} className="absolute top-8 left-6 w-10 h-10 flex items-center justify-center text-white/60 active:scale-90">
+      <div className="bg-synapse-blue-primary pt-12 px-8 pb-10 rounded-b-[40px] shadow-xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl" />
+        <button onClick={() => navigate(-1)} className="absolute top-8 left-6 w-10 h-10 flex items-center justify-center text-white/80 active:scale-90">
           <i className="fa-solid fa-arrow-left"></i>
         </button>
         <div className="mt-4 space-y-1">
           <h1 className="text-3xl font-black text-white tracking-tighter uppercase">Neural Repair</h1>
-          <p className="text-synapse-aqua text-xs font-black uppercase tracking-widest">{weakTopic}</p>
+          <p className="text-white/80 text-xs font-black uppercase tracking-widest">{weakTopic}</p>
         </div>
       </div>
 
       {/* Tabs */}
       <div className="px-5 mt-6">
-        <div className="flex bg-white rounded-2xl p-1.5 shadow-sm border border-slate-100">
+        <div className="flex bg-white rounded-2xl p-1.5 shadow-sm border border-white card-shadow">
           {(['revision', 'mcqs', 'cases'] as const).map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
-                activeTab === tab ? 'bg-synapse-dark text-white shadow-lg' : 'text-slate-400'
+                activeTab === tab ? 'bg-synapse-blue-primary text-white shadow-md' : 'text-synapse-text-secondary'
               }`}
             >
               {tab === 'revision' ? 'Revision' : tab === 'mcqs' ? 'Targeted MCQs' : 'Clinical Cases'}
@@ -99,23 +99,23 @@ const WeaknessRepair: React.FC = () => {
       <div className="px-5 mt-8">
         {activeTab === 'revision' && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom duration-500">
-            <div className="bg-white rounded-samsung p-8 border border-slate-100 shadow-lg space-y-6">
+            <div className="bg-white rounded-samsung p-8 border border-white shadow-lg space-y-6 card-shadow">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-synapse-aqua/10 rounded-xl flex items-center justify-center text-synapse-aqua">
+                <div className="w-10 h-10 bg-synapse-blue-primary/10 rounded-xl flex items-center justify-center text-synapse-blue-primary">
                   <i className="fa-solid fa-file-lines"></i>
                 </div>
-                <h3 className="text-lg font-black text-synapse-text-dark">{remediation.revisionSheet.title}</h3>
+                <h3 className="text-lg font-black text-synapse-text-primary">{remediation.revisionSheet.title}</h3>
               </div>
               
-              <div className="prose prose-sm max-w-none text-slate-600 leading-relaxed">
+              <div className="prose prose-sm max-w-none text-synapse-text-secondary leading-relaxed">
                 <Markdown>{remediation.revisionSheet.summary}</Markdown>
               </div>
 
               <div className="space-y-4 pt-4 border-t border-slate-50">
-                <h4 className="text-[10px] font-black text-synapse-aqua uppercase tracking-widest">High-Yield Mnemonics</h4>
+                <h4 className="text-[10px] font-black text-synapse-blue-primary uppercase tracking-widest">High-Yield Mnemonics</h4>
                 <div className="space-y-2">
                   {remediation.revisionSheet.mnemonics.map((m, i) => (
-                    <div key={i} className="bg-synapse-aqua/5 p-4 rounded-xl border border-synapse-aqua/10 text-xs font-bold text-synapse-text-dark italic">
+                    <div key={i} className="bg-synapse-blue-primary/5 p-4 rounded-xl border border-synapse-blue-primary/10 text-xs font-bold text-synapse-text-primary italic">
                       "{m}"
                     </div>
                   ))}
@@ -140,12 +140,12 @@ const WeaknessRepair: React.FC = () => {
         {activeTab === 'mcqs' && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom duration-500">
             <div className="flex justify-between items-center px-2">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Question {currentMcqIdx + 1} of {remediation.mcqs.length}</span>
-              <span className="px-3 py-1 bg-synapse-aqua/10 rounded-full text-[8px] font-black text-synapse-aqua uppercase tracking-widest">Targeted</span>
+              <span className="text-[10px] font-black text-synapse-text-secondary uppercase tracking-widest">Question {currentMcqIdx + 1} of {remediation.mcqs.length}</span>
+              <span className="px-3 py-1 bg-synapse-blue-primary/10 rounded-full text-[8px] font-black text-synapse-blue-primary uppercase tracking-widest">Targeted</span>
             </div>
 
-            <div className="bg-white rounded-samsung p-8 border border-slate-100 shadow-lg space-y-8">
-              <h3 className="text-xl font-bold text-synapse-text-dark leading-relaxed">
+            <div className="bg-white rounded-samsung p-8 border border-white shadow-lg space-y-8 card-shadow">
+              <h3 className="text-xl font-bold text-synapse-text-primary leading-relaxed">
                 {remediation.mcqs[currentMcqIdx].question}
               </h3>
 
@@ -157,7 +157,7 @@ const WeaknessRepair: React.FC = () => {
                     className={`w-full text-left p-5 rounded-2xl border-2 transition-all flex items-center gap-4 ${
                       selectedOption === i 
                         ? (i === remediation.mcqs[currentMcqIdx].correctAnswer ? 'border-synapse-success bg-emerald-50 text-emerald-900' : 'border-synapse-error bg-red-50 text-red-900')
-                        : (selectedOption !== null && i === remediation.mcqs[currentMcqIdx].correctAnswer ? 'border-synapse-success bg-emerald-50' : 'border-slate-50 bg-white text-slate-600')
+                        : (selectedOption !== null && i === remediation.mcqs[currentMcqIdx].correctAnswer ? 'border-synapse-success bg-emerald-50' : 'border-slate-50 bg-white text-synapse-text-secondary shadow-sm')
                     }`}
                   >
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs transition-colors ${
@@ -174,13 +174,13 @@ const WeaknessRepair: React.FC = () => {
 
               {showExplanation && (
                 <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100 animate-in zoom-in duration-300">
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">AI Explanation</p>
-                  <p className="text-sm text-slate-600 leading-relaxed italic">
+                  <p className="text-[10px] font-black text-synapse-text-secondary uppercase tracking-widest mb-2">AI Explanation</p>
+                  <p className="text-sm text-synapse-text-secondary leading-relaxed italic">
                     {remediation.mcqs[currentMcqIdx].explanation}
                   </p>
                   <button 
                     onClick={nextMcq}
-                    className="w-full h-12 mt-6 bg-synapse-dark text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg"
+                    className="w-full h-12 mt-6 bg-synapse-blue-primary text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg"
                   >
                     {currentMcqIdx < remediation.mcqs.length - 1 ? 'Next Question' : 'Section Complete'}
                   </button>
@@ -193,26 +193,26 @@ const WeaknessRepair: React.FC = () => {
         {activeTab === 'cases' && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom duration-500">
             {remediation.clinicalCases.map((c, idx) => (
-              <div key={idx} className="bg-white rounded-samsung p-8 border border-slate-100 shadow-lg space-y-6">
+              <div key={idx} className="bg-white rounded-samsung p-8 border border-white shadow-lg space-y-6 card-shadow">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-red-500/10 rounded-xl flex items-center justify-center text-red-500">
                     <i className="fa-solid fa-user-doctor"></i>
                   </div>
-                  <h3 className="text-lg font-black text-synapse-text-dark">Clinical Case {idx + 1}</h3>
+                  <h3 className="text-lg font-black text-synapse-text-primary">Clinical Case {idx + 1}</h3>
                 </div>
                 
-                <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 italic text-sm text-slate-600 leading-relaxed">
+                <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 italic text-sm text-synapse-text-secondary leading-relaxed shadow-inner">
                   {c.scenario}
                 </div>
 
                 <div className="space-y-4">
-                  <h4 className="text-[10px] font-black text-synapse-aqua uppercase tracking-widest">Diagnostic Approach</h4>
-                  <p className="text-xs font-medium text-slate-600 leading-relaxed">
+                  <h4 className="text-[10px] font-black text-synapse-blue-primary uppercase tracking-widest">Diagnostic Approach</h4>
+                  <p className="text-xs font-medium text-synapse-text-secondary leading-relaxed">
                     {c.diagnosticApproach}
                   </p>
                 </div>
 
-                <button className="w-full h-14 bg-synapse-dark text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl active:scale-95 transition-all">
+                <button className="w-full h-14 bg-synapse-blue-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl active:scale-95 transition-all">
                   Solve Stepwise Reasoning
                 </button>
               </div>

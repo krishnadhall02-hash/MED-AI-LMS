@@ -17,12 +17,12 @@ const Sidebar: React.FC = () => {
   ];
 
   return (
-    <aside className="w-64 h-screen bg-white border-r border-slate-200 fixed left-0 top-0 hidden lg:flex flex-col z-20">
-      <div className="p-6 border-b border-slate-100 flex items-center gap-3">
-        <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white">
+    <aside className="w-64 h-screen bg-white border-r border-synapse-border-soft fixed left-0 top-0 hidden lg:flex flex-col z-20">
+      <div className="p-6 border-b border-synapse-border-soft flex items-center gap-3">
+        <div className="w-10 h-10 bg-synapse-blue-primary rounded-xl flex items-center justify-center text-white">
           <i className="fa-solid fa-staff-snake text-xl"></i>
         </div>
-        <span className="text-xl font-bold tracking-tight text-indigo-900">MedAI Portal</span>
+        <span className="text-xl font-bold tracking-tight text-synapse-text-primary">MedAI Portal</span>
       </div>
       
       <nav className="flex-1 p-4 space-y-2 mt-4">
@@ -34,7 +34,7 @@ const Sidebar: React.FC = () => {
               to={item.path}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                 isActive 
-                  ? 'bg-indigo-50 text-indigo-600 font-semibold border-l-4 border-indigo-600' 
+                  ? 'bg-synapse-blue-primary/10 text-synapse-blue-primary font-semibold border-l-4 border-synapse-blue-primary' 
                   : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
               }`}
             >
@@ -45,11 +45,11 @@ const Sidebar: React.FC = () => {
         })}
       </nav>
 
-      <div className="p-4 border-t border-slate-100">
-        <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-4 text-white">
+      <div className="p-4 border-t border-synapse-border-soft">
+        <div className="bg-gradient-to-br from-synapse-blue-primary to-synapse-blue-secondary rounded-2xl p-4 text-white">
           <p className="text-xs font-medium uppercase tracking-wider opacity-80 mb-1">Upgrade to Pro</p>
           <p className="text-sm font-bold mb-3">Get 2.5K+ MCQ Insights</p>
-          <button className="w-full py-2 bg-white text-indigo-600 text-xs font-bold rounded-lg hover:bg-opacity-90 transition-colors">
+          <button className="w-full py-2 bg-white text-synapse-blue-primary text-xs font-bold rounded-lg hover:bg-opacity-90 transition-colors">
             Go Premium
           </button>
         </div>

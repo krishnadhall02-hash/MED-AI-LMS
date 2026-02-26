@@ -25,21 +25,21 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onClose }) => {
         onClick={onClose}
       />
 
-      <div className={`fixed top-0 right-0 bottom-0 w-[80%] max-w-[340px] bg-oneui-bg z-[70] shadow-2xl transition-transform duration-500 ease-out flex flex-col ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`fixed top-0 right-0 bottom-0 w-[80%] max-w-[340px] bg-white z-[70] shadow-2xl transition-transform duration-500 ease-out flex flex-col ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         
-        <div className="oneui-header-space flex flex-col justify-end px-8 pb-8 bg-oneui-bg border-b border-slate-200/50">
+        <div className="oneui-header-space flex flex-col justify-end px-8 pb-8 bg-synapse-blue-light border-b border-synapse-border-soft">
           <div className="flex justify-end mb-4">
-             <button onClick={onClose} aria-label="Close menu" className="w-10 h-10 flex items-center justify-center text-slate-400 active:scale-90">
+             <button onClick={onClose} aria-label="Close menu" className="w-10 h-10 flex items-center justify-center text-synapse-blue-primary active:scale-90">
                 <i className="fa-solid fa-xmark text-xl"></i>
              </button>
           </div>
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-white border-2 border-oneui-blue p-1">
+            <div className="w-16 h-16 rounded-full bg-white border-2 border-synapse-blue-primary p-1">
                <img src="https://i.pravatar.cc/150?u=sarah" className="w-full h-full rounded-full object-cover" alt="Profile" />
             </div>
             <div>
-               <h2 className="text-xl font-black text-slate-900 leading-tight">Dr. Sarah</h2>
-               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Aspirant • Synced</p>
+               <h2 className="text-xl font-black text-synapse-text-primary leading-tight">Dr. Sarah</h2>
+               <p className="text-[10px] font-black text-synapse-text-secondary uppercase tracking-widest">Aspirant • Synced</p>
             </div>
           </div>
         </div>
@@ -54,12 +54,12 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onClose }) => {
                   onClose();
                 }
               }}
-              className="w-full flex items-center gap-5 p-5 rounded-2xl bg-white/50 hover:bg-white active:scale-[0.98] transition-all border border-transparent hover:border-slate-100 group"
+              className="w-full flex items-center gap-5 p-5 rounded-2xl bg-slate-50/50 hover:bg-synapse-blue-light active:scale-[0.98] transition-all border border-transparent hover:border-synapse-blue-soft group"
             >
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center text-xl bg-slate-50 text-slate-400 group-hover:bg-blue-50 group-hover:text-oneui-blue transition-all">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center text-xl bg-white text-slate-400 group-hover:bg-white group-hover:text-synapse-blue-primary transition-all shadow-sm">
                 <i className={`fa-solid ${item.icon}`}></i>
               </div>
-              <span className="text-base font-black text-slate-800">{item.label}</span>
+              <span className="text-base font-black text-synapse-text-primary">{item.label}</span>
             </button>
           ))}
         </div>

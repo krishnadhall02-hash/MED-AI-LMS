@@ -97,12 +97,24 @@ export interface Subject {
   topics: Topic[];
 }
 
+export interface SmartExplanation {
+  conceptSummary: string;
+  clinicalCorrelation: string;
+  examTrapNote: string;
+  optionExplanations: string[]; // Explanations for each option
+  boosterExplanation?: string; // Simplified for weak students
+  mnemonic?: string;
+  mostTestedPoint?: string;
+  stepwiseReasoning?: string[]; // For high difficulty
+}
+
 export interface MCQ {
   id: string;
   question: string;
   options: string[];
   correctAnswer: number;
   explanation: string;
+  smartExplanation?: SmartExplanation;
   difficulty: 'easy' | 'medium' | 'hard';
   difficultyLevel?: number; // 1-5
   clinicalClue?: string;

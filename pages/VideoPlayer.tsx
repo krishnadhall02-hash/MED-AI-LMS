@@ -82,18 +82,18 @@ const VideoPlayer: React.FC = () => {
 
       {/* 3. SECURITY OVERLAY (1.4B) */}
       {securityAlert && (
-        <div className="fixed inset-0 z-[100] bg-slate-900/95 backdrop-blur-3xl flex items-center justify-center p-8 text-center animate-in fade-in duration-300">
-          <div className="bg-white rounded-samsung p-10 max-w-[340px] space-y-6 shadow-2xl">
-            <div className="w-24 h-24 bg-red-50 text-red-500 rounded-full mx-auto flex items-center justify-center text-4xl shadow-inner">
+        <div className="fixed inset-0 z-[100] bg-synapse-blue-light/95 backdrop-blur-3xl flex items-center justify-center p-8 text-center animate-in fade-in duration-300">
+          <div className="bg-white rounded-samsung p-10 max-w-[340px] space-y-6 shadow-2xl card-shadow border border-white">
+            <div className="w-24 h-24 bg-red-50 text-red-500 rounded-full mx-auto flex items-center justify-center text-4xl shadow-inner border border-red-100">
                <i className="fa-solid fa-shield-halved"></i>
             </div>
             <div className="space-y-2">
-               <h2 className="text-2xl font-black text-slate-900">Privacy Active</h2>
-               <p className="text-sm text-slate-500 font-medium leading-relaxed">Content playback is paused while the app is in background or external screen is active.</p>
+               <h2 className="text-2xl font-black text-synapse-text-primary">Privacy Active</h2>
+               <p className="text-sm text-synapse-text-secondary font-medium leading-relaxed">Content playback is paused while the app is in background or external screen is active.</p>
             </div>
             <button 
               onClick={() => setSecurityAlert(false)}
-              className="w-full h-16 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl active:scale-95 transition-all"
+              className="w-full h-16 bg-synapse-blue-primary text-white rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl active:scale-95 transition-all"
             >
               Resume Session
             </button>
@@ -119,7 +119,7 @@ const VideoPlayer: React.FC = () => {
                <i className="fa-solid fa-chevron-left"></i>
             </button>
             <div className="flex flex-col items-end gap-2">
-               <span className="bg-oneui-blue text-white text-[8px] font-black px-2 py-1 rounded uppercase tracking-widest shadow-lg">QHD+ Clarity</span>
+               <span className="bg-synapse-blue-primary text-white text-[8px] font-black px-2 py-1 rounded uppercase tracking-widest shadow-lg">QHD+ Clarity</span>
                <span className="text-[10px] font-bold text-white/60">Playback: {playbackSpeed}x</span>
             </div>
           </div>
@@ -129,7 +129,7 @@ const VideoPlayer: React.FC = () => {
                 <button className="text-white text-2xl opacity-40 hover:opacity-100 active:scale-90 transition-all"><i className="fa-solid fa-backward-10"></i></button>
                 <button 
                   onClick={(e) => { e.stopPropagation(); setIsPlaying(!isPlaying); resetControls(); }}
-                  className="w-20 h-20 bg-white text-slate-900 rounded-full flex items-center justify-center text-3xl shadow-2xl active:scale-90 transition-all"
+                  className="w-20 h-20 bg-white text-synapse-text-primary rounded-full flex items-center justify-center text-3xl shadow-2xl active:scale-90 transition-all"
                 >
                    <i className={`fa-solid ${isPlaying ? 'fa-pause' : 'fa-play ml-1'}`}></i>
                 </button>
@@ -143,7 +143,7 @@ const VideoPlayer: React.FC = () => {
                 <span>{formatTime(duration)}</span>
              </div>
              <div className="relative h-1.5 bg-white/20 rounded-full overflow-hidden">
-                <div className="absolute top-0 left-0 h-full bg-oneui-blue transition-all" style={{ width: `${(currentTime/duration)*100}%` }} />
+                <div className="absolute top-0 left-0 h-full bg-synapse-blue-primary transition-all" style={{ width: `${(currentTime/duration)*100}%` }} />
              </div>
              <div className="flex justify-between items-center">
                 <div className="flex gap-4">
@@ -161,48 +161,48 @@ const VideoPlayer: React.FC = () => {
       </div>
 
       {/* 5. METADATA & INTERACTIVE LAYER */}
-      <div className="flex-1 bg-white rounded-t-[40px] -mt-10 relative z-10 p-8 pt-10 space-y-8 overflow-y-auto shadow-[0_-15px_40px_rgba(0,0,0,0.1)]">
+      <div className="flex-1 bg-synapse-blue-light rounded-t-[40px] -mt-10 relative z-10 p-8 pt-10 space-y-8 overflow-y-auto shadow-[0_-15px_40px_rgba(0,0,0,0.1)] border-t border-white/50">
         <div className="space-y-3">
           <div className="flex gap-2">
-             <span className="bg-indigo-50 text-indigo-600 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest border border-indigo-100">Renal Physiology</span>
-             <span className="bg-slate-900 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Archive</span>
+             <span className="bg-synapse-blue-primary/10 text-synapse-blue-primary text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest border border-synapse-blue-primary/10">Renal Physiology</span>
+             <span className="bg-synapse-blue-primary text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Archive</span>
           </div>
-          <h1 className="text-3xl font-black text-slate-900 leading-tight">Glomerular Filtration Dynamics: Part II</h1>
-          <p className="text-sm font-medium text-slate-500">Dr. Sarah Johnson • 45m Lecture • QHD+</p>
+          <h1 className="text-3xl font-black text-synapse-text-primary leading-tight">Glomerular Filtration Dynamics: Part II</h1>
+          <p className="text-sm font-medium text-synapse-text-secondary">Dr. Sarah Johnson • 45m Lecture • QHD+</p>
         </div>
 
         {/* Action Bar */}
         <div className="grid grid-cols-2 gap-4">
            <button 
              onClick={() => { setIsAddingNote(true); setIsNotesOpen(true); }}
-             className="bg-oneui-blue p-5 rounded-samsung text-white shadow-xl shadow-blue-100 flex flex-col gap-3 active:scale-95 transition-all"
+             className="bg-synapse-blue-primary p-5 rounded-samsung text-white shadow-xl shadow-synapse-blue-primary/10 flex flex-col gap-3 active:scale-95 transition-all card-shadow"
            >
               <i className="fa-solid fa-plus-circle text-xl"></i>
               <p className="text-[10px] font-black uppercase tracking-widest">Add Timestamp Note</p>
            </button>
            <button 
              onClick={() => setIsNotesOpen(true)}
-             className="bg-white border border-slate-100 p-5 rounded-samsung text-slate-400 shadow-sm flex flex-col gap-3 active:bg-slate-50 transition-all"
+             className="bg-white border border-white p-5 rounded-samsung text-synapse-text-secondary shadow-sm flex flex-col gap-3 active:bg-slate-50 transition-all card-shadow"
            >
               <i className="fa-solid fa-list-ul text-xl"></i>
-              <p className="text-[10px] font-black uppercase tracking-widest">View 2 Notes</p>
+              <p className="text-[10px] font-black uppercase tracking-widest">View {notes.length} Notes</p>
            </button>
         </div>
 
         {/* Note List Preview */}
         <div className="space-y-4">
-           <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest px-2">Key Timestamps</h3>
+           <h3 className="text-xs font-black text-synapse-text-secondary uppercase tracking-widest px-2">Key Timestamps</h3>
            <div className="space-y-3">
               {notes.map(note => (
                 <div 
                   key={note.id} 
                   onClick={() => setCurrentTime(note.timestamp)}
-                  className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-4 active:bg-slate-100 transition-all cursor-pointer group"
+                  className="bg-white p-4 rounded-2xl border border-white flex items-center gap-4 active:bg-slate-50 transition-all cursor-pointer group card-shadow"
                 >
-                   <div className="w-14 h-10 bg-white rounded-xl flex items-center justify-center text-[10px] font-black text-oneui-blue shadow-sm border border-slate-100 group-active:scale-90 transition-all">
+                   <div className="w-14 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-[10px] font-black text-synapse-blue-primary shadow-sm border border-slate-100 group-active:scale-90 transition-all">
                       {formatTime(note.timestamp)}
                    </div>
-                   <p className="text-sm font-bold text-slate-700">{note.text}</p>
+                   <p className="text-sm font-bold text-synapse-text-primary">{note.text}</p>
                 </div>
               ))}
            </div>
@@ -213,30 +213,30 @@ const VideoPlayer: React.FC = () => {
       {isNotesOpen && (
         <div className="fixed inset-0 z-[110] flex flex-col justify-end bg-black/40 backdrop-blur-sm animate-in fade-in duration-300">
            <div className="absolute inset-0" onClick={() => setIsNotesOpen(false)} />
-           <div className="bg-white rounded-t-[40px] h-[75vh] w-full max-w-[430px] mx-auto flex flex-col shadow-2xl animate-in slide-in-from-bottom duration-500 relative z-10">
-              <div className="w-16 h-1.5 bg-slate-100 rounded-full mx-auto mt-6 mb-8" />
+           <div className="bg-synapse-blue-light rounded-t-[40px] h-[75vh] w-full max-w-[430px] mx-auto flex flex-col shadow-2xl animate-in slide-in-from-bottom duration-500 relative z-10 border-t border-white/50">
+              <div className="w-16 h-1.5 bg-white/50 rounded-full mx-auto mt-6 mb-8" />
               
               <div className="px-10 flex justify-between items-center mb-8">
-                 <h2 className="text-3xl font-black text-slate-900 tracking-tight">Study Notes</h2>
-                 <button onClick={() => setIsNotesOpen(false)} className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center text-slate-400 active:scale-90 transition-all">
+                 <h2 className="text-3xl font-black text-synapse-text-primary tracking-tight">Study Notes</h2>
+                 <button onClick={() => setIsNotesOpen(false)} className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-400 active:scale-90 transition-all shadow-sm border border-white card-shadow">
                     <i className="fa-solid fa-xmark"></i>
                  </button>
               </div>
 
               <div className="flex-1 overflow-y-auto px-10 space-y-6 pb-24 no-scrollbar">
                  {isAddingNote && (
-                    <div className="bg-blue-50 p-6 rounded-[28px] border border-blue-100 space-y-4 animate-in zoom-in">
-                       <p className="text-[10px] font-black text-oneui-blue uppercase tracking-widest">New note at {formatTime(currentTime)}</p>
+                    <div className="bg-white p-6 rounded-[28px] border border-white space-y-4 animate-in zoom-in card-shadow">
+                       <p className="text-[10px] font-black text-synapse-blue-primary uppercase tracking-widest">New note at {formatTime(currentTime)}</p>
                        <textarea 
                          autoFocus
-                         className="w-full h-24 bg-white border-2 border-transparent focus:border-oneui-blue rounded-2xl p-4 text-sm font-bold focus:outline-none transition-all shadow-sm"
+                         className="w-full h-24 bg-slate-50 border-2 border-transparent focus:border-synapse-blue-primary rounded-2xl p-4 text-sm font-bold focus:outline-none transition-all shadow-inner"
                          placeholder="Enter clinical pearl..."
                          value={newNote}
                          onChange={(e) => setNewNote(e.target.value)}
                        />
                        <button 
                          onClick={handleAddNote}
-                         className="w-full h-14 bg-oneui-blue text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-blue-100"
+                         className="w-full h-14 bg-synapse-blue-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg active:scale-95 transition-all"
                        >
                          Save Note
                        </button>
@@ -247,12 +247,12 @@ const VideoPlayer: React.FC = () => {
                    <div 
                      key={note.id} 
                      onClick={() => { setCurrentTime(note.timestamp); setIsNotesOpen(false); }}
-                     className="bg-white p-5 rounded-[28px] border border-slate-100 flex gap-5 active:bg-slate-50 transition-all cursor-pointer shadow-sm"
+                     className="bg-white p-5 rounded-[28px] border border-white flex gap-5 active:bg-slate-50 transition-all cursor-pointer shadow-sm card-shadow"
                    >
-                      <div className="w-14 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-[11px] font-black text-slate-400">
+                      <div className="w-14 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-[11px] font-black text-synapse-blue-primary">
                         {formatTime(note.timestamp)}
                       </div>
-                      <p className="flex-1 text-sm font-medium text-slate-700 leading-relaxed">{note.text}</p>
+                      <p className="flex-1 text-sm font-medium text-synapse-text-primary leading-relaxed">{note.text}</p>
                    </div>
                  ))}
               </div>

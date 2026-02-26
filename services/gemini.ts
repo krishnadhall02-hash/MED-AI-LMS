@@ -1,6 +1,6 @@
 
 import { GoogleGenAI, Type, Modality } from "@google/genai";
-import { PerformanceStats, DailyStudyPlan, RemediationContent, MCQ, ClinicalCase, RevisionSheet } from "../types";
+import { PerformanceStats, DailyStudyPlan, RemediationContent, MCQ, ClinicalCase, RevisionSheet, SmartExplanation } from "../types";
 
 export const getAIResponse = async (prompt: string, context?: string) => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
@@ -13,6 +13,68 @@ export const getAIResponse = async (prompt: string, context?: string) => {
     config: { systemInstruction, temperature: 0.6 },
   });
   return response.text;
+};
+
+export const generateSmartExplanation = async (
+  mcq: MCQ, 
+  isWeakTopic: boolean = false, 
+  targetExam: string = 'NEET PG'
+): Promise<SmartExplanation | null> => {
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  
+  const prompt = `Generate a structured, high-yield medical explanation for this MCQ:
+  Question: ${mcq.question}
+  Options: ${mcq.options.join(', ')}
+  Correct Answer: ${mcq.options[mcq.correctAnswer]}
+  
+  Target Exam: ${targetExam}
+  Student Status: ${isWeakTopic ? 'Weak in this topic' : 'Normal'}
+  Difficulty: ${mcq.difficulty}
+  
+  GOAL:
+  Ensure that every MCQ explanation follows a structured, high-yield, exam-focused format to maximize retention and conceptual clarity.
+
+  REQUIRED SECTIONS:
+  1. CONCEPT SUMMARY: 3–6 concise lines. Explain the core concept behind the correct answer. Focus on mechanism and logic. Keep it exam-oriented and high-yield. Avoid unnecessary textbook verbosity.
+  2. CLINICAL CORRELATION: Explain how this concept appears in real clinical practice. Mention common patient scenarios. Link to diagnosis, management, or investigation. Keep it practical and application-based.
+  3. EXAM TRAP NOTE: Highlight common confusion areas. Mention frequently mistaken concepts. Clarify why students usually get this wrong. Include memory hooks if helpful. Keep it short and sharp.
+  4. WHY OTHER OPTIONS ARE WRONG: For EACH incorrect option, provide 1–2 lines explaining why it is incorrect. Focus on conceptual mismatch. Avoid generic statements like "This is wrong".
+
+  OPTIONAL ENHANCEMENTS (Include if applicable):
+  - If topic is high-yield: Add "mostTestedPoint" highlight.
+  - If question is difficult: Add brief "stepwiseReasoning" breakdown (array of strings).
+  - If student is weak in this topic: Add simplified "boosterExplanation" and a quick "mnemonic".
+
+  Return the response as a structured JSON object matching the SmartExplanation interface.`;
+
+  const response = await ai.models.generateContent({
+    model: 'gemini-3-flash-preview',
+    contents: prompt,
+    config: {
+      responseMimeType: "application/json",
+      responseSchema: {
+        type: Type.OBJECT,
+        properties: {
+          conceptSummary: { type: Type.STRING },
+          clinicalCorrelation: { type: Type.STRING },
+          examTrapNote: { type: Type.STRING },
+          optionExplanations: { type: Type.ARRAY, items: { type: Type.STRING } },
+          boosterExplanation: { type: Type.STRING },
+          mnemonic: { type: Type.STRING },
+          mostTestedPoint: { type: Type.STRING },
+          stepwiseReasoning: { type: Type.ARRAY, items: { type: Type.STRING } }
+        },
+        required: ["conceptSummary", "clinicalCorrelation", "examTrapNote", "optionExplanations", "mostTestedPoint"]
+      }
+    }
+  });
+
+  try {
+    return JSON.parse(response.text) as SmartExplanation;
+  } catch (e) {
+    console.error("Failed to parse smart explanation", e);
+    return null;
+  }
 };
 
 export const generateRemediation = async (topic: string): Promise<RemediationContent | null> => {

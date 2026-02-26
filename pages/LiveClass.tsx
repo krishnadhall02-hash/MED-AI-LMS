@@ -168,18 +168,18 @@ const LiveClass: React.FC = () => {
           <div className="absolute inset-0 z-40 flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm animate-in zoom-in duration-300">
             <div className="bg-white rounded-samsung p-8 w-full max-w-[360px] shadow-2xl space-y-6">
               <div className="flex justify-between items-center">
-                <span className="text-[10px] font-black text-oneui-blue uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full border border-blue-100">Live Quiz</span>
-                <span className="text-[10px] font-black text-slate-300 uppercase">Interactive</span>
+                <span className="text-[10px] font-black text-synapse-blue-primary uppercase tracking-widest bg-synapse-blue-primary/5 px-3 py-1 rounded-full border border-synapse-blue-primary/10">Live Quiz</span>
+                <span className="text-[10px] font-black text-synapse-text-secondary uppercase">Interactive</span>
               </div>
-              <h3 className="text-lg font-black text-slate-900 leading-tight">Which cranial nerve exits through the Jugular Foramen?</h3>
+              <h3 className="text-lg font-black text-synapse-text-primary leading-tight">Which cranial nerve exits through the Jugular Foramen?</h3>
               <div className="space-y-2">
                 {['CN VII', 'CN VIII', 'CN IX', 'CN XII'].map((opt, i) => (
                   <button 
                     key={i}
                     onClick={() => submitPoll(opt)}
-                    className="w-full py-4 px-6 rounded-2xl border-2 border-slate-50 bg-slate-50/50 hover:border-oneui-blue hover:bg-blue-50 text-left text-sm font-bold text-slate-700 transition-all flex items-center gap-4 group"
+                    className="w-full py-4 px-6 rounded-2xl border-2 border-slate-50 bg-slate-50/50 hover:border-synapse-blue-primary hover:bg-synapse-blue-primary/5 text-left text-sm font-bold text-synapse-text-secondary transition-all flex items-center gap-4 group"
                   >
-                    <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center font-black text-xs text-slate-400 group-hover:text-oneui-blue">{String.fromCharCode(65 + i)}</div>
+                    <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center font-black text-xs text-slate-400 group-hover:text-synapse-blue-primary">{String.fromCharCode(65 + i)}</div>
                     {opt}
                   </button>
                 ))}
@@ -191,21 +191,21 @@ const LiveClass: React.FC = () => {
 
       {/* 2. INTERACTION CONTROLS (Portrait Only) */}
       {!isLandscape && (
-        <div className="flex-1 bg-oneui-bg p-8 space-y-8 overflow-y-auto rounded-t-[40px] -mt-10 relative z-10 shadow-[0_-15px_40px_rgba(0,0,0,0.15)] border-t border-white/20">
+        <div className="flex-1 bg-synapse-blue-light p-8 space-y-8 overflow-y-auto rounded-t-[40px] -mt-10 relative z-10 shadow-[0_-15px_40px_rgba(0,0,0,0.05)] border-t border-white/50">
           <div className="flex justify-between items-start">
             <div className="space-y-3">
               <div className="flex flex-wrap gap-2">
-                 <span className="bg-indigo-50 text-indigo-600 text-[10px] font-black px-3 py-1 rounded-full border border-indigo-100 uppercase tracking-widest">Neuro Anatomy</span>
-                 <span className="bg-slate-900 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Topic 1.4</span>
+                 <span className="bg-synapse-blue-primary/10 text-synapse-blue-primary text-[10px] font-black px-3 py-1 rounded-full border border-synapse-blue-primary/10 uppercase tracking-widest">Neuro Anatomy</span>
+                 <span className="bg-synapse-blue-primary text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Topic 1.4</span>
               </div>
-              <h1 className="text-3xl font-black text-slate-900 leading-tight tracking-tight">Cranial Nerves & Foramina: The Deep Dive</h1>
-              <div className="flex items-center gap-3 bg-white w-fit px-4 py-2 rounded-2xl border border-slate-100 shadow-sm">
-                <div className="w-10 h-10 rounded-xl bg-slate-200 overflow-hidden ring-2 ring-slate-50">
+              <h1 className="text-3xl font-black text-synapse-text-primary leading-tight tracking-tight">Cranial Nerves & Foramina: The Deep Dive</h1>
+              <div className="flex items-center gap-3 bg-white w-fit px-4 py-2 rounded-2xl border border-white shadow-sm card-shadow">
+                <div className="w-10 h-10 rounded-xl bg-slate-100 overflow-hidden ring-2 ring-slate-50">
                   <img src="https://i.pravatar.cc/100?u=dr_anand" alt="Mentor" />
                 </div>
                 <div>
-                   <p className="text-sm font-black text-slate-900">Dr. Anand Sharma</p>
-                   <p className="text-[10px] font-bold text-oneui-blue uppercase tracking-widest">Associate Professor</p>
+                   <p className="text-sm font-black text-synapse-text-primary">Dr. Anand Sharma</p>
+                   <p className="text-[10px] font-bold text-synapse-blue-primary uppercase tracking-widest">Associate Professor</p>
                 </div>
               </div>
             </div>
@@ -215,27 +215,27 @@ const LiveClass: React.FC = () => {
           <div className="grid grid-cols-2 gap-4">
             <button 
               onClick={() => setIsDataSaver(!isDataSaver)}
-              className={`p-5 rounded-samsung border flex flex-col gap-3 transition-all ${
-                isDataSaver ? 'bg-amber-500 text-white border-amber-400 shadow-xl' : 'bg-white text-slate-400 border-slate-100 shadow-sm'
+              className={`p-5 rounded-samsung border flex flex-col gap-3 transition-all card-shadow ${
+                isDataSaver ? 'bg-amber-500 text-white border-amber-400 shadow-xl' : 'bg-white text-synapse-text-secondary border-white shadow-sm'
               }`}
             >
               <i className={`fa-solid fa-leaf text-xl`}></i>
               <p className="text-[11px] font-black uppercase tracking-widest">{isDataSaver ? 'Data Saver ON' : 'Data Saver'}</p>
             </button>
-            <div className="bg-white p-5 rounded-samsung border border-slate-100 shadow-sm flex flex-col gap-3">
-              <i className="fa-solid fa-users text-xl text-oneui-blue"></i>
-              <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest">1,240 Watching</p>
+            <div className="bg-white p-5 rounded-samsung border border-white shadow-sm card-shadow flex flex-col gap-3">
+              <i className="fa-solid fa-users text-xl text-synapse-blue-primary"></i>
+              <p className="text-[11px] font-black text-synapse-text-secondary uppercase tracking-widest">1,240 Watching</p>
             </div>
           </div>
 
           {/* Chat Sheet Preview (1.3A) */}
           <div 
             onClick={() => setIsChatOpen(true)}
-            className="bg-white rounded-samsung p-6 shadow-sm border border-slate-100 space-y-4 active:scale-[0.98] transition-all cursor-pointer"
+            className="bg-white rounded-samsung p-6 shadow-sm border border-white space-y-4 active:scale-[0.98] transition-all cursor-pointer card-shadow"
           >
               <div className="flex justify-between items-center">
-                <h3 className="font-black text-slate-800 uppercase text-xs tracking-widest flex items-center gap-3">
-                  <div className="w-8 h-8 bg-blue-50 text-oneui-blue rounded-xl flex items-center justify-center">
+                <h3 className="font-black text-synapse-text-primary uppercase text-xs tracking-widest flex items-center gap-3">
+                  <div className="w-8 h-8 bg-synapse-blue-primary/10 text-synapse-blue-primary rounded-xl flex items-center justify-center">
                      <i className="fa-solid fa-comments"></i>
                   </div>
                   Discussion
@@ -244,8 +244,8 @@ const LiveClass: React.FC = () => {
               </div>
               <div className="space-y-2">
                 {messages.slice(-2).map(m => (
-                  <p key={m.id} className="text-[13px] text-slate-500 font-medium italic line-clamp-1">
-                    <span className="font-black text-slate-800 mr-2">{m.user}:</span> {m.text}
+                  <p key={m.id} className="text-[13px] text-synapse-text-secondary font-medium italic line-clamp-1">
+                    <span className="font-black text-synapse-text-primary mr-2">{m.user}:</span> {m.text}
                   </p>
                 ))}
               </div>
@@ -260,8 +260,8 @@ const LiveClass: React.FC = () => {
             setIsHandRaised(!isHandRaised);
             if (!isHandRaised) showToast("Raised hand notification sent to mentor", "success");
           }}
-          className={`fixed right-8 bottom-28 w-20 h-20 rounded-[32px] shadow-2xl flex items-center justify-center text-3xl transition-all z-20 active:scale-90 ${
-            isHandRaised ? 'bg-oneui-blue text-white shadow-blue-200 rotate-12' : 'bg-white text-slate-400 border border-slate-100 hover:scale-110'
+          className={`fixed right-8 bottom-28 w-20 h-20 rounded-[32px] shadow-2xl flex items-center justify-center text-3xl transition-all z-20 active:scale-90 card-shadow ${
+            isHandRaised ? 'bg-synapse-blue-primary text-white shadow-synapse-blue-primary/20 rotate-12' : 'bg-white text-synapse-text-secondary border border-white hover:scale-110'
           }`}
         >
           <i className={`fa-solid fa-hand${isHandRaised ? '-back-fist' : ''}`}></i>
@@ -272,20 +272,20 @@ const LiveClass: React.FC = () => {
       {isChatOpen && (
         <div className="fixed inset-0 z-50 flex flex-col justify-end bg-black/40 backdrop-blur-sm animate-in fade-in duration-300">
           <div className="absolute inset-0" onClick={() => setIsChatOpen(false)} />
-          <div className="bg-white rounded-t-[40px] h-[70vh] w-full max-w-[430px] mx-auto flex flex-col shadow-2xl animate-in slide-in-from-bottom duration-500 relative z-10 border-t border-white/20">
-            <div className="w-16 h-1.5 bg-slate-100 rounded-full mx-auto mt-6 mb-8" />
+          <div className="bg-synapse-blue-light rounded-t-[40px] h-[70vh] w-full max-w-[430px] mx-auto flex flex-col shadow-2xl animate-in slide-in-from-bottom duration-500 relative z-10 border-t border-white/50">
+            <div className="w-16 h-1.5 bg-white/50 rounded-full mx-auto mt-6 mb-8" />
             
             <div className="px-10 flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-black text-slate-900 tracking-tight">Chat</h2>
-              <button onClick={() => setIsChatOpen(false)} className="text-slate-400"><i className="fa-solid fa-xmark text-xl"></i></button>
+              <h2 className="text-2xl font-black text-synapse-text-primary tracking-tight">Chat</h2>
+              <button onClick={() => setIsChatOpen(false)} className="text-synapse-text-secondary"><i className="fa-solid fa-xmark text-xl"></i></button>
             </div>
 
             <div className="flex-1 overflow-y-auto px-10 space-y-6 pb-24">
               {messages.map((m) => (
                 <div key={m.id} className={`flex flex-col gap-1 ${m.user === 'You' ? 'items-end' : 'items-start'}`}>
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{m.user}</span>
-                  <div className={`p-4 rounded-2xl text-sm font-medium ${
-                    m.user === 'You' ? 'bg-oneui-blue text-white rounded-tr-none' : 'bg-slate-50 text-slate-800 rounded-tl-none border border-slate-100'
+                  <span className="text-[10px] font-black text-synapse-text-secondary uppercase tracking-widest">{m.user}</span>
+                  <div className={`p-4 rounded-2xl text-sm font-medium shadow-sm ${
+                    m.user === 'You' ? 'bg-synapse-blue-primary text-white rounded-tr-none' : 'bg-white text-synapse-text-primary rounded-tl-none border border-white'
                   }`}>
                     {m.text}
                   </div>
@@ -293,19 +293,19 @@ const LiveClass: React.FC = () => {
               ))}
             </div>
 
-            <div className="p-8 bg-white/80 backdrop-blur-xl border-t border-slate-100 flex gap-3 items-center sticky bottom-0">
+            <div className="p-8 bg-white/80 backdrop-blur-xl border-t border-white flex gap-3 items-center sticky bottom-0">
                 <input 
                   type="text" 
                   placeholder="Ask a doubt..."
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                  className="flex-1 h-14 px-6 bg-slate-100 border border-transparent rounded-2xl focus:outline-none focus:bg-white focus:border-oneui-blue transition-all font-bold text-slate-800"
+                  className="flex-1 h-14 px-6 bg-white border border-slate-100 rounded-2xl focus:outline-none focus:border-synapse-blue-primary transition-all font-bold text-synapse-text-primary shadow-sm"
                 />
               <button 
                 onClick={handleSendMessage}
                 disabled={!input.trim()}
-                className="w-14 h-14 bg-oneui-blue text-white rounded-2xl flex items-center justify-center text-xl shadow-lg active:scale-90 disabled:opacity-50 transition-all"
+                className="w-14 h-14 bg-synapse-blue-primary text-white rounded-2xl flex items-center justify-center text-xl shadow-lg active:scale-90 disabled:opacity-50 transition-all"
               >
                 <i className="fa-solid fa-paper-plane"></i>
               </button>

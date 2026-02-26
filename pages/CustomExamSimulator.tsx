@@ -161,8 +161,8 @@ const CustomExamSimulator: React.FC = () => {
 
   if (isInitializing) {
     return (
-      <div className="h-screen bg-oneui-bg flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-oneui-blue border-t-transparent rounded-full animate-spin"></div>
+      <div className="h-screen bg-synapse-blue-light flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-synapse-blue-primary border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -170,16 +170,16 @@ const CustomExamSimulator: React.FC = () => {
   return (
     <div className="flex flex-col h-screen bg-white">
       {/* 1. Header with custom timer display */}
-      <div className="bg-slate-900 text-white p-4 flex justify-between items-center shadow-lg relative z-20">
+      <div className="bg-synapse-blue-primary text-white p-4 flex justify-between items-center shadow-lg relative z-20">
         <div className="flex items-center gap-3">
-          <button onClick={() => navigate('/practice')} className="text-slate-400 hover:text-white">
+          <button onClick={() => navigate('/practice')} className="text-white/60 hover:text-white">
             <i className="fa-solid fa-xmark text-xl"></i>
           </button>
           <div className="h-8 w-[1px] bg-white/10 mx-1"></div>
           <div className="flex flex-col">
-             <span className="text-[10px] font-black uppercase tracking-widest text-oneui-blue">Custom Mock</span>
+             <span className="text-[10px] font-black uppercase tracking-widest text-white/80">Custom Mock</span>
              {config.isSpeedMode && (
-                <span className="text-[8px] font-bold text-amber-500 uppercase flex items-center gap-1">
+                <span className="text-[8px] font-bold text-amber-300 uppercase flex items-center gap-1">
                    <i className="fa-solid fa-bolt"></i> Speed Mode
                 </span>
              )}
@@ -193,24 +193,24 @@ const CustomExamSimulator: React.FC = () => {
 
         <button 
           onClick={handleSubmit}
-          className="bg-oneui-blue text-white px-5 py-2 rounded-xl text-xs font-black uppercase tracking-widest active:scale-95 transition-all"
+          className="bg-white text-synapse-blue-primary px-5 py-2 rounded-xl text-xs font-black uppercase tracking-widest active:scale-95 transition-all shadow-sm"
         >
           Submit
         </button>
       </div>
 
       {/* 2. Question Area */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-8 bg-slate-50/50">
-        <div className="flex justify-between items-center text-[10px] font-black text-slate-400 tracking-[0.15em] uppercase px-1">
+      <div className="flex-1 overflow-y-auto p-6 space-y-8 bg-synapse-blue-light">
+        <div className="flex justify-between items-center text-[10px] font-black text-synapse-text-secondary tracking-[0.15em] uppercase px-1">
           <span>Question {currentIdx + 1} of {questions.length}</span>
           <div className="flex items-center gap-2">
-             <i className="fa-solid fa-gauge-high text-[10px] text-slate-300"></i>
+             <i className="fa-solid fa-gauge-high text-[10px] text-synapse-text-secondary/40"></i>
              <span>{Math.round((questions.length - currentIdx) * (config.timeLimit / questions.length / 60))}m est. left</span>
           </div>
         </div>
 
-        <div className="bg-white rounded-[32px] p-8 shadow-sm border border-slate-100 space-y-8 min-h-[300px]">
-          <h2 className="text-xl font-bold text-slate-900 leading-relaxed">
+        <div className="bg-white rounded-[32px] p-8 shadow-sm border border-white space-y-8 min-h-[300px] card-shadow">
+          <h2 className="text-xl font-bold text-synapse-text-primary leading-relaxed">
             {questions[currentIdx].question}
           </h2>
 
@@ -219,14 +219,14 @@ const CustomExamSimulator: React.FC = () => {
               <button
                 key={i}
                 onClick={() => handleSelectOption(i)}
-                className={`w-full text-left p-5 rounded-2xl border-2 transition-all flex items-center gap-4 ${
+                className={`w-full text-left p-5 rounded-2xl border-2 transition-all flex items-center gap-4 card-shadow ${
                   answers[currentIdx] === i 
-                    ? 'border-oneui-blue bg-blue-50/50 text-slate-900' 
-                    : 'border-slate-50 bg-white text-slate-600'
+                    ? 'border-synapse-blue-primary bg-synapse-blue-primary/10 text-synapse-text-primary' 
+                    : 'border-white bg-white text-synapse-text-secondary'
                 }`}
               >
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs transition-colors ${
-                   answers[currentIdx] === i ? 'bg-oneui-blue text-white' : 'bg-slate-50 text-slate-400'
+                   answers[currentIdx] === i ? 'bg-synapse-blue-primary text-white' : 'bg-slate-50 text-slate-400'
                 }`}>
                   {String.fromCharCode(65 + i)}
                 </div>
@@ -240,7 +240,7 @@ const CustomExamSimulator: React.FC = () => {
              <button 
                onClick={handleHint}
                className={`flex-1 h-14 rounded-2xl border-2 flex items-center justify-center gap-3 transition-all ${
-                 hintLevels[currentIdx] > 0 ? 'bg-amber-50 border-amber-500 text-amber-500' : 'bg-slate-50 border-slate-100 text-slate-400'
+                 hintLevels[currentIdx] > 0 ? 'bg-synapse-blue-primary/10 border-synapse-blue-primary/20 text-synapse-blue-primary' : 'bg-slate-50 border-slate-100 text-slate-400'
                }`}
              >
                <i className="fa-solid fa-lightbulb"></i>
@@ -258,9 +258,9 @@ const CustomExamSimulator: React.FC = () => {
 
           {/* Hint Display */}
           {hintLevels[currentIdx] > 0 && (
-            <div className="p-5 bg-amber-50/50 rounded-2xl border border-amber-100 animate-in slide-in-from-top duration-300">
-               <p className="text-[9px] font-black text-amber-600 uppercase tracking-widest mb-1">AI Diagnostic Insight</p>
-               <p className="text-xs font-medium text-slate-600 leading-relaxed italic">
+            <div className="p-5 bg-synapse-blue-primary/10 rounded-2xl border border-synapse-blue-primary/20 animate-in slide-in-from-top duration-300">
+               <p className="text-[9px] font-black text-synapse-blue-primary uppercase tracking-widest mb-1">AI Diagnostic Insight</p>
+               <p className="text-xs font-medium text-synapse-text-secondary leading-relaxed italic">
                  {hintLevels[currentIdx] === 1 
                    ? (questions[currentIdx].clinicalClue || "Look for clinical buzzwords in the presentation.") 
                    : (questions[currentIdx].conceptHint || "Consider the physiological mechanism underlying this case.")}
@@ -271,11 +271,11 @@ const CustomExamSimulator: React.FC = () => {
       </div>
 
       {/* 3. Bottom Controls */}
-      <div className="bg-white border-t border-slate-100 p-6 flex items-center justify-between gap-4 shadow-sm relative z-20">
+      <div className="bg-white border-t border-white p-6 flex items-center justify-between gap-4 shadow-sm relative z-20 card-shadow">
         <button 
           onClick={() => setCurrentIdx(prev => Math.max(0, prev - 1))}
           className={`flex-1 h-14 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${
-            currentIdx === 0 ? 'bg-slate-50 text-slate-200' : 'bg-slate-100 text-slate-700'
+            currentIdx === 0 ? 'bg-slate-50 text-slate-200' : 'bg-slate-100 text-synapse-text-secondary'
           }`}
           disabled={currentIdx === 0}
         >
@@ -284,14 +284,14 @@ const CustomExamSimulator: React.FC = () => {
         
         <button 
           onClick={() => setIsPaletteOpen(true)}
-          className="w-14 h-14 bg-white border border-slate-100 rounded-2xl flex items-center justify-center text-slate-400 active:scale-90 shadow-sm"
+          className="w-14 h-14 bg-white border border-white rounded-2xl flex items-center justify-center text-synapse-text-secondary active:scale-90 shadow-sm card-shadow"
         >
           <i className="fa-solid fa-grid-2"></i>
         </button>
 
         <button 
           onClick={() => currentIdx < questions.length - 1 ? setCurrentIdx(prev => prev + 1) : handleSubmit()}
-          className="flex-1 h-14 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl active:scale-95 transition-all"
+          className="flex-1 h-14 bg-synapse-blue-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl active:scale-95 transition-all"
         >
           {currentIdx < questions.length - 1 ? 'Next' : 'Finish'}
         </button>
@@ -303,7 +303,7 @@ const CustomExamSimulator: React.FC = () => {
           <div className="absolute inset-0" onClick={() => setIsPaletteOpen(false)}></div>
           <div className="bg-white rounded-t-[40px] w-full max-w-[430px] mx-auto p-8 pt-4 relative z-10 shadow-2xl animate-in slide-in-from-bottom duration-500">
             <div className="w-12 h-1.5 bg-slate-100 rounded-full mx-auto mb-8" />
-            <h3 className="text-xl font-black text-slate-900 tracking-tight mb-6 px-1">Test Grid</h3>
+            <h3 className="text-xl font-black text-synapse-text-primary tracking-tight mb-6 px-1">Test Grid</h3>
             <div className="grid grid-cols-5 gap-3 max-h-[40vh] overflow-y-auto pb-6">
               {questions.map((_, i) => (
                 <button
@@ -311,9 +311,9 @@ const CustomExamSimulator: React.FC = () => {
                   onClick={() => { setCurrentIdx(i); setIsPaletteOpen(false); }}
                   className={`w-full aspect-square rounded-2xl font-black text-xs flex items-center justify-center border-2 transition-all ${
                     currentIdx === i 
-                      ? 'border-oneui-blue bg-blue-50 text-oneui-blue' 
+                      ? 'border-synapse-blue-primary bg-synapse-blue-primary/10 text-synapse-blue-primary' 
                       : answers[i] !== null 
-                        ? 'bg-oneui-blue border-oneui-blue text-white shadow-md' 
+                        ? 'bg-synapse-blue-primary border-synapse-blue-primary text-white shadow-md' 
                         : skipped[i]
                           ? 'bg-slate-100 border-slate-200 text-slate-400'
                           : 'bg-white border-slate-100 text-slate-400'
@@ -325,7 +325,7 @@ const CustomExamSimulator: React.FC = () => {
             </div>
             <button 
               onClick={handleSubmit}
-              className="w-full h-16 bg-oneui-blue text-white rounded-2xl font-black text-lg uppercase tracking-widest shadow-xl shadow-blue-100 mt-4"
+              className="w-full h-16 bg-synapse-blue-primary text-white rounded-2xl font-black text-lg uppercase tracking-widest shadow-xl shadow-synapse-blue-primary/20 mt-4"
             >
               Submit Now
             </button>

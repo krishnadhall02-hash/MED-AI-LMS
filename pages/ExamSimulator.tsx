@@ -213,47 +213,47 @@ const ExamSimulator: React.FC = () => {
   const modeInfo = getModeInfo(adaptiveState.mode);
 
   return (
-    <div className={`flex flex-col h-screen bg-white transition-all duration-500 ${isFullscreen ? 'fixed inset-0 z-[100]' : ''}`}>
+    <div className={`flex flex-col h-screen bg-synapse-blue-light transition-all duration-500 ${isFullscreen ? 'fixed inset-0 z-[100]' : ''}`}>
       {/* Mode Notification Toast */}
       {showModeNotification && (
         <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[200] animate-in slide-in-from-top duration-500">
            <div className={`${getModeInfo(showModeNotification).bgColor} ${getModeInfo(showModeNotification).borderColor} border px-6 py-3 rounded-full shadow-xl flex items-center gap-3 backdrop-blur-md`}>
               <i className={`fa-solid ${getModeInfo(showModeNotification).icon} ${getModeInfo(showModeNotification).color}`}></i>
-              <span className="text-xs font-black uppercase tracking-widest text-slate-900">{getModeInfo(showModeNotification).label} Activated</span>
+              <span className="text-xs font-black uppercase tracking-widest text-synapse-text-primary">{getModeInfo(showModeNotification).label} Activated</span>
            </div>
         </div>
       )}
 
       {/* 1. Header with Timer */}
-      <div className="bg-slate-900 text-white p-4 flex justify-between items-center shadow-lg relative z-20">
+      <div className="bg-white p-4 flex justify-between items-center shadow-lg relative z-20 border-b border-synapse-blue-soft">
         <div className="flex items-center gap-3">
-          <button onClick={() => navigate(-1)} className="text-slate-400 hover:text-white transition-colors">
+          <button onClick={() => navigate(-1)} className="text-synapse-text-secondary hover:text-synapse-text-primary transition-colors">
             <i className="fa-solid fa-xmark text-xl"></i>
           </button>
-          <div className="h-8 w-[1px] bg-white/10 mx-1"></div>
+          <div className="h-8 w-[1px] bg-synapse-blue-soft mx-1"></div>
           <div className="flex flex-col">
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-oneui-blue">Adaptive Core</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-synapse-blue-primary">Adaptive Core</span>
             <div className="flex items-center gap-2">
-               <span className="text-[8px] font-bold text-slate-500 uppercase">Skill Index: {adaptiveState.skillIndex}</span>
+               <span className="text-[8px] font-bold text-synapse-text-secondary uppercase">Skill Index: {adaptiveState.skillIndex}</span>
             </div>
           </div>
         </div>
 
-        <div className={`px-4 py-2 rounded-2xl flex items-center gap-2 border border-white/10 ${timeLeft < 60 || adaptiveState.mode === AdaptiveMode.TIME_PRESSURE ? 'bg-red-500/20 text-red-400 animate-pulse' : 'bg-white/5'}`}>
+        <div className={`px-4 py-2 rounded-2xl flex items-center gap-2 border ${timeLeft < 60 || adaptiveState.mode === AdaptiveMode.TIME_PRESSURE ? 'bg-synapse-error/10 text-synapse-error border-synapse-error/20 animate-pulse' : 'bg-synapse-blue-primary/5 text-synapse-blue-primary border-synapse-blue-primary/10'}`}>
           <i className={`fa-regular ${adaptiveState.mode === AdaptiveMode.TIME_PRESSURE ? 'fa-stopwatch' : 'fa-clock'}`}></i>
           <span className="font-mono font-bold text-lg">{formatTime(timeLeft)}</span>
         </div>
 
         <button 
           onClick={handleSubmit}
-          className="bg-oneui-blue text-white px-5 py-2 rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-blue-500/20 active:scale-95 transition-all"
+          className="bg-synapse-blue-primary text-white px-5 py-2 rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-synapse-blue-primary/20 active:scale-95 transition-all"
         >
           Submit
         </button>
       </div>
 
       {/* 2. Question Area */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-8 bg-slate-50/50">
+      <div className="flex-1 overflow-y-auto p-6 space-y-8">
         {/* Adaptive Status Bar */}
         <div className="flex items-center justify-between gap-4">
            <div className={`flex-1 ${modeInfo.bgColor} ${modeInfo.borderColor} border rounded-2xl p-3 flex items-center gap-3 shadow-sm`}>
@@ -261,22 +261,22 @@ const ExamSimulator: React.FC = () => {
                  <i className={`fa-solid ${modeInfo.icon} text-sm`}></i>
               </div>
               <div className="flex-1">
-                 <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">{modeInfo.label}</p>
-                 <p className="text-[10px] font-bold text-slate-700">{modeInfo.description}</p>
+                 <p className="text-[9px] font-black uppercase tracking-widest text-synapse-text-secondary">{modeInfo.label}</p>
+                 <p className="text-[10px] font-bold text-synapse-text-primary">{modeInfo.description}</p>
               </div>
            </div>
-           <div className="bg-white border border-slate-100 rounded-2xl p-3 flex flex-col items-center justify-center min-w-[80px]">
-              <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">Difficulty</p>
-              <p className="text-[10px] font-black text-oneui-blue uppercase">{getDifficultyLabel(adaptiveState.currentDifficulty)}</p>
+           <div className="bg-white border border-synapse-blue-soft rounded-2xl p-3 flex flex-col items-center justify-center min-w-[80px] shadow-sm">
+              <p className="text-[8px] font-black uppercase tracking-widest text-synapse-text-secondary">Difficulty</p>
+              <p className="text-[10px] font-black text-synapse-blue-primary uppercase">{getDifficultyLabel(adaptiveState.currentDifficulty)}</p>
            </div>
         </div>
 
-        <div className="flex justify-between items-center text-[10px] font-black text-slate-400 tracking-[0.15em] uppercase">
+        <div className="flex justify-between items-center text-[10px] font-black text-synapse-text-secondary tracking-[0.15em] uppercase">
           <span>Question {currentIdx + 1} of {MOCK_EXAM_QUESTIONS.length}</span>
           <div className="flex gap-4">
              <button 
                onClick={toggleFlag}
-               className={`flex items-center gap-2 transition-all ${flags[currentIdx] ? 'text-amber-500' : 'text-slate-300'}`}
+               className={`flex items-center gap-2 transition-all ${flags[currentIdx] ? 'text-synapse-warning' : 'text-slate-300'}`}
              >
                <i className={`fa-${flags[currentIdx] ? 'solid' : 'regular'} fa-flag`}></i>
                <span>{flags[currentIdx] ? 'Flagged' : 'Flag'}</span>
@@ -284,8 +284,8 @@ const ExamSimulator: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-[32px] p-8 shadow-sm border border-slate-100 space-y-8 min-h-[300px]">
-          <h2 className="text-xl font-bold text-slate-900 leading-relaxed">
+        <div className="bg-white rounded-[32px] p-8 shadow-sm border border-white space-y-8 min-h-[300px] card-shadow">
+          <h2 className="text-xl font-bold text-synapse-text-primary leading-relaxed">
             {MOCK_EXAM_QUESTIONS[currentIdx].question}
           </h2>
 
@@ -297,13 +297,13 @@ const ExamSimulator: React.FC = () => {
                 className={`w-full text-left p-5 rounded-2xl border-2 transition-all flex items-center gap-4 ${
                   answers[currentIdx] === i 
                     ? (i === MOCK_EXAM_QUESTIONS[currentIdx].correctAnswer ? 'border-synapse-success bg-emerald-50 text-emerald-900 shadow-sm' : 'border-synapse-error bg-red-50 text-red-900 shadow-sm')
-                    : 'border-slate-50 bg-white text-slate-600 hover:border-slate-200'
+                    : 'border-slate-50 bg-slate-50/50 text-synapse-text-secondary hover:border-synapse-blue-soft'
                 }`}
               >
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs transition-colors ${
                    answers[currentIdx] === i 
                     ? (i === MOCK_EXAM_QUESTIONS[currentIdx].correctAnswer ? 'bg-synapse-success text-white' : 'bg-synapse-error text-white')
-                    : 'bg-slate-50 text-slate-400'
+                    : 'bg-white text-slate-400 border border-slate-100 shadow-sm'
                 }`}>
                   {String.fromCharCode(65 + i)}
                 </div>
@@ -324,10 +324,10 @@ const ExamSimulator: React.FC = () => {
                   </div>
                   <div>
                     <p className="text-[10px] font-black uppercase tracking-widest text-synapse-aqua">Booster Insight</p>
-                    <p className="text-xs font-bold text-slate-700">Simplified Concept Breakdown</p>
+                    <p className="text-xs font-bold text-synapse-text-primary">Simplified Concept Breakdown</p>
                   </div>
                </div>
-               <p className="text-sm text-slate-600 leading-relaxed">
+               <p className="text-sm text-synapse-text-secondary leading-relaxed">
                   {MOCK_EXAM_QUESTIONS[currentIdx].conceptHint}
                </p>
                <div className="flex gap-2">
@@ -342,7 +342,7 @@ const ExamSimulator: React.FC = () => {
              <button 
                onClick={handleHint}
                className={`flex-1 h-14 rounded-2xl border-2 flex items-center justify-center gap-3 transition-all ${
-                 hintLevels[currentIdx] > 0 ? 'bg-amber-50 border-amber-500 text-amber-500' : 'bg-slate-50 border-slate-100 text-slate-400'
+                 hintLevels[currentIdx] > 0 ? 'bg-amber-50 border-synapse-warning text-synapse-warning' : 'bg-slate-50 border-slate-100 text-slate-400'
                }`}
              >
                <i className="fa-solid fa-lightbulb"></i>
@@ -352,7 +352,7 @@ const ExamSimulator: React.FC = () => {
              </button>
              <button 
                onClick={handleSkip}
-               className="h-14 px-8 bg-slate-100 border border-slate-200 text-slate-500 rounded-2xl font-black text-[10px] uppercase tracking-widest active:bg-slate-200 transition-all"
+               className="h-14 px-8 bg-slate-100 border border-slate-200 text-synapse-text-secondary rounded-2xl font-black text-[10px] uppercase tracking-widest active:bg-slate-200 transition-all"
              >
                Skip
              </button>
@@ -360,9 +360,9 @@ const ExamSimulator: React.FC = () => {
 
           {/* Hint Display */}
           {hintLevels[currentIdx] > 0 && (
-            <div className="p-5 bg-amber-50/50 rounded-2xl border border-amber-100 animate-in slide-in-from-top duration-300">
-               <p className="text-[9px] font-black text-amber-600 uppercase tracking-widest mb-1">High-Yield Clue</p>
-               <p className="text-xs font-medium text-slate-600 leading-relaxed italic">
+            <div className="p-5 bg-amber-50/50 rounded-2xl border border-synapse-warning/20 animate-in slide-in-from-top duration-300">
+               <p className="text-[9px] font-black text-synapse-warning uppercase tracking-widest mb-1">High-Yield Clue</p>
+               <p className="text-xs font-medium text-synapse-text-secondary leading-relaxed italic">
                  {hintLevels[currentIdx] === 1 
                    ? (MOCK_EXAM_QUESTIONS[currentIdx].clinicalClue || "Relate the symptoms to the most common vascular or structural anatomic cause.") 
                    : "Think about the progressive changes or remnants associated with fetal development."}
@@ -373,11 +373,11 @@ const ExamSimulator: React.FC = () => {
       </div>
 
       {/* 3. Bottom Controls */}
-      <div className="bg-white border-t border-slate-100 p-6 flex items-center justify-between gap-4 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] relative z-20">
+      <div className="bg-white border-t border-synapse-blue-soft p-6 flex items-center justify-between gap-4 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] relative z-20">
         <button 
           onClick={() => setCurrentIdx(prev => Math.max(0, prev - 1))}
           className={`flex-1 h-14 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${
-            currentIdx === 0 ? 'bg-slate-50 text-slate-200' : 'bg-slate-100 text-slate-700 active:scale-95'
+            currentIdx === 0 ? 'bg-slate-50 text-slate-200' : 'bg-slate-100 text-synapse-text-primary active:scale-95'
           }`}
           disabled={currentIdx === 0}
         >
@@ -386,14 +386,14 @@ const ExamSimulator: React.FC = () => {
         
         <button 
           onClick={() => setIsPaletteOpen(true)}
-          className="w-14 h-14 bg-white border border-slate-100 rounded-2xl flex items-center justify-center text-slate-400 active:scale-90 transition-all shadow-sm"
+          className="w-14 h-14 bg-white border border-synapse-blue-soft rounded-2xl flex items-center justify-center text-synapse-text-secondary active:scale-90 transition-all shadow-sm"
         >
           <i className="fa-solid fa-grid-2"></i>
         </button>
 
         <button 
           onClick={() => currentIdx < MOCK_EXAM_QUESTIONS.length - 1 ? setCurrentIdx(prev => prev + 1) : handleSubmit()}
-          className="flex-1 h-14 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-slate-200 active:scale-95 transition-all"
+          className="flex-1 h-14 bg-synapse-blue-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-synapse-blue-primary/20 active:scale-95 transition-all"
         >
           {currentIdx < MOCK_EXAM_QUESTIONS.length - 1 ? 'Next' : 'Review & Submit'}
         </button>
@@ -403,19 +403,19 @@ const ExamSimulator: React.FC = () => {
       {isPaletteOpen && (
         <div className="fixed inset-0 z-50 flex flex-col justify-end bg-black/40 backdrop-blur-sm animate-in fade-in duration-300">
           <div className="absolute inset-0" onClick={() => setIsPaletteOpen(false)}></div>
-          <div className="bg-white rounded-t-[40px] w-full max-w-[430px] mx-auto p-8 pt-4 relative z-10 shadow-2xl animate-in slide-in-from-bottom duration-500">
-            <div className="w-12 h-1.5 bg-slate-100 rounded-full mx-auto mb-8" />
+          <div className="bg-synapse-blue-light rounded-t-[40px] w-full max-w-[430px] mx-auto p-8 pt-4 relative z-10 shadow-2xl animate-in slide-in-from-bottom duration-500 border-t border-white/50">
+            <div className="w-12 h-1.5 bg-white/50 rounded-full mx-auto mb-8" />
             
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl font-black text-slate-900 tracking-tight">Question Palette</h3>
+              <h3 className="text-xl font-black text-synapse-text-primary tracking-tight">Question Palette</h3>
               <div className="flex gap-4">
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-oneui-blue"></div>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">Answered</span>
+                  <div className="w-2 h-2 rounded-full bg-synapse-blue-primary"></div>
+                  <span className="text-[10px] font-bold text-synapse-text-secondary uppercase">Answered</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-slate-300"></div>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">Skipped</span>
+                  <span className="text-[10px] font-bold text-synapse-text-secondary uppercase">Skipped</span>
                 </div>
               </div>
             </div>
@@ -430,17 +430,17 @@ const ExamSimulator: React.FC = () => {
                   }}
                   className={`relative w-full aspect-square rounded-2xl font-black text-sm flex items-center justify-center border-2 transition-all ${
                     currentIdx === i 
-                      ? 'border-oneui-blue bg-blue-50 text-oneui-blue' 
+                      ? 'border-synapse-blue-primary bg-synapse-blue-primary/10 text-synapse-blue-primary' 
                       : answers[i] !== null 
-                        ? 'bg-oneui-blue border-oneui-blue text-white shadow-md' 
+                        ? 'bg-synapse-blue-primary border-synapse-blue-primary text-white shadow-md' 
                         : skipped[i]
                           ? 'bg-slate-100 border-slate-200 text-slate-400'
-                          : 'bg-white border-slate-100 text-slate-400'
+                          : 'bg-white border-synapse-blue-soft text-slate-400'
                   }`}
                 >
                   {i + 1}
                   {flags[i] && (
-                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-amber-500 rounded-full border-2 border-white flex items-center justify-center">
+                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-synapse-warning rounded-full border-2 border-white flex items-center justify-center">
                       <i className="fa-solid fa-flag text-[6px] text-white"></i>
                     </div>
                   )}
@@ -455,7 +455,7 @@ const ExamSimulator: React.FC = () => {
 
             <button 
               onClick={handleSubmit}
-              className="w-full h-16 bg-oneui-blue text-white rounded-2xl font-black text-lg uppercase tracking-widest shadow-xl shadow-blue-100 mt-6"
+              className="w-full h-16 bg-synapse-blue-primary text-white rounded-2xl font-black text-lg uppercase tracking-widest shadow-xl shadow-synapse-blue-primary/20 mt-6"
             >
               Submit Now
             </button>
