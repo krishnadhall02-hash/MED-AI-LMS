@@ -15,7 +15,7 @@ const BottomNav: React.FC = () => {
 
   return (
     <nav 
-      className="shrink-0 max-w-[430px] mx-auto bg-white border-t border-synapse-border-soft px-2 pt-2 flex justify-around items-start z-50 shadow-[0_-10px_30px_rgba(0,0,0,0.03)]"
+      className="shrink-0 max-w-[430px] mx-auto bg-synapse-blue-primary border-t border-white/10 px-2 pt-2 flex justify-around items-start z-50 shadow-[0_-10px_30px_rgba(0,0,0,0.05)]"
       style={{ 
         height: 'calc(80px + var(--safe-area-bottom))', 
         paddingBottom: 'var(--safe-area-bottom)' 
@@ -31,13 +31,13 @@ const BottomNav: React.FC = () => {
             aria-current={isActive ? 'page' : undefined}
             aria-label={`Navigate to ${item.label}`}
             className={`flex flex-col items-center gap-1.5 px-3 py-2 rounded-2xl transition-all duration-500 ${
-              isActive ? 'text-synapse-blue-primary' : 'text-slate-400'
+              isActive ? 'text-white' : 'text-white/60'
             }`}
           >
             <div className={`w-12 h-8 flex items-center justify-center rounded-full transition-all duration-300 ${
-              isActive ? 'bg-synapse-blue-primary/10' : ''
+              isActive ? 'bg-white/20' : ''
             }`}>
-              <i className={`fa-solid ${item.icon} text-lg transition-transform ${isActive ? 'scale-110' : 'scale-100 opacity-60'}`}></i>
+              <i className={`fa-solid ${item.icon} text-lg transition-transform ${isActive ? 'scale-110' : 'scale-100 opacity-80'}`}></i>
             </div>
             <span className={`text-[9px] tracking-widest uppercase transition-all ${isActive ? 'font-black' : 'font-bold'}`}>
               {item.label}

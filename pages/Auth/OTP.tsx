@@ -130,7 +130,7 @@ const OTP: React.FC<OTPProps> = ({ identifier, onVerify, onBack }) => {
         <button 
           onClick={handleVerify}
           disabled={isVerifying || otp.join('').length < 4}
-          className="w-full h-20 bg-synapse-aqua text-synapse-deep rounded-samsung font-black text-xl shadow-[0_10px_40px_rgba(45,212,191,0.2)] active:scale-95 disabled:opacity-30 transition-all flex items-center justify-center gap-4"
+          className="w-full h-20 bg-synapse-aqua text-white rounded-samsung font-black text-xl shadow-[0_10px_40px_rgba(127,166,232,0.2)] active:scale-95 disabled:opacity-30 transition-all flex items-center justify-center gap-4"
         >
           {isVerifying ? <i className="fa-solid fa-circle-notch fa-spin"></i> : 'Complete Link'}
         </button>

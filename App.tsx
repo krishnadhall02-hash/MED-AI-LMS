@@ -38,7 +38,7 @@ import Onboarding from './pages/Onboarding';
 
 const SplashScreen: React.FC = () => {
   return (
-    <div className="fixed inset-0 z-[200] bg-synapse-deep flex flex-col items-center justify-center animate-in fade-in duration-700">
+    <div className="fixed inset-0 z-[200] bg-synapse-blue-primary flex flex-col items-center justify-center animate-in fade-in duration-700">
       <div className="relative flex flex-col items-center">
         <div className="w-48 h-48 relative mb-10">
           <div className="absolute inset-0 bg-synapse-aqua/10 rounded-full blur-[60px] animate-pulse"></div>
@@ -197,7 +197,7 @@ const AppContent: React.FC = () => {
         </div>
       </div>
 
-      <main className={`flex-1 overflow-x-hidden overflow-y-auto no-scrollbar relative ${isAuthenticated ? 'bg-synapse-light-bg' : 'bg-synapse-deep'}`}>
+      <main className={`flex-1 overflow-x-hidden overflow-y-auto no-scrollbar relative ${isAuthenticated ? 'bg-synapse-light-bg' : 'bg-synapse-blue-light'}`}>
         {!isAuthenticated ? (
           <div className="h-full">
             {renderAuthFlow()}

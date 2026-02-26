@@ -257,7 +257,7 @@ const Dashboard: React.FC = () => {
 
           {/* Description Overlay */}
           <div className="absolute bottom-0 left-0 right-0 z-[160] p-10 bg-gradient-to-t from-black via-black/60 to-transparent space-y-4">
-            <span className="bg-synapse-aqua text-synapse-deep text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest inline-block">
+            <span className="bg-synapse-blue-primary text-white text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest inline-block">
               {dailyImage.tag}
             </span>
             <h2 className="text-3xl font-black text-white leading-tight">{dailyImage.caption}</h2>
@@ -265,7 +265,7 @@ const Dashboard: React.FC = () => {
               {dailyImage.description}
             </p>
             <div className="pt-6 border-t border-white/10 flex gap-4">
-              <button className="flex-1 h-14 bg-synapse-aqua text-synapse-deep rounded-2xl font-black text-xs uppercase tracking-widest active:scale-95 transition-all">
+              <button className="flex-1 h-14 bg-synapse-blue-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest active:scale-95 transition-all">
                 Add to Notes
               </button>
               <button className="w-14 h-14 bg-white/10 border border-white/10 rounded-2xl flex items-center justify-center text-white active:scale-95 transition-all">

@@ -106,7 +106,7 @@ const AITutorPanel: React.FC<AITutorPanelProps> = ({ context: initialContext, is
   ];
 
   const renderMessageContent = (m: ChatMessage) => {
-    if (m.role === 'user') return <p className="text-synapse-deep font-bold">{m.text}</p>;
+    if (m.role === 'user') return <p className="text-synapse-text-primary font-bold">{m.text}</p>;
 
     switch (m.type) {
       case 'mnemonic':
@@ -115,7 +115,7 @@ const AITutorPanel: React.FC<AITutorPanelProps> = ({ context: initialContext, is
             <div className="flex items-center gap-2 text-amber-400 font-black text-[10px] uppercase tracking-widest bg-amber-400/10 px-2 py-1 rounded w-fit border border-amber-400/20">
               <i className="fa-solid fa-lightbulb"></i> Mnemonic Aid
             </div>
-            <div className="bg-synapse-deep/50 p-4 rounded-xl border border-synapse-border italic text-oneui-text-primary">
+            <div className="bg-synapse-blue-secondary/10 p-4 rounded-xl border border-synapse-blue-secondary/20 italic text-synapse-text-primary">
               {m.text}
             </div>
           </div>
@@ -187,7 +187,7 @@ const AITutorPanel: React.FC<AITutorPanelProps> = ({ context: initialContext, is
           <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'} animate-in slide-in-from-bottom-2`}>
             <div className={`max-w-[88%] rounded-samsung px-6 py-5 shadow-xl transition-all ${
               m.role === 'user' 
-                ? 'bg-synapse-aqua text-synapse-deep rounded-tr-none' 
+                ? 'bg-synapse-blue-primary text-white rounded-tr-none' 
                 : 'bg-synapse-surface text-oneui-text-primary rounded-tl-none border border-synapse-border'
             }`}>
               <div className="text-[15px] font-medium leading-relaxed">
@@ -198,12 +198,12 @@ const AITutorPanel: React.FC<AITutorPanelProps> = ({ context: initialContext, is
                 <div className="mt-4 flex gap-2">
                   <button 
                     onClick={() => speakText(m.text)}
-                    className="h-10 px-4 bg-synapse-deep border border-synapse-border text-synapse-aqua rounded-xl flex items-center gap-2 text-[10px] font-black uppercase tracking-wider active:scale-90 transition-all"
+                    className="h-10 px-4 bg-synapse-blue-secondary text-white rounded-xl flex items-center gap-2 text-[10px] font-black uppercase tracking-wider active:scale-90 transition-all"
                   >
                     <i className={`fa-solid ${isSpeaking ? 'fa-spinner fa-spin' : 'fa-volume-high'}`}></i>
                     {isSpeaking ? 'Syncing...' : 'Read Aloud'}
                   </button>
-                  <button className="h-10 w-10 bg-synapse-deep border border-synapse-border text-oneui-text-muted rounded-xl flex items-center justify-center active:scale-90 transition-all">
+                  <button className="h-10 w-10 bg-synapse-blue-secondary text-white/80 rounded-xl flex items-center justify-center active:scale-90 transition-all">
                     <i className="fa-solid fa-share-nodes text-xs"></i>
                   </button>
                 </div>
@@ -228,16 +228,16 @@ const AITutorPanel: React.FC<AITutorPanelProps> = ({ context: initialContext, is
       <div className="absolute bottom-24 left-0 right-0 px-5 pointer-events-none">
         <div className="max-w-[430px] mx-auto space-y-4 pointer-events-auto">
           {isListening && (
-            <div className="bg-synapse-aqua/90 backdrop-blur-md p-6 rounded-samsung flex items-center justify-between text-synapse-deep shadow-2xl animate-in slide-in-from-bottom duration-300 border border-white/20">
+            <div className="bg-synapse-blue-primary/95 backdrop-blur-md p-6 rounded-samsung flex items-center justify-between text-white shadow-2xl animate-in slide-in-from-bottom duration-300 border border-white/20">
                <div className="flex items-center gap-4">
                   <div className="flex gap-1 items-end h-6">
                     {[1,2,3,4].map(i => (
-                      <div key={i} className={`w-1 bg-synapse-deep rounded-full animate-pulse`} style={{height: `${Math.random()*100}%`, animationDelay: `${i*0.1}s`}}></div>
+                      <div key={i} className={`w-1 bg-white rounded-full animate-pulse`} style={{height: `${Math.random()*100}%`, animationDelay: `${i*0.1}s`}}></div>
                     ))}
                   </div>
                   <p className="font-black text-sm uppercase tracking-widest">Listening...</p>
                </div>
-               <button onClick={toggleListen} className="text-synapse-deep/60"><i className="fa-solid fa-xmark"></i></button>
+               <button onClick={toggleListen} className="text-white/60"><i className="fa-solid fa-xmark"></i></button>
             </div>
           )}
 
@@ -245,7 +245,7 @@ const AITutorPanel: React.FC<AITutorPanelProps> = ({ context: initialContext, is
             <button 
               onClick={toggleListen}
               className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${
-                isListening ? 'bg-red-500 text-white' : 'bg-synapse-deep text-oneui-text-muted'
+                isListening ? 'bg-red-500 text-white' : 'bg-synapse-blue-secondary text-white'
               }`}
             >
               <i className={`fa-solid ${isListening ? 'fa-stop' : 'fa-microphone'}`}></i>
@@ -263,7 +263,7 @@ const AITutorPanel: React.FC<AITutorPanelProps> = ({ context: initialContext, is
             <button 
               onClick={() => handleSend()}
               disabled={isLoading || (!input.trim() && !isListening)}
-              className="w-12 h-12 bg-synapse-aqua text-synapse-deep rounded-2xl flex items-center justify-center hover:scale-95 transition-transform disabled:opacity-30 shadow-lg shadow-synapse-aqua/20"
+              className="w-12 h-12 bg-synapse-blue-primary text-white rounded-2xl flex items-center justify-center hover:scale-95 transition-transform disabled:opacity-30 shadow-lg shadow-synapse-blue-primary/20"
             >
               <i className="fa-solid fa-paper-plane text-lg"></i>
             </button>

@@ -56,7 +56,7 @@ const Login: React.FC<LoginProps> = ({ onNext, onNavigateRegister }) => {
       <div className="space-y-6 pb-12">
         <button 
           onClick={handleNext}
-          className="w-full h-20 bg-synapse-aqua text-synapse-dark rounded-samsung font-black text-xl shadow-[0_10px_40px_rgba(45,212,191,0.2)] hover:scale-[0.98] active:scale-95 transition-all flex items-center justify-center gap-3"
+          className="w-full h-20 bg-synapse-aqua text-white rounded-samsung font-black text-xl shadow-[0_10px_40px_rgba(127,166,232,0.2)] hover:scale-[0.98] active:scale-95 transition-all flex items-center justify-center gap-3"
         >
           Initialize Sync
           <i className="fa-solid fa-chevron-right text-xs opacity-50"></i>

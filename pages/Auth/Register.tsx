@@ -74,7 +74,7 @@ const Register: React.FC<RegisterProps> = ({ onBack, onSuccess }) => {
       <div className="pb-8">
         <button 
           onClick={handleRegister}
-          className="w-full h-20 bg-synapse-aqua text-synapse-deep rounded-samsung font-black text-xl shadow-[0_10px_40px_rgba(45,212,191,0.2)] active:scale-95 transition-all"
+          className="w-full h-20 bg-synapse-aqua text-white rounded-samsung font-black text-xl shadow-[0_10px_40px_rgba(127,166,232,0.2)] active:scale-95 transition-all"
         >
           Initialize Academy Account
         </button>
