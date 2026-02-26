@@ -7,7 +7,8 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [unreadNotifs] = useState(2);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [quizAttempted, setQuizAttempted] = useState(false);
+  const [routineAttempted, setRoutineAttempted] = useState(false);
+  const [challengeAttempted, setChallengeAttempted] = useState(false);
   const [isImageViewOpen, setIsImageViewOpen] = useState(false);
   const [userData, setUserData] = useState<any>(null);
   const [hasWeakness, setHasWeakness] = useState(true); // Mocking weakness detection
@@ -16,9 +17,14 @@ const Dashboard: React.FC = () => {
     const raw = localStorage.getItem('user_cached_data');
     if (raw) setUserData(JSON.parse(raw));
     
-    const attempted = localStorage.getItem('daily_quiz_attempted');
-    if (attempted === 'true') {
-      setQuizAttempted(true);
+    const routineDone = localStorage.getItem('daily_quiz_attempted');
+    if (routineDone === 'true') {
+      setRoutineAttempted(true);
+    }
+
+    const challengeDone = localStorage.getItem('daily_challenge_attempted');
+    if (challengeDone === 'true') {
+      setChallengeAttempted(true);
     }
   }, []);
 
@@ -66,6 +72,55 @@ const Dashboard: React.FC = () => {
       </div>
 
       <div className="px-5 space-y-8 pb-12 -mt-8">
+        <div className="space-y-4">
+          <div className="flex justify-between items-center px-2">
+            <h3 className="text-[10px] font-black text-synapse-text-secondary uppercase tracking-[0.2em]">Daily Challenge</h3>
+            <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${challengeAttempted ? 'bg-green-100 text-green-600' : 'bg-amber-100 text-amber-600'}`}>
+              {challengeAttempted ? 'Attempted' : 'Not Attempted'}
+            </span>
+          </div>
+          <div 
+            onClick={() => navigate(challengeAttempted ? '/leaderboard' : '/daily-challenge')}
+            className="bg-white rounded-samsung p-6 shadow-xl border border-white active:scale-[0.98] transition-all cursor-pointer relative overflow-hidden card-shadow"
+          >
+            <div className="absolute top-0 right-0 w-32 h-32 bg-synapse-blue-primary/5 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+            <div className="flex items-center gap-5 relative z-10">
+              <div className="w-16 h-16 bg-synapse-blue-primary/10 rounded-2xl flex items-center justify-center text-synapse-blue-primary text-3xl border border-synapse-blue-primary/10">
+                <i className="fa-solid fa-trophy"></i>
+              </div>
+              <div className="flex-1">
+                <h4 className="text-lg font-black text-synapse-text-primary leading-tight">Daily Challenge</h4>
+                <p className="text-xs text-synapse-text-secondary font-medium mt-1">1 Question. 1 Chance. Climb the Leaderboard.</p>
+              </div>
+            </div>
+            
+            <div className="mt-6 flex items-center justify-between pt-6 border-t border-slate-50">
+               <div className="flex gap-4">
+                  <div className="text-center">
+                     <p className="text-[9px] font-black text-synapse-text-secondary uppercase tracking-widest">Your Rank</p>
+                     <p className="text-sm font-black text-synapse-blue-primary">#12</p>
+                  </div>
+                  <div className="text-center border-l border-slate-100 pl-4">
+                     <p className="text-[9px] font-black text-synapse-text-secondary uppercase tracking-widest">Top Score</p>
+                     <p className="text-sm font-black text-synapse-text-primary">240 pts</p>
+                  </div>
+               </div>
+               <button className="h-12 px-6 bg-synapse-blue-primary text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-synapse-blue-primary/20">
+                  {challengeAttempted ? 'View Result' : 'Start Question'}
+               </button>
+            </div>
+            
+            <div className="mt-4 bg-synapse-blue-primary/5 p-3 rounded-xl flex items-center justify-between">
+               <p className="text-[9px] font-black text-synapse-blue-primary uppercase tracking-widest">Next Scholarship Reset: 4 Days</p>
+               <div className="flex -space-x-2">
+                  {[1,2,3].map(i => (
+                    <img key={i} src={`https://picsum.photos/seed/dr${i}/40/40`} className="w-5 h-5 rounded-full border border-white" />
+                  ))}
+               </div>
+            </div>
+          </div>
+        </div>
+
         {/* Weakness Alert */}
         {hasWeakness && (
           <div 
@@ -112,10 +167,10 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Daily Challenge (MCQ) */}
+        {/* Daily Routine Section */}
         <div className="space-y-4">
           <div className="flex justify-between items-center px-2">
-            <h3 className="text-[10px] font-black text-synapse-text-secondary uppercase tracking-[0.2em]">Daily Core</h3>
+            <h3 className="text-[10px] font-black text-synapse-text-secondary uppercase tracking-[0.2em]">Adaptive Routine</h3>
           </div>
           <div className="bg-white rounded-samsung p-6 border border-white shadow-lg relative overflow-hidden active:scale-[0.98] transition-all cursor-pointer group card-shadow">
             <div className="flex items-center gap-5">
@@ -125,17 +180,17 @@ const Dashboard: React.FC = () => {
               <div className="flex-1">
                 <h4 className="text-lg font-black text-synapse-text-primary leading-tight">Medpoint Synapse</h4>
                 <p className="text-xs text-synapse-text-secondary font-medium mt-1 leading-relaxed">
-                  {quizAttempted ? 'Daily routine complete. Neural pathways optimized.' : 'Start your daily 4-step adaptive routine: MCQs, Booster, Images & Mock.'}
+                  {routineAttempted ? 'Daily routine complete. Neural pathways optimized.' : 'Start your daily 4-step adaptive routine: MCQs, Booster, Images & Mock.'}
                 </p>
               </div>
             </div>
             <button 
               onClick={() => navigate('/daily-quiz')}
               className={`w-full h-14 mt-6 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] transition-all border ${
-                quizAttempted ? 'bg-transparent text-synapse-text-secondary border-slate-100' : 'bg-synapse-blue-primary text-white shadow-lg active:scale-95'
+                routineAttempted ? 'bg-transparent text-synapse-text-secondary border-slate-100' : 'bg-synapse-blue-primary text-white shadow-lg active:scale-95'
               }`}
             >
-              {quizAttempted ? 'View Sync Summary' : 'Start Initialization'}
+              {routineAttempted ? 'View Sync Summary' : 'Start Initialization'}
             </button>
           </div>
         </div>

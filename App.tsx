@@ -28,6 +28,7 @@ import ExpertAdvice from './pages/ExpertAdvice';
 import FacultyList from './pages/FacultyList';
 import BookingFlow from './pages/BookingFlow';
 import DailyQuiz from './pages/DailyQuiz';
+import DailyChallenge from './pages/DailyChallenge';
 import Leaderboard from './pages/Leaderboard';
 import WeaknessRepair from './pages/WeaknessRepair';
 import Profile from './pages/Profile';
@@ -232,6 +233,7 @@ const AppContent: React.FC = () => {
             <Route path="/faculty-list" element={<FacultyList />} />
             <Route path="/book-appointment/:facultyId" element={<BookingFlow />} />
             <Route path="/daily-quiz" element={<DailyQuiz />} />
+            <Route path="/daily-challenge" element={<DailyChallenge />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/weakness-repair" element={<WeaknessRepair />} />
             <Route path="*" element={<Navigate to="/" replace />} />
