@@ -5,6 +5,8 @@ import BottomNav from './components/BottomNav';
 import Dashboard from './pages/Dashboard';
 import Courses from './pages/Courses';
 import Practice from './pages/Practice';
+import ImagePracticeScreen from './pages/ImagePracticeScreen';
+import RandomPracticeScreen from './pages/RandomPracticeScreen';
 import AITutorPanel from './components/AITutorPanel';
 import LiveClass from './pages/LiveClass';
 import VideoPlayer from './pages/VideoPlayer';
@@ -209,6 +211,8 @@ const AppContent: React.FC = () => {
             <Route path="/" element={<Dashboard />} />
             <Route path="/courses" element={<Courses />} />
             <Route path="/practice" element={<Practice />} />
+            <Route path="/image-practice" element={<ImagePracticeScreen />} />
+            <Route path="/random-practice" element={<RandomPracticeScreen />} />
             <Route path="/tutor" element={<AITutorPanel />} />
             <Route path="/live-list" element={<LiveClassesList />} />
             <Route path="/live/:id" element={<LiveClass />} />

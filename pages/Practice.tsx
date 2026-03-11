@@ -147,6 +147,32 @@ const Practice: React.FC = () => {
                   <p className="text-[10px] font-bold text-synapse-text-secondary uppercase tracking-widest mt-1">Previous Years</p>
                 </div>
               </div>
+
+              <div 
+                onClick={() => navigate('/image-practice')}
+                className="bg-white rounded-samsung p-6 border border-white shadow-lg flex flex-col justify-between h-44 active:scale-95 transition-all cursor-pointer group card-shadow"
+              >
+                <div className="w-12 h-12 bg-synapse-blue-primary/10 text-synapse-blue-primary rounded-xl flex items-center justify-center text-2xl group-hover:bg-synapse-blue-primary group-hover:text-white transition-colors">
+                  <i className="fa-solid fa-image"></i>
+                </div>
+                <div>
+                  <p className="font-black text-lg text-synapse-text-primary leading-tight">Image-Based</p>
+                  <p className="text-[10px] font-bold text-synapse-text-secondary uppercase tracking-widest mt-1">Visual Diagnosis</p>
+                </div>
+              </div>
+
+              <div 
+                onClick={() => navigate('/random-practice')}
+                className="bg-white rounded-samsung p-6 border border-white shadow-lg flex flex-col justify-between h-44 active:scale-95 transition-all cursor-pointer group card-shadow"
+              >
+                <div className="w-12 h-12 bg-synapse-aqua/10 text-synapse-aqua rounded-xl flex items-center justify-center text-2xl group-hover:bg-synapse-aqua group-hover:text-white transition-colors">
+                  <i className="fa-solid fa-shuffle"></i>
+                </div>
+                <div>
+                  <p className="font-black text-lg text-synapse-text-primary leading-tight">Random Practice</p>
+                  <p className="text-[10px] font-bold text-synapse-text-secondary uppercase tracking-widest mt-1">Mixed MCQs</p>
+                </div>
+              </div>
             </div>
 
             {/* AI Generator Card */}
