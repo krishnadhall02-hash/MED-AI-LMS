@@ -237,20 +237,22 @@ const CustomExamSimulator: React.FC = () => {
 
           {/* Hint and Skip Buttons */}
           <div className="flex items-center gap-4 pt-2">
-             <button 
-               onClick={handleHint}
-               className={`flex-1 h-14 rounded-2xl border-2 flex items-center justify-center gap-3 transition-all ${
-                 hintLevels[currentIdx] > 0 ? 'bg-synapse-blue-primary/10 border-synapse-blue-primary/20 text-synapse-blue-primary' : 'bg-slate-50 border-slate-100 text-slate-400'
-               }`}
-             >
-               <i className="fa-solid fa-lightbulb"></i>
-               <span className="text-[10px] font-black uppercase tracking-widest">
-                  {hintLevels[currentIdx] === 0 ? 'Hint' : `Hint ${hintLevels[currentIdx]}`}
-               </span>
-             </button>
+             {config?.mode !== 'MOCK' && (
+               <button 
+                 onClick={handleHint}
+                 className={`flex-1 h-14 rounded-2xl border-2 flex items-center justify-center gap-3 transition-all ${
+                   hintLevels[currentIdx] > 0 ? 'bg-synapse-blue-primary/10 border-synapse-blue-primary/20 text-synapse-blue-primary' : 'bg-slate-50 border-slate-100 text-slate-400'
+                 }`}
+               >
+                 <i className="fa-solid fa-lightbulb"></i>
+                 <span className="text-[10px] font-black uppercase tracking-widest">
+                    {hintLevels[currentIdx] === 0 ? 'Hint' : `Hint ${hintLevels[currentIdx]}`}
+                 </span>
+               </button>
+             )}
              <button 
                onClick={handleSkip}
-               className="h-14 px-8 bg-slate-100 border border-slate-200 text-slate-500 rounded-2xl font-black text-[10px] uppercase tracking-widest active:bg-slate-200 transition-all"
+               className={`${config?.mode === 'MOCK' ? 'flex-1' : 'h-14 px-8'} h-14 bg-slate-100 border border-slate-200 text-slate-500 rounded-2xl font-black text-[10px] uppercase tracking-widest active:bg-slate-200 transition-all`}
              >
                Skip
              </button>

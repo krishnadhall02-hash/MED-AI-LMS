@@ -12,6 +12,8 @@ import LiveClass from './pages/LiveClass';
 import VideoPlayer from './pages/VideoPlayer';
 import ExamSimulator from './pages/ExamSimulator';
 import CustomizeMockSetup from './pages/CustomizeMockSetup';
+import CustomTestsHub from './pages/CustomTestsHub';
+import CustomPracticeSetup from './pages/CustomPracticeSetup';
 import CustomExamSimulator from './pages/CustomExamSimulator';
 import TestResults from './pages/TestResults';
 import TestReview from './pages/TestReview';
@@ -219,6 +221,8 @@ const AppContent: React.FC = () => {
             <Route path="/video/:id" element={<VideoPlayer />} />
             <Route path="/recorded-classes" element={<RecordedClasses />} />
             <Route path="/exam" element={<ExamSimulator />} />
+            <Route path="/custom-tests-hub" element={<CustomTestsHub />} />
+            <Route path="/custom-practice-setup" element={<CustomPracticeSetup />} />
             <Route path="/customize-mock" element={<CustomizeMockSetup />} />
             <Route path="/custom-exam" element={<CustomExamSimulator />} />
             <Route path="/exam-results" element={<TestResults />} />

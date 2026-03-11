@@ -30,7 +30,8 @@ const CustomizeMockSetup: React.FC = () => {
       questionCount,
       timeLimit: timeLimit * 60, // seconds
       difficulty,
-      isSpeedMode
+      isSpeedMode,
+      mode: 'MOCK'
     };
     sessionStorage.setItem('custom_exam_config', JSON.stringify(config));
     navigate('/custom-exam');
@@ -54,41 +55,53 @@ const CustomizeMockSetup: React.FC = () => {
                  <p className="text-[10px] font-black text-white/80 uppercase tracking-widest">Test Pace</p>
                  <p className="text-4xl font-black">{secPerQuestion} <span className="text-lg">sec/q</span></p>
               </div>
-              {isSpeedMode && (
-                <span className="bg-synapse-warning text-white text-[9px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest animate-pulse shadow-lg">
-                  Speed Mode
-                </span>
-              )}
+              <span className="bg-white/20 backdrop-blur-md text-white text-[9px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg">
+                Exam Mode
+              </span>
            </div>
            <p className="text-xs font-medium opacity-80 mt-4 leading-relaxed relative z-10">
-             {isSpeedMode 
-               ? "High-pressure environment. Speed tests improve cognitive retrieval and time management." 
-               : "Balanced pace. Ideal for building clinical reasoning and accuracy foundations."}
+             Strict exam conditions. No explanations or hints during the test. Review is only available after final submission.
            </p>
         </div>
 
         {/* Configuration Sections */}
         <div className="bg-white rounded-samsung p-8 shadow-sm border border-white space-y-10 card-shadow">
           
+          {/* Subject Selection */}
+          <div className="space-y-4">
+             <p className="text-xs font-black text-synapse-text-secondary uppercase tracking-widest">Syllabus Scope</p>
+             <div className="flex gap-2">
+                {['Full Syllabus', 'Selected Subjects'].map(scope => (
+                  <button
+                    key={scope}
+                    className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border ${
+                      scope === 'Full Syllabus' ? 'bg-synapse-blue-primary text-white border-synapse-blue-primary shadow-md' : 'bg-slate-50 text-synapse-text-secondary border-slate-100'
+                    }`}
+                  >
+                    {scope}
+                  </button>
+                ))}
+             </div>
+          </div>
+
           {/* Question Count */}
           <div className="space-y-4">
              <div className="flex justify-between items-center">
                 <p className="text-xs font-black text-synapse-text-secondary uppercase tracking-widest">Questions</p>
                 <span className="text-xl font-black text-synapse-text-primary">{questionCount}</span>
              </div>
-             <input 
-               type="range" 
-               min="10" 
-               max="200" 
-               step="10"
-               value={questionCount}
-               onChange={(e) => handleQuestionChange(parseInt(e.target.value))}
-               className="w-full h-2 bg-slate-100 rounded-full appearance-none accent-synapse-blue-primary"
-             />
-             <div className="flex justify-between text-[9px] font-black text-slate-300 uppercase tracking-tighter">
-                <span>10 Qs</span>
-                <span>Recommended: 50-100</span>
-                <span>200 Qs</span>
+             <div className="flex gap-2">
+                {[50, 100, 200].map(count => (
+                  <button
+                    key={count}
+                    onClick={() => handleQuestionChange(count)}
+                    className={`flex-1 py-3 rounded-xl text-xs font-black transition-all border ${
+                      questionCount === count ? 'bg-synapse-blue-primary text-white border-synapse-blue-primary shadow-md' : 'bg-slate-50 text-synapse-text-secondary border-slate-100'
+                    }`}
+                  >
+                    {count} Qs
+                  </button>
+                ))}
              </div>
           </div>
 

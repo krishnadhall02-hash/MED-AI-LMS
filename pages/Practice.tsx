@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { generateMCQs } from '../services/gemini';
 import { MCQ } from '../types';
 
@@ -26,6 +26,7 @@ const YEARS = ['2023', '2022', '2021', '2020'];
 
 const Practice: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   
   // Navigation State
   const [view, setView] = useState<PracticeView>('HUB');
@@ -45,6 +46,16 @@ const Practice: React.FC = () => {
   
   const [attemptsToday, setAttemptsToday] = useState(2); 
   const [showLimitModal, setShowLimitModal] = useState(false);
+
+  useEffect(() => {
+    const state = location.state as any;
+    if (state?.mode === 'CUSTOM_PRACTICE') {
+      const { config } = state;
+      startPractice(`${config.subject}: ${config.topic} (${config.difficulty} difficulty)`);
+      // Clear state so it doesn't restart on refresh
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
 
   const startPractice = async (topicStr: string) => {
     setLoading(true);
@@ -205,7 +216,7 @@ const Practice: React.FC = () => {
                     <i className="fa-solid fa-file-contract text-synapse-blue-primary"></i>
                     <p className="text-sm font-black text-synapse-text-primary">Mock Exams</p>
                  </div>
-                 <div onClick={() => navigate('/customize-mock')} className="bg-white p-5 rounded-2xl border border-white flex flex-col gap-3 active:scale-95 transition-all cursor-pointer shadow-sm card-shadow">
+                 <div onClick={() => navigate('/custom-tests-hub')} className="bg-white p-5 rounded-2xl border border-white flex flex-col gap-3 active:scale-95 transition-all cursor-pointer shadow-sm card-shadow">
                     <i className="fa-solid fa-sliders text-synapse-blue-primary"></i>
                     <p className="text-sm font-black text-synapse-text-primary">Custom Tests</p>
                  </div>
