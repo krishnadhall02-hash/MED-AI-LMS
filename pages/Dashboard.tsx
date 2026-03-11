@@ -141,9 +141,9 @@ const Dashboard: React.FC = () => {
         {/* Analytics Card */}
         <div className="space-y-4">
           <div className="flex justify-between items-center px-2">
-            <h3 className="text-[10px] font-black text-synapse-text-secondary uppercase tracking-[0.2em]">Neural Analytics</h3>
+            <h3 className="text-[10px] font-black text-synapse-text-secondary uppercase tracking-[0.2em]" aria-label="Performance Analysis">Performance Analysis</h3>
           </div>
-          <div onClick={() => navigate('/analytics')} className="bg-white rounded-samsung p-7 shadow-xl border border-white active:scale-[0.98] transition-all cursor-pointer space-y-6 card-shadow">
+          <div onClick={() => navigate('/analytics')} aria-label="View Performance Analysis" className="bg-white rounded-samsung p-7 shadow-xl border border-white active:scale-[0.98] transition-all cursor-pointer space-y-6 card-shadow">
             <div className="flex justify-between items-start">
               <div className="space-y-1">
                 <p className="text-[10px] font-black text-synapse-text-secondary uppercase tracking-widest">Mastery Level</p>

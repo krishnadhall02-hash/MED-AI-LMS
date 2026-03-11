@@ -14,6 +14,7 @@ import CustomExamSimulator from './pages/CustomExamSimulator';
 import TestResults from './pages/TestResults';
 import TestReview from './pages/TestReview';
 import Analytics from './pages/Analytics';
+import DetailedAnalysis from './pages/DetailedAnalysis';
 import StudyPlanner from './pages/StudyPlanner';
 import DailyTracker from './pages/DailyTracker';
 import Calendar from './pages/Calendar';
@@ -219,6 +220,7 @@ const AppContent: React.FC = () => {
             <Route path="/exam-results" element={<TestResults />} />
             <Route path="/test-review" element={<TestReview />} />
             <Route path="/analytics" element={<Analytics />} />
+            <Route path="/detailed-analysis" element={<DetailedAnalysis />} />
             <Route path="/planner" element={<StudyPlanner />} />
             <Route path="/tracker" element={<DailyTracker />} />
             <Route path="/calendar" element={<Calendar />} />

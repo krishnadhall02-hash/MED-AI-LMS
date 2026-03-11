@@ -49,7 +49,7 @@ const Analytics: React.FC = () => {
   const [timeRange, setTimeRange] = useState<'7d' | '30d' | 'all'>('30d');
 
   return (
-    <div className="pb-40 bg-synapse-blue-light min-h-screen">
+    <div className="pb-40 bg-synapse-blue-light min-h-screen" aria-label="Performance Analysis Screen" data-screen-name="Performance Analysis">
       {/* One UI Large Title Header */}
       <div className="oneui-header-space flex flex-col justify-end px-8 pb-8 relative">
         <button onClick={() => navigate(-1)} className="absolute top-4 left-6 w-12 h-12 flex items-center justify-center text-synapse-text-secondary active:scale-90">
@@ -138,6 +138,23 @@ const Analytics: React.FC = () => {
                  </div>
               </div>
            </div>
+        </div>
+
+        {/* DETAILED ANALYSIS NAVIGATION CARD */}
+        <div 
+          onClick={() => navigate('/detailed-analysis')}
+          className="bg-white rounded-samsung p-6 border border-white shadow-lg card-shadow flex items-center justify-between active:scale-[0.98] transition-all cursor-pointer group"
+        >
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-synapse-blue-primary/10 rounded-2xl flex items-center justify-center text-synapse-blue-primary text-xl group-hover:bg-synapse-blue-primary group-hover:text-white transition-colors">
+              <i className="fa-solid fa-magnifying-glass-chart"></i>
+            </div>
+            <div>
+              <h4 className="text-sm font-black text-synapse-text-primary uppercase tracking-widest">Detailed Analysis</h4>
+              <p className="text-[10px] font-bold text-synapse-text-secondary uppercase tracking-widest">Subject, Time & MCQ Insights</p>
+            </div>
+          </div>
+          <i className="fa-solid fa-chevron-right text-slate-300 group-hover:text-synapse-blue-primary transition-colors"></i>
         </div>
 
         {/* RANK & PERCENTILE CARD */}
